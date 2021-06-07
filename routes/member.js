@@ -1,6 +1,7 @@
 const { joinValidator } = require('../middlewares/join_validator');
 const { loginValidator } = require('../middlewares/login_validator');
 const member = require("../models/member"); // Member Model
+const naverLogin = require('../models/naver_login'); // 네이버 로그인
 const { alert, go } = require('../lib/common');
 const express = require('express');
 const router = express.Router();
@@ -26,7 +27,10 @@ router.route("/join")
 router.route('/login')
 		/** 로그인 양식 */
 		.get((req, res, next) => {
-			return res.render("member/login");
+			const data = {
+				naverLoginUrl : naverLogin.getCodeUrl(),
+			};
+			return res.render("member/login", data);
 		})
 		/** 로그인 처리 */
 		.post(loginValidator, async (req, res, next) => {
@@ -47,8 +51,11 @@ router.get('/logout', (req, res, next) => {
 
 
 /** /member/login_callback */
-router.get("/login_callback", (req, res, next) => {
-	console.log(req.query);
+router.get("/login_callback", async (req, res, next) => {
+	
+	await naverLogin.checkExists(req.query.code, req.query.state, req);
+	
+	
 	return res.send("");
 });
 
