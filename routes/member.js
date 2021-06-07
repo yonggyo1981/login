@@ -9,8 +9,12 @@ const router = express.Router();
 /** /member/join  */
 router.route("/join")
 		/** 회원 가입 양식 */
-		.get((req, res, next) => {
-			return res.render('member/form');
+		.get((req, res, next) => {			
+			const data = {
+				naverProfile : req.session.naverProfile || {},
+			};
+			
+			return res.render('member/form', data);
 		})
 		/** 회원 가입 처리 */
 		.post(joinValidator, async (req, res, next) => {
