@@ -53,7 +53,24 @@ const member = {
 			logger(err.stack, 'error');
 			return false;
 		}
-	}
+	},
+	/**
+	* 로그인 처리 
+	*
+	*/
+	login : async function(memId, memPw) {
+		try {
+			/**
+			1. 회원 정보 조회 
+			2. 비밀번호 검증 
+			*/
+			
+
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
 };
 
 module.exports = member;
