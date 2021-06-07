@@ -3,6 +3,9 @@
 <!-- 회원 가입, 수정 양식 -->
 {% block content %}
 <form method='post' action='/member/join' target='ifrmHidden' autocomplete='off'>
+	{% if naverProfile %}
+	<h1>네이버 아이디로 회원 가입</h1>
+	{% endif %}
 	<dl>
 		<dt>아이디</dt>
 		<dd>
@@ -24,13 +27,13 @@
 	<dl>
 		<dt>회원명</dt>
 		<dd>
-			<input type='text' name='memNm'>
+			<input type='text' name='memNm' value='{{ memNm }}'>
 		</dd>
 	</dl>
 	<dl>
 		<dt>이메일</dt>
 		<dd>
-			<input type='email' name='email'>
+			<input type='email' name='email' value='{{ email }}'>
 		</dd>
 	</dl>
 	<dl>

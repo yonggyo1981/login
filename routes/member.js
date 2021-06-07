@@ -14,6 +14,11 @@ router.route("/join")
 				naverProfile : req.session.naverProfile || {},
 			};
 			
+			if (data.naverProfile) {
+				data.memNm = data.naverProfile.name;
+				data.email = data.naverProfile.email;
+			}
+			
 			return res.render('member/form', data);
 		})
 		/** 회원 가입 처리 */
