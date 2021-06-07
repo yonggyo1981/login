@@ -27,7 +27,10 @@ router.route("/join")
 			const result = await member.data(req.body, req.session).join();
 			if (result) { // 회원 가입 성공 -> 로그인 페이지
 				if (req.session.naverProfile) { // 네이버 회원가입 -> 바로 로그인 처리 
-					await naverLogin.login(req, res);
+					const re = await naverLogin.login(req, res);
+					if (re) { // 소셜 로그인 성공 
+						 return go("/", res, "parent");
+					}
 				} else { // 일반회원가입
 					return go("/member/login", res, "parent");
 				}
