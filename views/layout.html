@@ -23,15 +23,27 @@
 		<title>{% if pageTitle %}{{ pageTitle }} - {% endif %}연희직업전문학교</title>
 	</head>
 	<body{%if bodyClass %} class="body_{{ bodyClass }}"{% endif %}>
+	<header>
 	{% block header %}
 	{% include "outline/header/_main.html" %}
 	{% endblock %}
+	</header>
 	
+	<nav>
+	{% block mainMenu %}
+	{% include "menu/_main.html" %}
+	{% endblock %}
+	</nav>
+	
+	<main id='main_wrap'>
 	{% block content %}
 	{% endblock %}
+	</main>
 	
+	<footer>
 	{% block footer %}
 	{% include "outline/footer/_main.html" %}
 	{% endblock %}
+	</footer>
 	</body>
 </html>

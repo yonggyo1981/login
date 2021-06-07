@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const logger = require('./lib/logger');
 const { sequelize } = require('./models');
+const { mainMenu } = require('./middlewares/main_menu'); // 메인 메뉴 
 
 /** 라우터 */
 const indexRouter = require('./routes');
@@ -57,6 +58,8 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended : false }));
+
+app.use(mainMenu);
 
 /** 공통 라우터 */
 app.use((req, res, next) => {
