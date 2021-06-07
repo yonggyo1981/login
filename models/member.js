@@ -58,7 +58,7 @@ const member = {
 	* 로그인 처리 
 	*
 	*/
-	login : async function(memId, memPw) {
+	login : async function(memId, memPw, req) {
 		try {
 			/**
 			1. 회원 정보 조회 
@@ -69,7 +69,7 @@ const member = {
 				throw new Error(`존재하지 않는 회원입니다. - ${memId}`);
 			}
 			
-			const match = await bcrypt.compare(memPw, info.hash);
+			const match = await bcrypt.compare(memPw, info.memPw);
 			if (match) { // 비밀번호가 일치 -> 세션 처리 
 				req.session.memId = info.memId;
 				return true;

@@ -31,9 +31,9 @@ router.route('/login')
 		/** 로그인 처리 */
 		.post(loginValidator, async (req, res, next) => {
 			
-			const result = await member.login(req.body.memId, req.body.memPw);
+			const result = await member.login(req.body.memId, req.body.memPw, req);
 			if (result) { // 로그인 성공 -> 메인 페이지
-				return res.redirect("/");
+				return go("/", res, "parent");
 			}
 			
 			return alert("로그인에 실패하셨습니다.", res);
