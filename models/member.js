@@ -64,13 +64,42 @@ const member = {
 			1. 회원 정보 조회 
 			2. 비밀번호 검증 
 			*/
+			const info = await this.get(memId);
+			if (!info) {
+				throw new Error(`존재하지 않는 회원입니다. - ${memId}`);
+			}
 			
-
-		} catch (err) {
+			const match = await bcrypt.compare(memPw, info.hash);
+			if (match) { // 비밀번호가 일치 -> 세션 처리 
+				req.session.memId = info.memId;
+				return true;
+			}
+			
+			return false;
+		
+		} catch (err) {	
 			logger(err.stack, 'error');
 			return false;
 		}
 	},
+	/**
+	* 회원정보 조회
+	*
+	*/
+	get : async function(memId) {
+		try {
+			const sql = "SELECT * FROM member WHERE memId = ?";
+			const rows = await sequelize.query(sql, {
+				replacements : [memId],
+				type : QueryTypes.SELECT,
+			});
+			
+			return rows[0] || {};
+		} catch (err) {
+			logger(err.stack, 'error');
+			return {};
+		}
+	}
 };
 
 module.exports = member;
