@@ -18,7 +18,7 @@ router.route("/join")
 				data.memNm = data.naverProfile.name;
 				data.email = data.naverProfile.email;
 			}
-			
+			console.log(data);
 			return res.render('member/form', data);
 		})
 		/** 회원 가입 처리 */
