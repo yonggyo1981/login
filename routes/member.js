@@ -53,10 +53,12 @@ router.get('/logout', (req, res, next) => {
 /** /member/login_callback */
 router.get("/login_callback", async (req, res, next) => {
 	
-	await naverLogin.checkExists(req.query.code, req.query.state, req);
-	
-	
-	return res.send("");
+	const result = await naverLogin.checkExists(req.query.code, req.query.state, req);
+	if (result) { // 이미 네이버 계정이 존재 -> 로그인
+		
+	} else { // 존재 하지 않으면 -> 회원가입 
+		return res.redirect('/member/join');
+	}
 });
 
 module.exports = router;
