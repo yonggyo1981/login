@@ -18,15 +18,19 @@ router.route("/join")
 				data.memNm = data.naverProfile.name;
 				data.email = data.naverProfile.email;
 			}
-			console.log(data);
+
 			return res.render('member/form', data);
 		})
 		/** 회원 가입 처리 */
 		.post(joinValidator, async (req, res, next) => {
 			
-			const result = await member.data(req.body).join();
+			const result = await member.data(req.body, req.session).join();
 			if (result) { // 회원 가입 성공 -> 로그인 페이지
-				return go("/member/login", res, "parent");
+				if (req.session.naverProfile) { // 네이버 회원가입 -> 바로 로그인 처리 
+					await naverLogin.login(req, res);
+				} else { // 일반회원가입
+					return go("/member/login", res, "parent");
+				}
 			}
 			
 			return alert("회원가입에 실패하였습니다.", res);
