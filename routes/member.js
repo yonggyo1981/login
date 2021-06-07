@@ -71,7 +71,12 @@ router.get("/login_callback", async (req, res, next) => {
 	
 	const result = await naverLogin.checkExists(req.query.code, req.query.state, req);
 	if (result) { // 이미 네이버 계정이 존재 -> 로그인
+		const re = await naverLogin.login(req, res);
+		if (re) { // 네이버 로그인 성공 
+			return res.redirect('/');
+		}
 		
+		return alert('네이버 로그인 실패 하였습니다', res, '/');
 	} else { // 존재 하지 않으면 -> 회원가입 
 		return res.redirect('/member/join');
 	}
