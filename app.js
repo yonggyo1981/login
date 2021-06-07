@@ -11,7 +11,9 @@ const { sequelize } = require('./models');
 const { mainMenu } = require('./middlewares/main_menu'); // 메인 메뉴 
 
 /** 라우터 */
-const indexRouter = require('./routes');
+const indexRouter = require('./routes'); // 메인 페이지 
+const memberRouter = require('./routes/member'); // 회원 페이지 
+
 
 dotenv.config();
 
@@ -91,8 +93,8 @@ app.use((req, res, next) => {
 });
 
 /** 라우터 등록 */
-app.use("/", indexRouter);
-
+app.use("/", indexRouter); // 메인페이지 
+app.use("/member", memberRouter); // 회원페이지
 
 // 없는 페이지 처리 
 app.use((req, res, next) => {
