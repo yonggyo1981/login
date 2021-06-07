@@ -9,6 +9,7 @@ const session = require('express-session');
 const logger = require('./lib/logger');
 const { sequelize } = require('./models');
 const { mainMenu } = require('./middlewares/main_menu'); // 메인 메뉴 
+const { loginSession } = require('./middlewares/login_session'); // 로그인 세션 처리 
 
 /** 라우터 */
 const indexRouter = require('./routes'); // 메인 페이지 
@@ -61,7 +62,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended : false }));
 
-app.use(mainMenu);
+app.use(loginSession); // 로그인 세션 처리
+app.use(mainMenu); // 메인멘뉴 
+
 
 /** 공통 라우터 */
 app.use((req, res, next) => {

@@ -41,7 +41,15 @@ router.route('/login')
 
 /** /member/logout */
 router.get('/logout', (req, res, next) => {
-	
+	req.session.destroy();
+	return res.redirect("/member/login");
+});
+
+
+/** /member/login_callback */
+router.get("/login_callback", (req, res, next) => {
+	console.log(req.query);
+	return res.send("");
 });
 
 module.exports = router;
