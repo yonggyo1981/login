@@ -10,6 +10,7 @@ router.route("/join")
 		})
 		/** 회원 가입 처리 */
 		.post(joinValidator, (req, res, next) => {
+			console.log(req.body);
 			return res.send("");
 		});
 
