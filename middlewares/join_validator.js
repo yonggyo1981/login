@@ -50,6 +50,23 @@ module.exports.joinValidator = async (req, res, next) => {
 				throw new Error('비밀번호는 8~20자 알파벳(대소문자 포함), 숫자, 특수문자로 구성해 주세요.');
 			}
 		}
+		
+		/** 휴대폰 번호 유효성 검사 S */
+		if (req.body.cellPhone) {
+			let cellPhone = req.body.cellPhone;
+			cellPhone = cellPhone.replace(/[^\d]/g, '');
+			
+			/** 휴대폰 번호인지 체크 */
+			const mobilePattern = /01[016789]\d{3,4}\d{4}/;
+			
+			if (!mobilePattern.test(cellPhone)) {
+				throw new Error('휴대폰번호 형식이 아닙니다.');
+			}
+			
+			req.body.cellPhone = cellPhone.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+		}
+		/** 휴대폰 번호 유효성 검사 E */
+		
 	} catch (err) {
 		return alert(err.message, res);
 	}
