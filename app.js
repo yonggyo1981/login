@@ -92,7 +92,7 @@ app.use((req, res, next) => {
 
 /** 라우터 등록 */
 app.use("/", indexRouter);
-app.use("/member/login", indexRouter);
+
 
 // 없는 페이지 처리 
 app.use((req, res, next) => {
