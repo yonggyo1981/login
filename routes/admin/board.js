@@ -30,8 +30,10 @@ router.route("/")
 			return reload(res, 'parent');
 		})
 		/** 게시판 수정 처리 */
-		.patch((req, res, next) => {
+		.patch(async (req, res, next) => {
+			const result = await board.save(req.body);
 			
+			return res.send("");
 		})
 		/** 게시판 삭제 */
 		.delete((req, res, nexxt) => {
