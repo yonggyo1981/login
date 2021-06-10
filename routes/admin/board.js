@@ -12,9 +12,23 @@ router.use((req, res, next) => {
 	next();
 });
 
-router.get("/", (req, res, next) => {
+router.route("/")
+		/** 게시판 등록 양식 */
+		.get((req, res, next) => {
 	
-	return res.render("admin/board/index");
-});
+			return res.render("admin/board/index");
+		})
+		/** 게시판 등록 처리 */
+		.post((req, res, next) => {
+			
+		})
+		/** 게시판 수정 처리 */
+		.patch((req, res, next) => {
+			
+		})
+		/** 게시판 삭제 */
+		.delete((req, res, nexxt) => {
+			
+		});
 
 module.exports = router;
