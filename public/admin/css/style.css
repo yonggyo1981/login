@@ -21,7 +21,9 @@ textarea { border: 1px solid #d5d5d5; min-height: 150px; resize: none; border-ra
 .table_cols td { border-bottom: 1px solid #d5d5d5; padding: 7px 10px; }
 .table_cols tr:first-child th, .table_cols tr:first-child td { border-top: 1px solid #d5d5d5; }
 
-
+.table_rows { border-spacing: 0; padding: 0; width: 100%; }
+.table_rows thead th { background-color: #f8f8f8; padding: 10px; border: 1px solid #d5d5d5; border-left: 0; border-right: 0; }
+.table_rows tbody td { border-bottom: 1px solid #d5d5d5; padding: 10px; }
 
 /* 메인 제목 */
 .mtitle { font-size: 14px; font-weight: bold; margin-bottom: 15px; }
@@ -32,6 +34,9 @@ textarea { border: 1px solid #d5d5d5; min-height: 150px; resize: none; border-ra
 
 /** 버튼 */
 .submit_btn { background-color: #212121; color: #ffffff; height: 45px; line-height: 45px; cursor: pointer; border-radius: 7px; width: 250px; margin: 20px auto; border: 0; display: block; }
+.btn1, .btn2 { display: inline-block; padding: 5px 15px; background-color: blue; color: #ffffff; border-radius: 5px; font-size: 11px; cursor: pointer; }
+.btn2 { background-color: red; }
+
 
 /** outline/header/_main.html */
 .main_menu { background-color: #d5d5d5; }

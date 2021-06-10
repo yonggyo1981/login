@@ -16,9 +16,10 @@ router.use((req, res, next) => {
 
 router.route("/")
 		/** 게시판 등록 양식 */
-		.get((req, res, next) => {
-	
-			return res.render("admin/board/index");
+		.get(async (req, res, next) => {
+			const list = await board.getBoards();
+			console.log(list);
+			return res.render("admin/board/index", { list } );
 		})
 		/** 게시판 등록 처리 */
 		.post(async (req, res, next) => {
