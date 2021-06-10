@@ -1,0 +1,26 @@
+{% extends '../layout.html' %}
+{% block content %}
+<div class='mtitle'>게시판 설정하기({{ boardNm }} - {{ id }})</div>
+<form method='post' action='/admin/board?_method=PATCH' target='ifrmHidden'>
+	<input type='hidden' name='id' value='{{ id }}'>
+	<table class='table_cols'>
+		<tr>
+			<th>아이디</th>
+			<td>{{ id }}</td>
+		</tr>
+		<tr>
+			<th>게시판명</th>
+			<td>
+				<input type='text' name='boardNm' value='{{ boardNm }}'>
+			</td>
+		</tr>
+		<tr>
+			<th>분류</th>
+			<td>
+				<textarea name='category'></textarea>
+			</td>
+		</tr>
+	</table>
+	<input type='submit' value='설정 저장하기' class='submit_btn'>
+</form>
+{% endblock %}

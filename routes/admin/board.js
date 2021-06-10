@@ -18,7 +18,6 @@ router.route("/")
 		/** 게시판 등록 양식 */
 		.get(async (req, res, next) => {
 			const list = await board.getBoards();
-			console.log(list);
 			return res.render("admin/board/index", { list } );
 		})
 		/** 게시판 등록 처리 */
@@ -38,5 +37,16 @@ router.route("/")
 		.delete((req, res, nexxt) => {
 			
 		});
+
+/** 게시판 수정 양식 */
+router.get("/:id", async (req, res, next) => {
+	const id = req.params.id;
+	const data = await board.getBoard(id);
+	if (!data) {
+		return alert('존재하지 않는 게시판 입니다.', res, -1);
+	}
+	
+	return res.render("admin/board/form", data);
+});
 
 module.exports = router;

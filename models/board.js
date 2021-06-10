@@ -46,6 +46,26 @@ const board = {
 			return [];
 		}
 	},
+	/**
+	* 게시판 설정 조회 
+	*
+	* @params String id 게시판 아이디 
+	* @return Object
+	*/
+	getBoard : async function(id) {
+		try {
+			const sql = "SELECT * FROM board WHERE id = ?";
+			const rows = await sequelize.query(sql, {
+				replacements : [id],
+				type : QueryTypes.SELECT,
+			});
+			
+			return rows[0]?rows[0]:{};
+		} catch(err) {
+			logger(err.stack, 'error');
+			return {};
+		}
+	},
 };
 
 module.exports = board;
