@@ -33,7 +33,12 @@ router.route("/")
 		.patch(async (req, res, next) => {
 			const result = await board.save(req.body);
 			
-			return res.send("");
+			if (!result) {
+				return alert('게시판 설정 저장 실패하였습니다', res);
+			}
+			
+			return reload(res, 'parent');
+			
 		})
 		/** 게시판 삭제 */
 		.delete((req, res, nexxt) => {

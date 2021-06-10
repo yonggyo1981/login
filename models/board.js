@@ -60,7 +60,11 @@ const board = {
 				type : QueryTypes.SELECT,
 			});
 			
-			return rows[0]?rows[0]:{};
+			const data = rows[0]?rows[0]:{};
+			if (data) {
+				data.category = data.category.split("||");
+			}
+			
 		} catch(err) {
 			logger(err.stack, 'error');
 			return {};
