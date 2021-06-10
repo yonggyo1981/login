@@ -62,9 +62,10 @@ const board = {
 			
 			const data = rows[0]?rows[0]:{};
 			if (data) {
-				data.category = data.category.split("||");
+				data.categories = data.category.split("||");
+				data.category = data.categories.join("\r\n");
 			}
-			
+			console.log(data);
 			return data;
 		} catch(err) {
 			logger(err.stack, 'error');

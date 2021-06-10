@@ -12,8 +12,10 @@ dd { display: table-cell; vertical-align: middle; }
 input[type='text'], 
 input[type='number'],
 input[type='email'],
-input[type='password'] { border: 1px solid #d5d5d5; height: 40px; width: 100%; border-radius: 5px; padding: 0 10px; }
+input[type='password'],
+select { border: 1px solid #d5d5d5; height: 40px; width: 100%; border-radius: 5px; padding: 0 10px; }
 textarea { border: 1px solid #d5d5d5; min-height: 150px; resize: none; border-radius: 5px; padding: 10px; width: 100%; }
+
 
 /** 공통 */
 .table_cols { border-spacing: 0; padding: 0; width: 100%; }
