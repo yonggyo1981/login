@@ -1,5 +1,6 @@
 /** /admin/board */
 const { adminOnly } = require('../../middlewares/member_only');
+const board = require('../../models/board');
 const express = require('express');
 router = express.Router();
 
@@ -19,8 +20,10 @@ router.route("/")
 			return res.render("admin/board/index");
 		})
 		/** 게시판 등록 처리 */
-		.post((req, res, next) => {
-			
+		.post(async (req, res, next) => {
+			const result = await board.create(req.body.id, req.body.boardNm);
+	
+			return res.send("");
 		})
 		/** 게시판 수정 처리 */
 		.patch((req, res, next) => {
