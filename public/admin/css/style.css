@@ -9,11 +9,18 @@ dl { display: table; width: 100%; padding: 0; margin: 0; }
 dt { display: table-cell; width: 120px; vertical-align: middle; }
 dd { display: table-cell; vertical-align: middle; }
 
+input[type='text'], 
+input[type='number'],
+input[type='email'],
+input[type='password'] { border: 1px solid #d5d5d5; height: 40px; width: 100%; border-radius: 5px; padding: 0 10px; }
+textarea { border: 1px solid #d5d5d5; min-height: 150px; resize: none; border-radius: 5px; padding: 10px; }
+
 /** 공통 */
 .table_cols { border-spacing: 0; padding: 0; width: 100%; }
-.table_cols th { width: 120px; background-color: #f8f8f8; border-bottom: 1px solid #d5d5d5; } 
-.table_cols td { border-bottom: 1px solid #d5d5d5; }
+.table_cols th { width: 120px; background-color: #f8f8f8; border-bottom: 1px solid #d5d5d5; padding: 7px 10px; } 
+.table_cols td { border-bottom: 1px solid #d5d5d5; padding: 7px 10px; }
 .table_cols tr:first-child th, .table_cols tr:first-child td { border-top: 1px solid #d5d5d5; }
+
 
 
 /* 메인 제목 */
@@ -22,6 +29,9 @@ dd { display: table-cell; vertical-align: middle; }
 /** 레이아웃 */
 #main_wrap { padding: 15px 10px; }
 
+
+/** 버튼 */
+.submit_btn { background-color: #212121; color: #ffffff; height: 45px; line-height: 45px; cursor: pointer; border-radius: 7px; width: 250px; margin: 20px auto; border: 0; display: block; }
 
 /** outline/header/_main.html */
 .main_menu { background-color: #d5d5d5; }
