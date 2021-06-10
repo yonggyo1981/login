@@ -48,6 +48,9 @@
 			<td>
 				<select name='skin'>
 					<option value=''>- 선택하세요 -</option>
+					{% for s in skins %}
+					<option value='{{ s }}'{% if s == skin %} selected{% endif %}>{{ s }}</option>
+					{% endfor %}
 				</select>
 			</td>
 		</tr>

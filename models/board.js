@@ -139,7 +139,7 @@ const board = {
 	getSkins : async function() {
 		try {
 			const files = await fs.readdir(path.join(__dirname, "/../views/board/skins"));
-			console.log(files);
+			return files;
 		} catch (err) {
 			logger(err.stack, 'error');
 			return [];
