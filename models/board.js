@@ -68,6 +68,14 @@ const board = {
 				data.category = data.categories.join("\r\n");
 				
 				data.skins = await this.getSkins(); // 게시판 스킨
+				data.skin = data.skin || data.skins[0];
+				
+				const skinPath = path.join(__dirname, `../views/board/skins/${data.skin}`);
+				data.skinPath = {
+					list : skinPath + "/_list.html",
+					form : skinPath + "/_form.html",
+					view : skinPath + "/_view.html",
+				};
 			}
 			
 			return data;
