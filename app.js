@@ -106,7 +106,7 @@ app.use("/member", memberRouter); // 회원페이지
 
 /** Admin 라우터 등록 */
 app.use("/admin", adminRouter); // 관리자 메인
-app.use("/admin/.member", adminMemberRouter); // 회원 관리
+app.use("/admin/member", adminMemberRouter); // 회원 관리
 app.use("/admin/board", adminBoardRouter); // 게시판 관리 
 
 // 없는 페이지 처리 
