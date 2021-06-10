@@ -1,4 +1,5 @@
 /** /admin/board */
+const { alert, reload } = require('../../lib/common');
 const { adminOnly } = require('../../middlewares/member_only');
 const board = require('../../models/board');
 const express = require('express');
@@ -22,8 +23,11 @@ router.route("/")
 		/** 게시판 등록 처리 */
 		.post(async (req, res, next) => {
 			const result = await board.create(req.body.id, req.body.boardNm);
-	
-			return res.send("");
+			if (!result) {
+				return alert('게시판 생성에 실패하였습니다.', res);
+			}
+			
+			return reload(res, 'parent');
 		})
 		/** 게시판 수정 처리 */
 		.patch((req, res, next) => {
