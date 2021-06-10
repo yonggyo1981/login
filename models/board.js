@@ -65,6 +65,7 @@ const board = {
 				data.category = data.category.split("||");
 			}
 			
+			return data;
 		} catch(err) {
 			logger(err.stack, 'error');
 			return {};
