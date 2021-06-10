@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap');
 * { font-family: 'Nanum Gothic', sans-serif; box-sizing: border-box; outline: none; }
 html { font-size: 12px; color: #212121; }
+body { padding: 0; margin: 0; }
 ul { list-style: none; padding: 0; margin: 0; }
 a { text-decoration: none; color: #212121; }
 
@@ -14,3 +15,11 @@ dd { display: table-cell; vertical-align: middle; }
 .table_cols td { border-bottom: 1px solid #d5d5d5; }
 .table_cols tr:first-child th, .table_cols tr:first-child td { border-top: 1px solid #d5d5d5; }
 
+
+/** outline/header/_main.html */
+.main_menu { background-color: #d5d5d5; }
+.main_menu li { float: left; }
+.main_menu li a { display: block; padding: 13px 20px; font-size: 15px; font-weight: bold; }
+.main_menu:after { clear: left; content: ''; display: block; }
+.main_menu li a:hover,
+.main_menu li.on a { background-color: orange; color: #ffffff; }
