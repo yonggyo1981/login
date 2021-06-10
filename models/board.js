@@ -99,12 +99,20 @@ const board = {
 			const sql = `UPDATE board 
 								SET 
 									boardNm = :boardNm,
-									category = :category
+									category = :category,
+									accessType = :accessType,
+									useImageUpload = :useImageUpload,
+									useFileUpload = :useFileUpload,
+									skin = :skin 
 								WHERE 
 									id = :id`;
 			const replacements = {
 				boardNm : params.boardNm,
 				category,
+				accessType : params.accessType,
+				useImageUpload : params.useImageUpload?1:0,
+				useFileUpload : params.useFileUpload?1:0,
+				skin : params.skin,
 				id : params.id,
 			};
 			

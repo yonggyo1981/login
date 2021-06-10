@@ -23,9 +23,9 @@
 		<tr>
 			<th>접근제한</th>
 			<td>
-				<input type='radio' name='accessType' value='all' id='accessType_all'>
+				<input type='radio' name='accessType' value='all' id='accessType_all'{% if accessType == 'all' %} checked{% endif %}>
 				<label for='accessType_all'>비회원+회원</label>
-				<input type='radio' name='accessType' value='member' id='accessType_member'>
+				<input type='radio' name='accessType' value='member' id='accessType_member'{% if accessType == 'member' %} checked{% endif %}>
 				<label for='accessType_member'>회원전용</label>
 			</td>
 		</tr>
