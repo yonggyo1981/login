@@ -1,5 +1,7 @@
 const { sequelize, Sequelize : { QueryTypes } } = require("./index");
 const logger = require("../lib/logger");
+const fs = require('fs').promises;
+const path = require('path');
 
 /**
 * 게시판 Model
@@ -64,8 +66,10 @@ const board = {
 			if (data) {
 				data.categories = data.category.split("||");
 				data.category = data.categories.join("\r\n");
+				
+				data.skins = await this.getSkins(); // 게시판 스킨
 			}
-			console.log(data);
+			
 			return data;
 		} catch(err) {
 			logger(err.stack, 'error');
@@ -125,6 +129,20 @@ const board = {
 		} catch (err) {
 			logger(err.stack, 'error');
 			return false;
+		}
+	},
+	/**
+	* 게시판 스킨 
+	*
+	* @return Array
+	*/
+	getSkins : async function() {
+		try {
+			const files = await fs.readdir(path.join(__dirname, "/../views/board/skins"));
+			console.log(files);
+		} catch (err) {
+			logger(err.stack, 'error');
+			return [];
 		}
 	},
 };

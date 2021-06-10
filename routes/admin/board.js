@@ -37,7 +37,7 @@ router.route("/")
 				return alert('게시판 설정 저장 실패하였습니다', res);
 			}
 			
-			return reload(res, 'parent');
+			return alert("저장되었습니다.", res, 'reload', "parent");
 			
 		})
 		/** 게시판 삭제 */
