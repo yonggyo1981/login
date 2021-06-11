@@ -37,6 +37,7 @@ router.route('/:id')
 		/** 수정 - id (게시글 번호) */
 		.patch((req, res, next) => {
 			
+			
 		})
 		/** 삭제 - id (게시글 번호) */
 		.delete((req, res, next) => {
@@ -74,6 +75,28 @@ router.get("/view/:idx", async (req, res, next) => {
 	return res.render("board/view", data);
 });
 
+/** 게시글 수정 */
+router.get("/update/:idx", async (req, res, next) => {
+	try {
+		const idx = req.params.idx;
+		if (!idx) {
+			throw new Error('잘못된 접근입니다.');
+		}
+		
+		const data = await board.get(idx);
+		if (!data.idx) {
+			throw new Error('존재하지 않는 게시글 입니다.');
+		}
+		
+		data.addCss = ['board'];
+		data.addScript = ['board'];
+		
+		return res.render("board/form", data);
+		
+	} catch(err) {
+		return alert(err.message, res, -1);
+	}
+});
 
 
 module.exports = router;

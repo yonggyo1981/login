@@ -233,6 +233,8 @@ const board = {
 			
 			const data = rows[0] || {};
 			if (rows.length > 0) {
+				data.id = data.boardId;
+				
 				// 게시판 설정 추가 
 				data.config = await this.getBoard(data.boardId);
 				const date = parseDate(data.regDt);

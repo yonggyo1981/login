@@ -9,5 +9,10 @@
 	<div class='contents'>
 		{{ contents | safe }}
 	</div>
+	<div class='btns'>
+		<a href='/board/update/{{ idx }}' class='btn1'>글 수정</a>
+		<a href='/board?_method=DELETE' target='ifrmHidden' class='btn1'>글 삭제</a>
+		<a href='/board/{{ id }}' class='btn1'>글 목록</a>
+	</div>
 </div>
 <!--// board_default -->
