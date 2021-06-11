@@ -14,7 +14,11 @@ const router = express.Router();
 router.route('/:id')
 		/** 작성 양식 - id (게시판 아이디) */
 		.get(boardConfig, async (req, res, next) => {
-			const data = { config : req.boardConfig };
+			const data = { 
+				config : req.boardConfig,
+				addScript : ['board'],
+				addCss : ['board'],
+			};
 			return res.render('board/form', data);
 		})
 		/** 작성 처리 - id (게시판 아이디) */
