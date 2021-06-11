@@ -1,5 +1,6 @@
 const { sequelize, Sequelize : { QueryTypes } } = require("./index");
 const logger = require("../lib/logger");
+const bcrypt = require('bcrypt');
 const fs = require('fs').promises;
 const path = require('path');
 
@@ -187,13 +188,18 @@ const board = {
 			
 			
 			const memNo = this.session.member || 0;
+			let hash = "";
+			if (!memNo) { // 비회원인 경우는 비밀번호 해시 처리 
+				hash = await bcrypt.hash(this.params.password, 10);
+			}
+			
 			const replacements = {
 				boardId : this.params.id,
 				memNo,
 				poster : this.params.poster,
 				subject : this.params.subject,
 				contents : this.params.contents,
-				password : this.params.password || "",
+				password : hash,
 			};		
 			
 			const result = await sequelize.query(sql, {

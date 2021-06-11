@@ -10,6 +10,7 @@ module.exports.writeValidator = (req, res, next) => {
 	const required = {
 		id : '잘못된 접근입니다', 
 		subject : '제목을 입력해 주세요.',
+		poster : '작성자를 입력해 주세요.',
 		contents : '내용을 입력해 주세요.',
 	};
 	

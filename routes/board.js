@@ -4,6 +4,8 @@
 */
 const board = require('../models/board');
 const { boardConfig } = require('../middlewares/board_config');
+const { writeValidator } = require('../middlewares/board_validator');
+const { alert, go } = require('../lib/common');
 const express = require('express');
 const router = express.Router();
 
@@ -16,12 +18,17 @@ router.route('/:id')
 			return res.render('board/form', data);
 		})
 		/** 작성 처리 - id (게시판 아이디) */
-		.post(boardConfig, async (req, res, next) => {
+		.post(boardConfig, writeValidator, async (req, res, next) => {
 			/* 작성 완료시 게시글 번호 */
 			const idx = await board.data(req.body, req.session)
 											 .write();
 			
-			return res.send("");
+			if (idx === false) { // 게시글 작성 실패 
+				return alert('게시글 작성 실패 하였습니다', res);
+			}
+			
+			// 게시글 작성 성공시 게시글 보기 페이지로 이동 
+			return go("/board/view/" + idx, res, "parent");
 		})
 		/** 수정 - id (게시글 번호) */
 		.patch((req, res, next) => {
