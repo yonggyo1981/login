@@ -182,8 +182,8 @@ const board = {
 	*/
 	write : async function() {
 		try {
-			const sql = `INSERT INTO boarddata (boardId, memNo, poster, subject, content, password) 
-										VALUES (:boardId, :memNo, :poster, :subject, :content, :password)`;
+			const sql = `INSERT INTO boarddata (boardId, memNo, poster, subject, contents, password) 
+										VALUES (:boardId, :memNo, :poster, :subject, :contents, :password)`;
 			
 			
 			const memNo = this.session.member || 0;
@@ -192,17 +192,16 @@ const board = {
 				memNo,
 				poster : this.params.poster,
 				subject : this.params.subject,
-				content : this.params.content,
+				contents : this.params.contents,
 				password : this.params.password || "",
-			};				
-			console.log(replacements);
-			return;
+			};		
+			
 			const result = await sequelize.query(sql, {
 				replacements,
 				type : QueryTypes.INSERT,
 			});
 			
-			console.log(result);
+			return result[0]; // 게시글 등록 번호(idx)
 		} catch (err) {
 			logger(err.stack, 'error');
 			return false;
