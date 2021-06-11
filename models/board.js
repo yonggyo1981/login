@@ -199,6 +199,7 @@ const board = {
 				type : QueryTypes.INSERT,
 			});
 			
+			console.log(result);
 		} catch (err) {
 			logger(err.stack, 'error');
 			return false;
