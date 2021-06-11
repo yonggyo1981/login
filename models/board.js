@@ -195,7 +195,8 @@ const board = {
 				content : this.params.content,
 				password : this.params.password || "",
 			};				
-			
+			console.log(replacements);
+			return;
 			const result = await sequelize.query(sql, {
 				replacements,
 				type : QueryTypes.INSERT,

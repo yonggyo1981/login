@@ -48,7 +48,7 @@ CREATE TABLE `boarddata` (
 	`memNo` INT(11) NULL DEFAULT '0' COMMENT '회원번호',
 	`poster` VARCHAR(20) NULL DEFAULT NULL COMMENT '작성자' COLLATE 'utf8_general_ci',
 	`subject` VARCHAR(255) NOT NULL COMMENT '제목' COLLATE 'utf8_general_ci',
-	`content` TEXT(65535) NULL DEFAULT NULL COMMENT '본문' COLLATE 'utf8_general_ci',
+	`contents` TEXT(65535) NULL DEFAULT NULL COMMENT '본문' COLLATE 'utf8_general_ci',
 	`password` VARCHAR(65) NULL DEFAULT NULL COMMENT '비회원 비밀번호' COLLATE 'utf8_general_ci',
 	`regDt` DATETIME NULL DEFAULT current_timestamp(),
 	`modDt` DATETIME NULL DEFAULT NULL,
