@@ -213,6 +213,35 @@ const board = {
 			return false;
 		}
 	},
+	/**
+	* 게시글 조회 
+	*
+	* @param Integer idx 게시글 번호 
+	* @return Object
+	*/
+	get : async function(idx) {
+		try {
+			const sql = `SELECT a.*, b.memId, b.memNm FROM boarddata AS a 
+										LEFT JOIN member AS b ON a.memNo = b.memNo 
+								WHERE 
+										a.idx = ?`;
+			const rows = await sequelize.query(sql, {
+					replacements : [idx],
+					type : QueryTypes.SELECT,
+			});
+			
+			const data = rows[0] || {};
+			if (data) {
+				// 게시판 설정 추가 
+				data.config = await this.getBoard(data.id);
+			}
+			
+			return data;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return {};
+		}
+	},
 };
 
 module.exports = board;

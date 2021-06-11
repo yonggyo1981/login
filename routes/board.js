@@ -52,9 +52,24 @@ router.get("/list/:id", boardConfig, async (req, res, next) => {
 
 
 /** 게시글 보기 */
-router.get("/view/:idx", (req, res, next) => {
+router.get("/view/:idx", async (req, res, next) => {
+	let data;
+	try {
+		const idx = req.params.idx;
+		if (!idx) {
+			throw new Error('잘못된 접근입니다');
+		}
+		
+		data = await board.get(idx);
+		if (!data) {
+			throw new Error('존재하지 않는 게시글입니다.');
+		}
+		
+	} catch (err) {
+		return alert(err.message, res, -1);
+	}
 	
-	return res.send("");
+	return res.render("board/view", data);
 });
 
 
