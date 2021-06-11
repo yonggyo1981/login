@@ -236,7 +236,7 @@ const board = {
 				// 게시판 설정 추가 
 				data.config = await this.getBoard(data.id);
 				const date = parseDate(data.regDt);
-				console.log(date);
+				data.regDt = date.datetime;
 			}
 			
 			return data;
