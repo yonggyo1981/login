@@ -70,8 +70,10 @@ const board = {
 			
 			const data = rows[0]?rows[0]:{};
 			if (data) {
-				data.categories = data.category.split("||");
-				data.category = data.categories.join("\r\n");
+				data.categories = data.category?data.category.split("||"):[];
+				if (data.categories.length > 0) {
+					data.category = data.categories.join("\r\n");
+				}
 				
 				data.skins = await this.getSkins(); // 게시판 스킨
 				data.skin = data.skin || data.skins[0];
