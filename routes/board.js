@@ -16,8 +16,12 @@ router.route('/:id')
 			return res.render('board/form', data);
 		})
 		/** 작성 처리 - id (게시판 아이디) */
-		.post(boardConfig, (req, res, next) => {
+		.post(boardConfig, async (req, res, next) => {
+			/* 작성 완료시 게시글 번호 */
+			const idx = await board.data(req.body, req.session)
+											 .write();
 			
+			return res.send("");
 		})
 		/** 수정 - id (게시글 번호) */
 		.patch((req, res, next) => {

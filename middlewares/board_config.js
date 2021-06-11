@@ -19,6 +19,8 @@ module.exports.boardConfig = async (req, res, next) => {
 			
 			req.boardConfig = config;
 			
+			req.body.id = id;
+			
 		} catch (err) {
 			return alert(err.message, res, -1);
 		}

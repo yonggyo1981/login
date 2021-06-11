@@ -8,6 +8,12 @@ const path = require('path');
 *
 */
 const board = {
+	/** 처리할 데이터 */
+	params : {},
+	
+	/** 처리할 세션 데이터 */
+	session : {},
+	
 	/**
 	* 게시판 생성 
 	*
@@ -151,6 +157,51 @@ const board = {
 		} catch (err) {
 			logger(err.stack, 'error');
 			return [];
+		}
+	},
+	/**
+	* 처리할 데이터 설정 
+	*
+	* @param Object params 처리할 데이터 
+	* @param Object session - req.session에 있는 데이터 
+	*
+	* @return this
+	*/
+	data : function(params, session) {
+		this.params = params;
+		this.session = session;
+		
+		return this;
+	},
+	/**
+	*  글 작성 
+	*
+	* @return Integer|Boolean 성공시는 게시글 등록번호(idx), 실패시에는 false
+	*/
+	write : async function() {
+		try {
+			const sql = `INSERT INTO boarddata (boardId, memNo, poster, subject, content, password) 
+										VALUES (:boardId, :memNo, :poster, :subject, :content, :password)`;
+			
+			
+			const memNo = this.session.member || 0;
+			const replacements = {
+				boardId : this.params.id,
+				memNo,
+				poster : this.params.poster,
+				subject : this.params.subject,
+				content : this.params.content,
+				password : this.params.password || "",
+			};				
+			
+			const result = await sequelize.query(sql, {
+				replacements,
+				type : QueryTypes.INSERT,
+			});
+			
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
 		}
 	},
 };
