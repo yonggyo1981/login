@@ -61,13 +61,15 @@ router.get("/view/:idx", async (req, res, next) => {
 		}
 		
 		data = await board.get(idx);
-		if (!data) {
+		if (!data.idx) {
 			throw new Error('존재하지 않는 게시글입니다.');
 		}
 		
 	} catch (err) {
 		return alert(err.message, res, -1);
 	}
+	
+	data.addCss = ["board"];
 	
 	return res.render("board/view", data);
 });

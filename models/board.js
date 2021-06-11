@@ -69,7 +69,7 @@ const board = {
 				replacements : [id],
 				type : QueryTypes.SELECT,
 			});
-			
+
 			const data = rows[0]?rows[0]:{};
 			if (rows.length > 0) {
 				data.categories = data.category?data.category.split("||"):[];
@@ -232,9 +232,9 @@ const board = {
 			});
 			
 			const data = rows[0] || {};
-			if (data) {
+			if (rows.length > 0) {
 				// 게시판 설정 추가 
-				data.config = await this.getBoard(data.id);
+				data.config = await this.getBoard(data.boardId);
 				const date = parseDate(data.regDt);
 				data.regDt = date.datetime;
 			}
