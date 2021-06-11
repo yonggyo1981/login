@@ -71,7 +71,7 @@ const board = {
 			});
 			
 			const data = rows[0]?rows[0]:{};
-			if (data) {
+			if (rows.length > 0) {
 				data.categories = data.category?data.category.split("||"):[];
 				if (data.categories.length > 0) {
 					data.category = data.categories.join("\r\n");
