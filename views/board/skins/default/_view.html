@@ -6,5 +6,8 @@
 			{{ poster }}({% if memId %}{{ memId }}{% else %}비회원{% endif %})
 		</div>
 	</div>
+	<div class='contents'>
+		{{ contents | safe }}
+	</div>
 </div>
 <!--// board_default -->
