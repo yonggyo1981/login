@@ -1,4 +1,5 @@
 const { sequelize, Sequelize : { QueryTypes } } = require("./index");
+const { parseDate } = require('../lib/common'); // 날짜 분해 
 const logger = require("../lib/logger");
 const bcrypt = require('bcrypt');
 const fs = require('fs').promises;
@@ -234,6 +235,8 @@ const board = {
 			if (data) {
 				// 게시판 설정 추가 
 				data.config = await this.getBoard(data.id);
+				const date = parseDate(data.regDt);
+				console.log(date);
 			}
 			
 			return data;
