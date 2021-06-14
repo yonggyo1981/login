@@ -138,6 +138,9 @@ const board = {
 									accessType = :accessType,
 									useImageUpload = :useImageUpload,
 									useFileUpload = :useFileUpload,
+									rowsPerPage = :rowsPerPage,
+									useViewList = :useViewList,
+									useComment = :useComment,
 									skin = :skin 
 								WHERE 
 									id = :id`;
@@ -147,6 +150,9 @@ const board = {
 				accessType : params.accessType,
 				useImageUpload : params.useImageUpload?1:0,
 				useFileUpload : params.useFileUpload?1:0,
+				rowsPerPage : params.rowsPerPage || 20,
+				useViewList : params.useViewList?1:0,
+				useComment : params.useComment?1:0,
 				skin : params.skin,
 				id : params.id,
 			};
