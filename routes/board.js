@@ -174,6 +174,14 @@ router.route("/password/:idx")
 			
 				const match = await bcrypt.compare(password, data.password);
 				if (match) { // 비회원 비밀번호 일치 
+					const key = `board_${data.boardId}_${idx}`;
+					const keyUrl = key + "_url";
+					req.session[key] = true;
+					if (req.session[keyUrl]) {
+						return go(req.session[keyUrl], res, "parent");
+					}
+					
+					return go("/board/list/" + data.boardId, res, "parent");
 					
 				} else { // 비회원 비밀번호 불일치
 					return alert('비밀번호가 일치하지 않습니다.');
