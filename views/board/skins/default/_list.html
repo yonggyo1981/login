@@ -2,9 +2,9 @@
 <div class='board_default list'>
 	{% if config.categories.length > 0 %}
 	<div class='category_tab'>
-		<a href='/board/list/{{ config.id }}' class='tab'>전체</a>
+		<a href='/board/list/{{ config.id }}' class="tab{{ ' on' if not category }}">전체</a>
 		{% for item in config.categories %}
-			<a href='/board/list/{{ config.id }}?category={{ item }}' class='tab'>{{ item }}</a>
+			<a href='/board/list/{{ config.id }}?category={{ item }}' class='tab{% if category == item %} on{% endif %}'>{{ item }}</a>
 		{% endfor %}
 	</div>
 	{% endif %}

@@ -78,18 +78,20 @@ router.get("/list/:id", boardConfig, async (req, res, next) => {
 		params : {},
 	};
 	
-	let data = {};
+	let category = "";
 	if (req.query.category) {
 		where.binds.push("a.category = :category");
-		data.category = where.params.category = req.query.category;
+		category = where.params.category = req.query.category;
 	}
 	/** 검색 처리 E */
-	data = await board
-						.addWhere(where)
-						.getList(id, req.query.page, 20, req.query);
+	
+	const data = await board
+								.addWhere(where)
+								.getList(id, req.query.page, 20, req.query);
 								
 	data.config = req.boardConfig;
 	data.addCss = ['board'];
+	data.category = category;
 	
 	return res.render('board/list', data);
 });	
