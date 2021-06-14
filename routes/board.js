@@ -38,7 +38,12 @@ router.route('/:id')
 		.patch(boardConfig, async (req, res, next) => {
 			const result = await board.data(req.body, req.session)
 												.update();
-			return res.send("");
+			if (result) { // 게시글 작성 성공시 -> 게시글 보기 페이지 이동 
+				return go("/board/view/" + req.body.idx, res, "parent");
+			}
+			
+			// 실패시 실패 메세지
+			return alert('게시글 수정 실패하였습니다', res);
 		})
 		/** 삭제 - id (게시글 번호) */
 		.delete((req, res, next) => {

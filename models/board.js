@@ -243,7 +243,11 @@ const board = {
 					modDt : new Date(),
 					idx : this.params.idx,
 			};
-			console.log(replacements);
+			
+			await sequelize.query(sql, {
+				replacements,
+				type : QueryTypes.UPDATE,
+			});
 			
 		} catch (err) {
 			logger(err.stack, 'error');
