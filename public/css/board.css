@@ -1,3 +1,6 @@
+/** 게시판 공통 */
+.board_nm { font-size: 17px; font-weight: bold; margin-bottom: 20px; }
+
 /** default/_form.html */
 .board_default dl { margin-bottom: 5px; }
 .board_default dt { width: 120px; }
@@ -20,3 +23,6 @@
 .board_default .post_list > li .title { float: left; display: block; padding: 10px; width: calc(100% - 300px); text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 .board_default .post_list > li .post_info { float: right; padding: 10px; width: 300px; text-align: right; }
 .board_default .post_list > li:after { display: block; content: ''; clear: both; }
+
+.board_default.list { position: relative; }
+.board_default .write_btn { position: absolute; right: 0; top: -35px; }

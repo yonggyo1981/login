@@ -1,5 +1,6 @@
 <!-- Default 게시글 목록 -->
 <div class='board_default list'>
+	<a href='/board/{{ config.id }}' class='btn1 write_btn'>글쓰기</a>
 	<ul class='post_list'>
 	{% if list %} 
 		{% for item in list %}

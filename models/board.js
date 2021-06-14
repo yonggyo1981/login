@@ -344,9 +344,8 @@ const board = {
 			type : QueryTypes.SELECT,
 		});
 		
-		//const totalResult = rows[0].cnt;
-		const totalResult = 2000;
-		const paginator = pagination.create('search', {prelink, current: page, rowsPerPage: limit, totalResult});
+		const totalResult = rows[0].cnt;
+		const paginator = pagination.create('search', {prelink, current: page, rowsPerPage: limit, totalResult });
 		
 		
 		replacements.offset = offset;
