@@ -91,3 +91,23 @@ module.exports.permissionCheck = async (req, res, next) => {
 	
 	next();
 };
+
+/**
+* 비회원 게시글만 수정, 삭제시 비밀번호 확인이 필요하므로
+* 비회원 게시글인지 체크 
+*
+*/
+module.exports.guestOnly = async (req, res, next) => {
+	try {
+		const idx = req.params.idx || req.query.idx || req.body.idx;
+		const data = await board.get(idx);
+		if (data.memNo > 0) {
+			
+		}
+	
+	} catch (err) {
+		logger(err.stack, 'error');
+		return alert(err.message);
+	}
+	next();
+};
