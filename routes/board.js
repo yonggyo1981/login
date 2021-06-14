@@ -4,7 +4,7 @@
 */
 const board = require('../models/board');
 const { boardConfig } = require('../middlewares/board_config');
-const { writeValidator } = require('../middlewares/board_validator');
+const { writeValidator, permissionCheck } = require('../middlewares/board_validator');
 const { alert, go } = require('../lib/common');
 const express = require('express');
 const router = express.Router();
@@ -122,7 +122,7 @@ router.get("/view/:idx", async (req, res, next) => {
 });
 
 /** 게시글 수정 */
-router.get("/update/:idx", async (req, res, next) => {
+router.get("/update/:idx", permissionCheck, async (req, res, next) => {
 	try {
 		const idx = req.params.idx;
 		if (!idx) {
