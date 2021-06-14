@@ -1,4 +1,6 @@
 {% extends '../layout.html' %}
 {% block content %}
 {% include config.skinPath.list %}
+
+{{ pagination | safe }}
 {% endblock %}

@@ -343,6 +343,7 @@ const board = {
 		});
 		
 		const totalResult = rows[0].cnt;
+		console.log("totalResult", totalResult);
 		const paginator = pagination.create('search', {prelink, current: page, rowsPerPage: limit, totalResult});
 		
 		
@@ -356,6 +357,10 @@ const board = {
 			type : QueryTypes.SELECT,
 		});	
 		
+		list.forEach((v, i, _list) => {
+			_list[i].regDt = parseDate(v.regDt).datetime;
+		});
+		
 		const result = {
 			pagination : paginator.render(),
 			list,
@@ -364,7 +369,7 @@ const board = {
 			totalResult,
 			limit,
 		};
-		
+
 		return result;
 	},
 };
