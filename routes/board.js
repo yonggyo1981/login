@@ -148,12 +148,35 @@ router.get("/update/:idx", permissionCheck, async (req, res, next) => {
 router.route("/password/:idx")
 		/** 비밀번호 확인 양식 */
 		.get(guestOnly, (req, res, next) => {
-			
-			return res.render("board/password");
+			const data = {
+					idx : req.params.idx,
+					addCss : ['board'],
+			};
+			return res.render("board/password", data);
 		})
 		/** 비밀번호 확인 처리 */
-		.post((req, res, next) => {
+		.post(async (req, res, next) => {
+			try {
+				const idx = req.params.idx;
+				const password = req.body.password;
+				if (!idx) {
+					throw new Error('잘못된 접근입니다.');
+				}
+				
+				if (!password) {
+					throw new Error('비밀번호를 입력하세요.');
+				}
+				
+				const data = await board.get(idx);
+				if (!data.idx) {
+					throw new Error('존재하지 않는 게시글 입니다.');
+				}
 			
+				const match = await bcrypt.compare(password, data.password);
+			
+			} catch (err) {
+				return alert(err.message, res);
+			}
 		});
 
 module.exports = router;
