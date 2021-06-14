@@ -7,6 +7,7 @@ const { boardConfig } = require('../middlewares/board_config');
 const { writeValidator, permissionCheck, guestOnly } = require('../middlewares/board_validator');
 const { alert, go } = require('../lib/common');
 const express = require('express');
+const bcrypt = require('bcrypt');
 const router = express.Router();
 
 
