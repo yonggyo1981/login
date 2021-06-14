@@ -16,9 +16,10 @@ $(function() {
 		
 		axios.delete("/board/" + idx)
 				.then((res) => {
-					if (res.data.error) {
-						alert(res.data.message);
-							
+					if (res.data.redirect) {
+						location.href= res.data.redirect;
+					} else if (res.data.error) {
+						alert(res.data.message);	
 					} else {
 						location.href='/board/list/' + res.data.boardId;
 					}

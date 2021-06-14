@@ -20,7 +20,7 @@ router.route('/:id')
 				addScript : ['board'],
 				addCss : ['board'],
 			};
-			console.log(data.config);
+			
 			return res.render('board/form', data);
 		})
 		/** 작성 처리 - id (게시판 아이디) */
@@ -48,7 +48,7 @@ router.route('/:id')
 			return alert('게시글 수정 실패하였습니다', res);
 		})
 		/** 삭제 - id (게시글 번호) */
-		.delete(async (req, res, next) => {
+		.delete(permissionCheck, async (req, res, next) => {
 			try {
 				const idx = req.params.id;
 				const data = await board.get(idx);
@@ -179,13 +179,17 @@ router.route("/password/:idx")
 					const keyUrl = key + "_url";
 					req.session[key] = true;
 					if (req.session[keyUrl]) {
-						return go(req.session[keyUrl], res, "parent");
+						if (req.session[keyUrl].indexOf("delete")) { // 게시글 삭제인 경우 바로 삭제 -> 목록 이동 
+							await board.delete(idx);
+						} else {
+							return go(req.session[keyUrl], res, "parent");
+						}
 					}
 					
 					return go("/board/list/" + data.boardId, res, "parent");
 					
 				} else { // 비회원 비밀번호 불일치
-					return alert('비밀번호가 일치하지 않습니다.');
+					return alert('비밀번호가 일치하지 않습니다.', res);
 				}
 			} catch (err) {
 				return alert(err.message, res);

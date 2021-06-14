@@ -45,7 +45,10 @@ module.exports.writeValidator = (req, res, next) => {
 */
 module.exports.permissionCheck = async (req, res, next) => {
 	try {
-		const idx = req.params.idx || req.query.idx || req.body.idx;
+		let idx = req.params.idx || req.query.idx || req.body.idx;
+		if (!idx && req.method == 'DELETE') { // 삭제 처리인 경우 params.id로 대체
+			idx = req.params.id;
+		}
 		
 		if (!idx) {
 			throw new Error('게시글 번호가 없습니다.');
@@ -74,13 +77,14 @@ module.exports.permissionCheck = async (req, res, next) => {
 					비밀번호 인증 후 수정 -> 게시글 보기 
 					비밀번호 인증 후 삭제 -> 게시글 목록 
 				*/
+				const url = "/board/password/" + idx;
 				if (req.method == 'GET' || req.method == 'PATCH') { // 게시글 수정 
-					req.session[keyUrl] = '/board/view/' + idx;
+					req.session[keyUrl] = '/board/update/' + idx;
+					return res.redirect(url);
 				} else if (req.method == 'DELETE') { // 게시글 삭제 
-					req.session[keyUrl] = '/board/list/' + data.boardId;
+					req.session[keyUrl] = '/board/' + idx + "?from=delete";
+					return res.json({ redirect : url });
 				}
-				
-			 	return res.redirect("/board/password/" + idx);
 			}
 		}
 		
