@@ -10,7 +10,7 @@ $(function() {
 		if (!idx) 
 			return;
 		
-		axios.delete("/board/" + idx, { idx })
+		axios.delete("/board/" + idx)
 				.then((res) => {
 					console.log(res);
 				})

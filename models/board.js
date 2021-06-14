@@ -256,6 +256,26 @@ const board = {
 		}
 	},
 	/**
+	* 게시글 삭제 
+	*
+	* @param Integer idx 게시글 번호 
+	* @return Boolean 
+	*/
+	delete : async function(idx) {
+		try {
+			const sql = "DELETE FROM boarddata WHERE idx = ?";
+			await sequelize.query(sql, {
+				replacements : [idx],
+				type : QueryTypes.DELETE,
+			});
+			
+			return true;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
+	/**
 	* 게시글 조회 
 	*
 	* @param Integer idx 게시글 번호 

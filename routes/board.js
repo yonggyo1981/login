@@ -46,10 +46,24 @@ router.route('/:id')
 			return alert('게시글 수정 실패하였습니다', res);
 		})
 		/** 삭제 - id (게시글 번호) */
-		.delete((req, res, next) => {
-			
-			console.log(req.params);
-			return res.send("");
+		.delete(async (req, res, next) => {
+			try {
+				const idx = req.params.id;
+				const data = await board.get(idx);
+				if (!data.idx) {
+					throw new Error('존재하지 않는 게시글 입니다.');
+				}
+				
+				const result = await board.delete(idx);
+				if (!result) { // 게시글 삭제 실패 
+					throw new Error('게시글 삭제 실패하였습니다');
+				}
+				
+				return res.json({erorr : false, message : "게시글 삭제 되었습니다.", boardId : data.id });
+				
+			} catch (err) {
+				return res.json({ error : true, message : err.message });
+			}
 		});
 
 
