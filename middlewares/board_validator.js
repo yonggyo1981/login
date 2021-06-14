@@ -68,7 +68,18 @@ module.exports.permissionCheck = async (req, res, next) => {
 			}
 		} else { // 비회원인 경우는 req.session[board_qna_게시글 번호] = true 면 비밀번호 인증 완료
 		    const key = `board_qna_${idx}`;
+			const keyUrl = key+"_url";
 			if (!req.session[key]) { // 비밀번호 인증이 안된 경우는 게시글 비밀번호 확인
+				/**
+					비밀번호 인증 후 수정 -> 게시글 보기 
+					비밀번호 인증 후 삭제 -> 게시글 목록 
+				*/
+				if (req.method == 'GET' || req.method == 'PATCH') { // 게시글 수정 
+					req.session[keyUrl] = '/board/view/' + idx;
+				} else if (req.method == 'DELETE') { // 게시글 삭제 
+					req.session[keyUrl] = '/board/list/' + data.boardId;
+				}
+				
 			 	return res.redirect("/board/password/" + idx);
 			}
 		}

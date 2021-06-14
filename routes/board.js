@@ -144,5 +144,15 @@ router.get("/update/:idx", permissionCheck, async (req, res, next) => {
 	}
 });
 
+/** 비회원 게시글 수정, 삭제 비밀번호 확인 */
+router.route("/password/:idx")
+		/** 비밀번호 확인 양식 */
+		.get((req, res, next) => {
+			return res.render("board/password");
+		})
+		/** 비밀번호 확인 처리 */
+		.post((req, res, next) => {
+			
+		});
 
 module.exports = router;
