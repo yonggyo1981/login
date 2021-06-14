@@ -332,10 +332,11 @@ const board = {
 	* @param String boardId 게시판아이디
 	* @param Integer page 페이지 번호, 기본값은 1 
 	* @param Integer limit 1페이지당 출력 레코드 수 
+	* @param Object qs URL 쿼리 스트링
 	*
 	* @return Object
 	*/
-	getList : async function(boardId, page, limit) {
+	getList : async function(boardId, page, limit, qs) {
 		/*
 		var pagination = require('pagination');
 		var paginator = pagination.create('search', {prelink:'/', current: 1, rowsPerPage: 200, totalResult: 10020});
@@ -347,6 +348,16 @@ const board = {
 		
 		const offset = (page - 1) * limit;
 		let prelink = "/board/list/" + boardId;
+		if (qs) {
+			const addQuery = [];
+			for (key in qs) {
+				if (key == 'page') continue;
+				
+				addQuery.push(`${key}=${qs[key]}`);
+			}
+			
+			prelink += "?" + addQuery.join("&");
+		}
 		
 		const replacements = {
 			boardId,
@@ -372,7 +383,8 @@ const board = {
 			type : QueryTypes.SELECT,
 		});
 		
-		const totalResult = rows[0].cnt;
+		//const totalResult = rows[0].cnt;
+		const totalResult = 2000;
 		const paginator = pagination.create('search', {prelink, current: page, rowsPerPage: limit, totalResult });
 		
 		
@@ -398,7 +410,7 @@ const board = {
 			totalResult,
 			limit,
 		};
-		console.log(result);
+
 		return result;
 	},
 };

@@ -85,7 +85,7 @@ router.get("/list/:id", boardConfig, async (req, res, next) => {
 	/** 검색 처리 E */
 	const data = await board
 								.addWhere(where)
-								.getList(id, req.query.page, 20);
+								.getList(id, req.query.page, 20, req.query);
 								
 	data.config = req.boardConfig;
 	data.addCss = ['board'];
