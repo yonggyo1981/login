@@ -173,7 +173,11 @@ router.route("/password/:idx")
 				}
 			
 				const match = await bcrypt.compare(password, data.password);
-			
+				if (match) { // 비회원 비밀번호 일치 
+					
+				} else { // 비회원 비밀번호 불일치
+					return alert('비밀번호가 일치하지 않습니다.');
+				}
 			} catch (err) {
 				return alert(err.message, res);
 			}

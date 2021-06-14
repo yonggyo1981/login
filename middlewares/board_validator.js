@@ -67,7 +67,7 @@ module.exports.permissionCheck = async (req, res, next) => {
 				throw new Error(msg);
 			}
 		} else { // 비회원인 경우는 req.session[board_qna_게시글 번호] = true 면 비밀번호 인증 완료
-		    const key = `board_qna_${idx}`;
+		    const key = `board_${data.boardId}_${idx}`;
 			const keyUrl = key+"_url";
 			if (!req.session[key]) { // 비밀번호 인증이 안된 경우는 게시글 비밀번호 확인
 				/**
