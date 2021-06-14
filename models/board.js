@@ -337,12 +337,6 @@ const board = {
 	* @return Object
 	*/
 	getList : async function(boardId, page, limit, qs) {
-		/*
-		var pagination = require('pagination');
-		var paginator = pagination.create('search', {prelink:'/', current: 1, rowsPerPage: 200, totalResult: 10020});
-		console.log(paginator.render());
-		*/
-		
 		page = page || 1;
 		limit = limit || 20;
 		
@@ -383,8 +377,7 @@ const board = {
 			type : QueryTypes.SELECT,
 		});
 		
-		//const totalResult = rows[0].cnt;
-		const totalResult = 2000;
+		const totalResult = rows[0].cnt;
 		const paginator = pagination.create('search', {prelink, current: page, rowsPerPage: limit, totalResult });
 		
 		
