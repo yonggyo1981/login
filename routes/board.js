@@ -70,6 +70,10 @@ router.route('/:id')
 /** 게시글 목록 */
 router.get("/list/:id", boardConfig, async (req, res, next) => {
 	const data = { config : req.boardConfig };
+	const id = req.params.id;
+	
+	const data2 = await board.getList(id, req.query.page, 20);
+	
 	return res.render('board/list', data);
 });	
 

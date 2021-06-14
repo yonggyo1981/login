@@ -6,13 +6,22 @@ $(function() {
 	
 	/** 게시글 삭제 */
 	$(".post_delete").click(function() {
+		if (!confirm('정말 삭제하시겠습니까?')) {
+			return;
+		}
+		
 		const idx = $(this).data('idx');
 		if (!idx) 
 			return;
 		
 		axios.delete("/board/" + idx)
 				.then((res) => {
-					console.log(res);
+					if (res.data.error) {
+						alert(res.data.message);
+							
+					} else {
+						location.href='/board/list/' + res.data.boardId;
+					}
 				})
 				.catch((err) => {
 					console.error(err);
