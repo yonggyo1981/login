@@ -308,6 +308,18 @@ const board = {
 			return {};
 		}
 	},
+	/**
+	* 게시글 목록 
+	*
+	* @param String boardId 게시판아이디
+	* @param Integer page 페이지 번호, 기본값은 1 
+	* @param Integer limit 1페이지당 출력 레코드 수 
+	*
+	* @return Object
+	*/
+	getList : async function(boardId, page, limit) {
+		
+	},
 };
 
 module.exports = board;
