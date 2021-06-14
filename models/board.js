@@ -185,8 +185,8 @@ const board = {
 	*/
 	write : async function() {
 		try {
-			const sql = `INSERT INTO boarddata (boardId, memNo, poster, subject, contents, password) 
-										VALUES (:boardId, :memNo, :poster, :subject, :contents, :password)`;
+			const sql = `INSERT INTO boarddata (boardId, category, memNo, poster, subject, contents, password) 
+										VALUES (:boardId, :category, :memNo, :poster, :subject, :contents, :password)`;
 			
 			
 			const memNo = this.session.memNo || 0;
@@ -197,6 +197,7 @@ const board = {
 			
 			const replacements = {
 				boardId : this.params.id,
+				category : this.params.category,
 				memNo,
 				poster : this.params.poster,
 				subject : this.params.subject,
@@ -231,6 +232,7 @@ const board = {
 			
 			const sql = `UPDATE boarddata 
 									SET 
+										category = :category,
 										poster = :poster,
 										subject = :subject,
 										contents = :contents,
@@ -239,6 +241,7 @@ const board = {
 									WHERE 
 										idx = :idx`;
 			const replacements = {
+					category : this.params.category,
 					poster : this.params.poster,
 					subject : this.params.subject,
 					contents : this.params.contents,
@@ -336,6 +339,7 @@ const board = {
 		const replacements = {
 			boardId,
 		};
+		
 		let sql = `SELECT COUNT(*) as cnt FROM boarddata AS a 
 								LEFT JOIN member AS b ON a.memNo = b.memNo 
 							WHERE a.boardId = :boardId`;

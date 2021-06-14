@@ -19,6 +19,7 @@ router.route('/:id')
 				addScript : ['board'],
 				addCss : ['board'],
 			};
+			console.log(data.config);
 			return res.render('board/form', data);
 		})
 		/** 작성 처리 - id (게시판 아이디) */
