@@ -18,14 +18,14 @@ const board = {
 	session : {},
 	
 	/** 추가 검색 조건 */
-	addWhere : {},
+	_addWhere : {},
 	
 	/**
 	* 추가 검색조건 설정
 	*
 	*/
 	addWhere : function(addWhere) {
-		this.addWhere = addWhere;
+		this._addWhere = addWhere;
 		
 		return this;
 	},
@@ -352,9 +352,21 @@ const board = {
 			boardId,
 		};
 		
+		let addWhere = "";
+		if (this._addWhere.binds) { // 추가 검색 조건이 있는 경우 
+			addWhere = " AND " + this._addWhere.binds.join(" AND ");
+			
+			if (this._addWhere.params) {
+				const params = this._addWhere.params;
+				for (key in params) {
+					replacements[key] = params[key];
+				}
+			}
+		} // endif 
+		
 		let sql = `SELECT COUNT(*) as cnt FROM boarddata AS a 
 								LEFT JOIN member AS b ON a.memNo = b.memNo 
-							WHERE a.boardId = :boardId`;
+							WHERE a.boardId = :boardId${addWhere}`;
 		let rows = await sequelize.query(sql, {
 			replacements, 
 			type : QueryTypes.SELECT,
@@ -368,7 +380,7 @@ const board = {
 		replacements.limit = limit;
 		sql = `SELECT a.*, b.memNm, b.memId FROM boarddata AS a 
 							LEFT JOIN member AS b ON a.memNo = b.memNo 
-						WHERE a.boardId = :boardId LIMIT :offset, :limit`;
+						WHERE a.boardId = :boardId${addWhere} LIMIT :offset, :limit`;
 		const list  = await sequelize.query(sql, {
 			replacements,
 			type : QueryTypes.SELECT,
