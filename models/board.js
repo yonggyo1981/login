@@ -4,6 +4,7 @@ const logger = require("../lib/logger");
 const bcrypt = require('bcrypt');
 const fs = require('fs').promises;
 const path = require('path');
+const pagination = require('pagination');
 
 /**
 * 게시판 Model
@@ -318,7 +319,53 @@ const board = {
 	* @return Object
 	*/
 	getList : async function(boardId, page, limit) {
+		/*
+		var pagination = require('pagination');
+		var paginator = pagination.create('search', {prelink:'/', current: 1, rowsPerPage: 200, totalResult: 10020});
+		console.log(paginator.render());
+		*/
 		
+		page = page || 1;
+		limit = limit || 20;
+		
+		const offset = (page - 1) * limit;
+		let prelink = "/board/list/" + boardId;
+		
+		const replacements = {
+			boardId,
+		};
+		let sql = `SELECT COUNT(*) as cnt FROM boarddata AS a 
+								LEFT JOIN member AS b ON a.memNo = b.memNo 
+							WHERE a.boardId = :boardId`;
+		let rows = await sequelize.query(sql, {
+			replacements, 
+			type : QueryTypes.SELECT,
+		});
+		
+		const totalResult = rows[0].cnt;
+		const paginator = pagination.create('search', {prelink, current: page, rowsPerPage: limit, totalResult});
+		
+		
+		replacements.offset = offset;
+		replacements.limit = limit;
+		sql = `SELECT a.*, b.memNm, b.memId FROM boarddata AS a 
+							LEFT JOIN member AS b ON a.memNo = b.memNo 
+						WHERE a.boardId = :boardId LIMIT :offset, :limit`;
+		const list  = await sequelize.query(sql, {
+			replacements,
+			type : QueryTypes.SELECT,
+		});	
+		
+		const result = {
+			pagination : paginator.render(),
+			list,
+			offset, 
+			page,
+			totalResult,
+			limit,
+		};
+		
+		return result;
 	},
 };
 
