@@ -101,8 +101,12 @@ module.exports.guestOnly = async (req, res, next) => {
 	try {
 		const idx = req.params.idx || req.query.idx || req.body.idx;
 		const data = await board.get(idx);
+		if (!data.idx) {
+			throw new Error('게시글이 존재하지 않습니다.');
+		}
+		
 		if (data.memNo > 0) {
-			
+			throw new Error('비회원 게시글이 아닙니다.');
 		}
 	
 	} catch (err) {
