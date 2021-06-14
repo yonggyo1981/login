@@ -20,3 +20,6 @@ a { text-decoration: none; color: #212121; }
 
 .btn1, .btn2 { background-color: red; color: #ffffff; padding: 5px 15px; cursor: pointer; border-radius: 3px; border: 0; }
 .btn2 { background-color: orange; color: #212121; }
+
+/** 페이징 */
+.paginator { text-align: center; padding: 20px 0; }

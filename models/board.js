@@ -189,9 +189,9 @@ const board = {
 										VALUES (:boardId, :memNo, :poster, :subject, :contents, :password)`;
 			
 			
-			const memNo = this.session.member || 0;
+			const memNo = this.session.memNo || 0;
 			let hash = "";
-			if (!memNo) { // 비회원인 경우는 비밀번호 해시 처리 
+			if (!memNo && this.params.password) { // 비회원인 경우는 비밀번호 해시 처리 
 				hash = await bcrypt.hash(this.params.password, 10);
 			}
 			
@@ -203,7 +203,7 @@ const board = {
 				contents : this.params.contents,
 				password : hash,
 			};		
-			
+
 			const result = await sequelize.query(sql, {
 				replacements,
 				type : QueryTypes.INSERT,
@@ -223,9 +223,11 @@ const board = {
 	update : async function() {
 		try {
 			let hash = "";
+
 			if (!this.session.member && this.params.password) {
 				hash = await bcrypt.hash(this.params.password, 10);
 			}
+		
 			
 			const sql = `UPDATE boarddata 
 									SET 
@@ -342,8 +344,8 @@ const board = {
 			type : QueryTypes.SELECT,
 		});
 		
-		const totalResult = rows[0].cnt;
-		console.log("totalResult", totalResult);
+		//const totalResult = rows[0].cnt;
+		const totalResult = 2000;
 		const paginator = pagination.create('search', {prelink, current: page, rowsPerPage: limit, totalResult});
 		
 		
@@ -369,7 +371,7 @@ const board = {
 			totalResult,
 			limit,
 		};
-
+		console.log(result);
 		return result;
 	},
 };

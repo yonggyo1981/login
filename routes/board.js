@@ -41,7 +41,7 @@ router.route('/:id')
 			if (result) { // 게시글 작성 성공시 -> 게시글 보기 페이지 이동 
 				return go("/board/view/" + req.body.idx, res, "parent");
 			}
-			
+		
 			// 실패시 실패 메세지
 			return alert('게시글 수정 실패하였습니다', res);
 		})
@@ -74,6 +74,7 @@ router.get("/list/:id", boardConfig, async (req, res, next) => {
 	
 	const data = await board.getList(id, req.query.page, 20);
 	data.config = req.boardConfig;
+	data.addCss = ['board'];
 	
 	return res.render('board/list', data);
 });	

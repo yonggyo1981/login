@@ -12,3 +12,11 @@
 .board_default.view .contents { border: 1px solid #d5d5d5; padding: 10px; min-height: 300px; }
 
 .board_default .btns { margin: 15px 0; }
+
+/** default/_list.html */
+.board_default .post_list > li { border-bottom: 1px solid #d5d5d5;  }
+.board_default .post_list > li:first-child { border-top: 1px solid #d5d5d5; }
+.board_default .post_list > li:nth-child(2n) { background-color: #f8f8f8; }
+.board_default .post_list > li .title { float: left; display: block; padding: 10px; width: calc(100% - 300px); text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+.board_default .post_list > li .post_info { float: right; padding: 10px; width: 300px; text-align: right; }
+.board_default .post_list > li:after { display: block; content: ''; clear: both; }
