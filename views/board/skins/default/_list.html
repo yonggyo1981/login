@@ -10,7 +10,7 @@
 	{% endif %}
 	<a href='/board/{{ config.id }}' class='btn1 write_btn'>글쓰기</a>
 	<ul class='post_list'>
-	{% if list %} 
+	{% if list.length > 0 %} 
 		{% for item in list %}
 			<li>
 				<a href='/board/view/{{ item.idx }}' class='title'>{{ item.subject }}</a>
