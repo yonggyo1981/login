@@ -20,6 +20,6 @@
 	</dl>
 	{% endif %}
 	<textarea name='contents' id='contents'>{{ contents | safe }}</textarea>
-	<input type='submit' value='작성하기' class='submit_btn'>
+	<input type='submit' value="{{ '수정' if idx else '작성' }}하기" class='submit_btn'>
 </div>
 <!--// board_default -->

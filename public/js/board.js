@@ -3,4 +3,19 @@ $(function() {
 		CKEDITOR.replace("contents");
 		CKEDITOR.config.height = 350;
 	}
+	
+	/** 게시글 삭제 */
+	$(".post_delete").click(function() {
+		const idx = $(this).data('idx');
+		if (!idx) 
+			return;
+		
+		axios.delete("/board/" + idx, { idx })
+				.then((res) => {
+					console.log(res);
+				})
+				.catch((err) => {
+					console.error(err);
+				});
+	});
 });

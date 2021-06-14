@@ -35,7 +35,7 @@ router.route('/:id')
 			return go("/board/view/" + idx, res, "parent");
 		})
 		/** 수정 - id (게시글 번호) */
-		.patch(boardConfig, async (req, res, next) => {
+		.patch(boardConfig, writeValidator, async (req, res, next) => {
 			const result = await board.data(req.body, req.session)
 												.update();
 			if (result) { // 게시글 작성 성공시 -> 게시글 보기 페이지 이동 
@@ -48,6 +48,8 @@ router.route('/:id')
 		/** 삭제 - id (게시글 번호) */
 		.delete((req, res, next) => {
 			
+			console.log(req.params);
+			return res.send("");
 		});
 
 
@@ -77,6 +79,7 @@ router.get("/view/:idx", async (req, res, next) => {
 	}
 	
 	data.addCss = ["board"];
+	data.addScript = ["board"];
 	
 	return res.render("board/view", data);
 });

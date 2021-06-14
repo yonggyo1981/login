@@ -5,7 +5,7 @@ const { alert } = require("../lib/common");
 *
 */
 
-/** 게시글 작성, 수정 */
+/** 게시글 작성 - POST, 수정 - PATCH */
 module.exports.writeValidator = (req, res, next) => {
 	const required = {
 		id : '잘못된 접근입니다', 
@@ -13,6 +13,11 @@ module.exports.writeValidator = (req, res, next) => {
 		poster : '작성자를 입력해 주세요.',
 		contents : '내용을 입력해 주세요.',
 	};
+	
+	// 글 수정시 추가 필수 컬럼
+	if (req.method == "PATCH") {
+		required.idx = "잘못된 접근입니다.";
+	}
 	
 	// 비회원은 수정, 삭제 비밀번호가 필수 항목 */
 	if (!req.isLogin) {
