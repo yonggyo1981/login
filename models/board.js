@@ -215,6 +215,42 @@ const board = {
 		}
 	},
 	/**
+	* 게시글 수정 
+	*
+	* @return Boolean
+	*/
+	update : async function() {
+		try {
+			let hash = "";
+			if (!this.session.member && this.params.password) {
+				hash = await bcrypt.hash(this.params.password, 10);
+			}
+			
+			const sql = `UPDATE boarddata 
+									SET 
+										poster = :poster,
+										subject = :subject,
+										contents = :contents,
+										password = :password,
+										modDt = :modDt
+									WHERE 
+										idx = :idx`;
+			const replacements = {
+					poster : this.params.poster,
+					subject : this.params.subject,
+					contents : this.params.contents,
+					password : hash,
+					modDt : new Date(),
+					idx : this.params.idx,
+			};
+			console.log(replacements);
+			
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
+	/**
 	* 게시글 조회 
 	*
 	* @param Integer idx 게시글 번호 

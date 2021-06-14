@@ -35,9 +35,10 @@ router.route('/:id')
 			return go("/board/view/" + idx, res, "parent");
 		})
 		/** 수정 - id (게시글 번호) */
-		.patch((req, res, next) => {
-			
-			
+		.patch(boardConfig, async (req, res, next) => {
+			const result = await board.data(req.body, req.session)
+												.update();
+			return res.send("");
 		})
 		/** 삭제 - id (게시글 번호) */
 		.delete((req, res, next) => {
