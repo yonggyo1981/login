@@ -353,7 +353,7 @@ const board = {
 		};
 		
 		let addWhere = "";
-		if (this._addWhere.binds) { // 추가 검색 조건이 있는 경우 
+		if (this._addWhere.binds.length > 0) { // 추가 검색 조건이 있는 경우 
 			addWhere = " AND " + this._addWhere.binds.join(" AND ");
 			
 			if (this._addWhere.params) {
