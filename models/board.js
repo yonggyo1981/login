@@ -17,6 +17,18 @@ const board = {
 	/** 처리할 세션 데이터 */
 	session : {},
 	
+	/** 추가 검색 조건 */
+	addWhere : {},
+	
+	/**
+	* 추가 검색조건 설정
+	*
+	*/
+	addWhere : function(addWhere) {
+		this.addWhere = addWhere;
+		
+		return this;
+	},
 	/**
 	* 게시판 생성 
 	*

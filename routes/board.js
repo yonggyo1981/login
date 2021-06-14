@@ -72,8 +72,21 @@ router.route('/:id')
 router.get("/list/:id", boardConfig, async (req, res, next) => {
 
 	const id = req.params.id;
+	/** 검색 처리 S */
+	const where = {
+		binds : [],
+		params : {},
+	};
 	
-	const data = await board.getList(id, req.query.page, 20);
+	if (req.query.category) {
+		where.binds.push("a.category = :category");
+		where.params.category = req.query.category;
+	}
+	/** 검색 처리 E */
+	const data = await board
+								.addWhere(where)
+								.getList(id, req.query.page, 20);
+								
 	data.config = req.boardConfig;
 	data.addCss = ['board'];
 	
