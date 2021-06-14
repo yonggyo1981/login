@@ -249,6 +249,7 @@ const board = {
 				type : QueryTypes.UPDATE,
 			});
 			
+			return true;
 		} catch (err) {
 			logger(err.stack, 'error');
 			return false;
