@@ -5,7 +5,7 @@
 const board = require('../models/board');
 const { boardConfig } = require('../middlewares/board_config');
 const { writeValidator, permissionCheck, guestOnly, commentValidator } = require('../middlewares/board_validator');
-const { alert, go } = require('../lib/common');
+const { alert, go, reload } = require('../lib/common');
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
@@ -28,10 +28,13 @@ router.route("/comment")
 			return alert("댓글 작성 실패하였습니다.", res);
 		})
 		/** 댓글 수정 */
-		.patch(async (req, res, next) => {
+		.patch(commentValidator, async (req, res, next) => {
 			const result = await board.data(req.body).updateComment();
+			if (result) { // 댓글 수정 성공 -> 새로고침 
+				return reload(res, "parent");
+			}
 			
-			return res.send("");
+			return alert("댓글 수정 실패하였습니다.", res);
 		});
 
 /** 댓글 수정 양식 */
