@@ -20,6 +20,7 @@ const layer = {
 		}
 		
 		$layerDim = $("#layer_dim");
+		console.log($layerDim);
 		$popup = $("#layer_popup");
 		
 		$layerDim.css({
