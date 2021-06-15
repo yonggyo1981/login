@@ -171,3 +171,10 @@ module.exports.commentValidator = async (req, res, next) => {
 	
 	next();
 };
+
+
+/** 댓글 수정, 삭제 권한 체크 */
+module.exports.commentPermissionCheck = (req, res, next) => {
+	
+	next();
+};

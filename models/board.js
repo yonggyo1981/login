@@ -546,8 +546,27 @@ const board = {
 			logger(err.stack, 'error');
 			return {};
 		}
-	}
-	
+	},
+	/**
+	* 댓글 삭제 
+	*
+	* @param Integer idx 댓글 등록번호
+	* @return Boolean 
+	*/
+	deleteComment : async function(idx) {
+		try {
+			const sql = 'DELETE FROM boardcomment WHERE idx = ?';
+			await sequelize.query(sql, {
+				replacements : [idx],
+				type : QueryTypes.DELETE,
+			});
+			
+			return true;
+		} catch(err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
 };
 
 module.exports = board;
