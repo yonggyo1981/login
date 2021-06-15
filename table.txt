@@ -67,7 +67,7 @@ AUTO_INCREMENT=13
 
 
 CREATE TABLE `boardcomment` (
-	`idx` INT(11) NOT NULL COMMENT '댓글번호',
+	`idx` INT(11) NOT NULL AUTO_INCREMENT COMMENT '댓글번호',
 	`idxBoard` INT(11) NULL DEFAULT '0' COMMENT '게시글번호',
 	`memNo` INT(11) NULL DEFAULT '0' COMMENT '회원번호',
 	`poster` VARCHAR(30) NULL DEFAULT NULL COMMENT '작성자명' COLLATE 'utf8_general_ci',
