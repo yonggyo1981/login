@@ -145,7 +145,10 @@ router.get("/view/:idx", async (req, res, next) => {
 		const boardList = await board
 										.addWhere(where)
 										.getList(data.boardId, req.query.page, rowsPerPage, req.query);
-		console.log(boardList);
+		
+		for (key in boardList) {
+			data[key] = boardList[key];
+		}
 	}
 	
 	return res.render("board/view", data);
