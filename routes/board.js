@@ -31,14 +31,15 @@ router.route("/comment")
 		.patch(commentValidator, async (req, res, next) => {
 			const result = await board.data(req.body).updateComment();
 			if (result) { // 댓글 수정 성공 -> 새로고침 
-				return reload(res, "parent");
+				const data = await board.getComment(req.body.idx);				
+				return go("/board/view/" + data.idxBoard, res, "parent");
 			}
 			
 			return alert("댓글 수정 실패하였습니다.", res);
 		});
 
 /** 댓글 수정 양식 */
-router.get("/comment/:idx", async (req, res, next) => {
+router.get("/comment/:idx", commentPermissionCheck, async (req, res, next) => {
 	const idx = req.params.idx;
 	const data = await board.getComment(idx);
 	data.addCss = ["board"];
@@ -79,11 +80,46 @@ router.route("/comment/password/:idx")
 				addCss : ['board'],
 				isComment : true,
 			};
-			return res.render("board/password");
+			return res.render("board/password", data);
 		})
 		/** 비밀번호 체크 처리 */
-		.post((req, res, next) => {
-			
+		.post(async (req, res, next) => {
+			try {
+				const idx =req.params.idx;
+				const password = req.body.password;
+				if (!idx) {
+					throw new Error('잘못된 접근입니다.');
+				}
+				
+				if (!password) {
+					throw new Error('비밀번호를 입력하세요.');
+				}
+				
+				const data = await board.getComment(idx);
+				if (!data.idx) {
+					throw new Error('존재하지 않는 게시글 입니다.');
+				}
+				
+				const match = await bcrypt.compare(password, data.password);
+				if (match) { // 비회원 비밀번호 일치 
+					const key = `comment_${idx}`;
+					const keyUrl = key + "_url";
+					req.session[key] = true;
+					if (req.session[keyUrl] && req.session[keyUrl].indexOf('delete') != -1) { // 삭제  -> 댓글 삭제  -> 게시글 보기 페이지 이동
+						await board.deleteComment(idx);
+					} else {
+						const url = `/board/view/${data.idxBoard}?idx_comment=${idx}`;
+						return go(url, res, "parent");
+					}
+				} else { // 비회원 비밀번호 불일치 
+					return alert("비밀번호가 일치하지 않습니다.", res);
+				}
+				
+				return go("/board/view/" + data.idxBoard, res, "parent");
+				
+			} catch (err) {
+				return alert(err.message, res);
+			}
 		});
 
 
@@ -188,6 +224,8 @@ router.get("/view/:idx", async (req, res, next) => {
 		if (!data.idx) {
 			throw new Error('존재하지 않는 게시글입니다.');
 		}
+		
+		data.idx_comment = req.query.idx_comment;
 		
 	} catch (err) {
 		return alert(err.message, res, -1);
@@ -294,7 +332,7 @@ router.route("/password/:idx")
 						if (req.session[keyUrl].indexOf("delete") != -1) { // 게시글 삭제인 경우 바로 삭제 -> 목록 이동 
 							await board.delete(idx);
 						} else {
-							return go(req.session[keyUrl], res, "parent");
+							return go(req.session[keyUrl], res);
 						}
 					}
 					

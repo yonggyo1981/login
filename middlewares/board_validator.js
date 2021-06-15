@@ -1,4 +1,4 @@
-const { alert } = require("../lib/common");
+const { alert, go } = require("../lib/common");
 const logger = require('../lib/logger');
 const board = require('../models/board');
 /**
@@ -211,12 +211,13 @@ module.exports.commentPermissionCheck = async (req, res, next) => {
 			const keyUrl = key + "_url";
 			if (!req.session[key]) {
 				req.session[keyUrl] = req.url;
-				return res.redirect("/board/comment/password/" + idx);
+				return go("/board/comment/password/" + idx, res, "parent");
 			}
 		}
 	} catch (err) {
 		logger(err.stack, 'error');
 		return alert(err.message, res, -1);
 	}
-	//next();
+	
+	next();
 };

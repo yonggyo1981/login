@@ -33,3 +33,14 @@
 	{% endif %}
 </div>
 <!--// comment_box -->
+
+{% if idx_comment %}
+<script> 
+$(function() {
+	setTimeout(function() {
+	const url = "/board/comment/{{ idx_comment }}";
+	layer.popup(url, 450, 450);
+	}, 1000);
+});
+</script>
+{% endif %}
