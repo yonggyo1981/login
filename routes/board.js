@@ -4,7 +4,7 @@
 */
 const board = require('../models/board');
 const { boardConfig } = require('../middlewares/board_config');
-const { writeValidator, permissionCheck, guestOnly } = require('../middlewares/board_validator');
+const { writeValidator, permissionCheck, guestOnly, commentValidator } = require('../middlewares/board_validator');
 const { alert, go } = require('../lib/common');
 const express = require('express');
 const bcrypt = require('bcrypt');
@@ -14,12 +14,17 @@ const router = express.Router();
 /** 댓글  */
 router.route("/comment")
 		/** 댓글 작성 처리 */
-		.post(async (req, res, next) => {
+		.post(commentValidator, async (req, res, next) => {
 			const result = await board
 											.data(req.body, req.session)
 											.writeComment();
 			
-			return res.send("");
+			if (result) { // 댓글 작성 성공 
+				const url = `/board/view/${req.body.idxBoard}`;
+			}
+			
+			// 댓글 작성 실패
+			return alert("댓글 작성 실패하였습니다.", res);
 		})
 		/** 댓글 수정 */
 		.patch((req, res, next) => {

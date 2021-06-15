@@ -416,7 +416,7 @@ const board = {
 	/**
 	* 댓글 작성 
 	*
-	* @return Boolean
+	* @return Integer|Boolean 작성 성공시 -> 등록번호(idx), 실패시에는 false
 	*/
 	writeComment : async function() {
 		try {
@@ -437,12 +437,12 @@ const board = {
 				comment : this.params.comment,
 			};
 			
-			await sequelize.query(sql, {
+			const result = await sequelize.query(sql, {
 				replacements,
 				type : QueryTypes.INSERT,
 			});
 			
-			return true;
+			return result[0];
 		} catch (err) {
 			logger(err.stack, 'error');
 			return false;
