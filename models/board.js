@@ -485,7 +485,8 @@ const board = {
 	*/
 	getComment : async function(idx) {
 		try {
-			const sql = `SELECT a.*, b.memNm, b.memId FROM boardcomment AS a 
+			const sql = `SELECT a.*, b.memNm, b.memId, c.boardId FROM boardcomment AS a 
+									INNER JOIN boarddata as c ON a.idxBoard = c.idx 
 									LEFT JOIN member AS b ON a.memNo = b.memNo 
 								WHERE a.idx = ?`;
 			const rows = await sequelize.query(sql, {
@@ -494,7 +495,10 @@ const board = {
 			});
 			
 			const data = rows[0] || {};
-			
+			if (data.idx) {
+				data.config = await this.getBoard(data.boardId);
+			}
+			console.log(data);
 			return data;
 		} catch(err) {
 			logger(err.stack, 'error');

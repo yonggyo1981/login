@@ -36,8 +36,8 @@ router.route("/comment")
 router.get("/comment/:idx", async (req, res, next) => {
 	const idx = req.params.idx;
 	const data = await board.getComment(idx);
-	
-	return res.render("board/comment_form");
+	data.addCss = ["board"];
+	return res.render("board/comment_form", data);
 });
 
 /** 댓글 삭제 처리 */
