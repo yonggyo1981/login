@@ -33,3 +33,7 @@
 
 .board_default.list { position: relative; }
 .board_default .write_btn { position: absolute; right: 0; top: -35px; }
+
+
+/** default/_comment.html */
+.board_default .comment_box {}
