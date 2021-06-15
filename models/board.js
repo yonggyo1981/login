@@ -413,6 +413,42 @@ const board = {
 
 		return result;
 	},
+	/**
+	* 댓글 작성 
+	*
+	* @return Boolean
+	*/
+	writeComment : async function() {
+		try {
+			const memNo = this.session.memNo || 0;
+			let hash = "";
+			if (!memNo && this.params.password) {
+				hash = await bcrypt.hash(this.params.password, 10);
+			}
+			
+			const sql = `INSERT INTO boardcomment (idxBoard, memNo, poster, password, comment)
+									VALUES (:idxBoard, :memNo, :poster, :password, :comment)`;
+			
+			const replacements = {
+				idxBoard : this.params.idxBoard,
+				memNo,
+				poster : this.params.poster,
+				password : hash,
+				comment : this.params.comment,
+			};
+			
+			await sequelize.query(sql, {
+				replacements,
+				type : QueryTypes.INSERT,
+			});
+			
+			return true;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
+	
 };
 
 module.exports = board;

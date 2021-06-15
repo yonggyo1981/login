@@ -14,8 +14,11 @@ const router = express.Router();
 /** 댓글  */
 router.route("/comment")
 		/** 댓글 작성 처리 */
-		.post((req, res, next) => {
-			console.log(req.body);
+		.post(async (req, res, next) => {
+			const result = await board
+											.data(req.body, req.session)
+											.writeComment();
+			
 			return res.send("");
 		})
 		/** 댓글 수정 */
