@@ -33,7 +33,10 @@ router.route("/comment")
 		});
 
 /** 댓글 수정 양식 */
-router.get("/comment/:idx", (req, res, next) => {
+router.get("/comment/:idx", async (req, res, next) => {
+	const idx = req.params.idx;
+	const data = await board.getComment(idx);
+	
 	return res.render("board/comment_form");
 });
 
