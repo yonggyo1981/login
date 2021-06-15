@@ -115,10 +115,11 @@ module.exports.guestOnly = async (req, res, next) => {
 	try {
 		const idx = req.params.idx || req.query.idx || req.body.idx;
 		
+		let data;
 		if (req.url.indexOf("comment") == -1) { // 게시글 
-			const data = await board.get(idx);
+			data = await board.get(idx);
 		} else { // 댓글 
-			const data = await board.getComment(idx);
+			data = await board.getComment(idx);
 		}
 		
 		if (!data.idx) {

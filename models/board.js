@@ -540,7 +540,7 @@ const board = {
 			if (data.idx) {
 				data.config = await this.getBoard(data.boardId);
 			}
-			console.log(data);
+
 			return data;
 		} catch(err) {
 			logger(err.stack, 'error');

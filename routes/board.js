@@ -71,10 +71,20 @@ router.get("/comment/delete/:idx", commentPermissionCheck, async (req, res, next
 * 댓글 비밀번호 체크
 *
 */
-router.route("/comment/password/:idx", guestOnly, async (req, res, next) => {
-	
-	return res.render("board/password");
-});
+router.route("/comment/password/:idx")
+		/** 비밀번호 양식 */
+		.get(guestOnly, async (req, res, next) => {
+			const data = {
+				idx : req.params.idx,
+				addCss : ['board'],
+				isComment : true,
+			};
+			return res.render("board/password");
+		})
+		/** 비밀번호 체크 처리 */
+		.post((req, res, next) => {
+			
+		});
 
 
 /** 게시글 작성(양식, DB 처리), 수정, 삭제  - /board */
