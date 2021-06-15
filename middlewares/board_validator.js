@@ -132,7 +132,7 @@ module.exports.commentValidator = async (req, res, next) => {
 	if (req.method == 'PATCH') { // 댓글 수정 
 		delete required.idxBoard;
 		required.idx = "잘못된 접근입니다.";
-		const comment = await getComment(req.body.idx);
+		const comment = await board.getComment(req.body.idx);
 		if (comment && !comment.memNo) { // 비회원 댓글 수정 인 경우 비밀번호 확인 필요
 			isPasswordRequired = true;
 		}
