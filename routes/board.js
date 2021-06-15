@@ -28,8 +28,10 @@ router.route("/comment")
 			return alert("댓글 작성 실패하였습니다.", res);
 		})
 		/** 댓글 수정 */
-		.patch((req, res, next) => {
+		.patch(async (req, res, next) => {
+			const result = await board.data(req.body).updateComment();
 			
+			return res.send("");
 		});
 
 /** 댓글 수정 양식 */

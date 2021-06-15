@@ -450,6 +450,48 @@ const board = {
 		}
 	},
 	/**
+	* 댓글 수정 
+	*
+	* @return Boolean
+	*/
+	updateComment : async function() {
+		try {
+			const data = await this.getComment(this.params.idx);
+			if (!data.idx) {
+				throw new Error('댓글이 존재하지 않습니다.');
+			}
+			
+			let hash = "";
+			if (!data.memNo && this.params.password) {
+				hash = await bcrypt.hash(this.params.password, 10);
+			}
+			
+			const sql = `UPDATE boardcomment
+									SET 
+										poster = :poster,
+										password = :password,
+										comment = :comment
+								WHERE 
+										idx = :idx`;
+			
+			const replacements = {
+				poster : this.params.poster,
+				password : hash,
+				comment : this.params.comment,
+				idx : this.params.idx,
+			};
+			await sequelize.query(sql, {
+				replacements, 
+				type : QueryTypes.UPDATE,
+			});
+			
+			return true;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
+	/**
 	* 게시글별 댓글 목록 
 	*
 	* @param Integer idxBoard 게시글 번호 
