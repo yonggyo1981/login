@@ -476,7 +476,32 @@ const board = {
 			logger(err.stack, 'error');
 			return [];
 		}
+	},
+	/**
+	* 댓글 조회 
+	* 
+	* @param Integer idx 댓글 등록번호
+	* @return Object
+	*/
+	getComment : async function(idx) {
+		try {
+			const sql = `SELECT a.*, b.memNm, b.memId FROM boardcomment AS a 
+									LEFT JOIN member AS b ON a.memNo = b.memNo 
+								WHERE a.idx = ?`;
+			const rows = await sequelize.query(sql, {
+				replacements : [idx],
+				type : QueryTypes.SELECT,
+			});
+			
+			const data = rows[0] || {};
+			
+			return data;
+		} catch(err) {
+			logger(err.stack, 'error');
+			return {};
+		}
 	}
+	
 };
 
 module.exports = board;
