@@ -4,7 +4,7 @@
 */
 const board = require('../models/board');
 const { boardConfig } = require('../middlewares/board_config');
-const { writeValidator, permissionCheck, guestOnly, commentValidator } = require('../middlewares/board_validator');
+const { writeValidator, permissionCheck, guestOnly, commentValidator, commentPermissionCheck } = require('../middlewares/board_validator');
 const { alert, go, reload } = require('../lib/common');
 const express = require('express');
 const bcrypt = require('bcrypt');
@@ -46,7 +46,7 @@ router.get("/comment/:idx", async (req, res, next) => {
 });
 
 /** 댓글 삭제 처리 */
-router.get("/comment/delete/:idx", async (req, res, next) => {
+router.get("/comment/delete/:idx", commentPermissionCheck, async (req, res, next) => {
 	try {
 		const idx = req.params.idx;
 		const data = await board.getComment(idx);
@@ -66,6 +66,15 @@ router.get("/comment/delete/:idx", async (req, res, next) => {
 		return alert(err.message, res, -1);
 	}
 });	
+
+/**
+* 댓글 비밀번호 체크
+*
+*/
+router.route("/comment/password/:idx", guestOnly, async (req, res, next) => {
+	
+	return res.render("board/password");
+});
 
 
 /** 게시글 작성(양식, DB 처리), 수정, 삭제  - /board */
@@ -258,6 +267,9 @@ router.route("/password/:idx")
 					throw new Error('비밀번호를 입력하세요.');
 				}
 				
+				// 댓글이면 
+				
+			
 				const data = await board.get(idx);
 				if (!data.idx) {
 					throw new Error('존재하지 않는 게시글 입니다.');
