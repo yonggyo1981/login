@@ -18,6 +18,11 @@
 </div>
 <!--// board_default -->
 
+{% if config.useComment %} 
+{% include config.skinPath.comment %}
+{% endif %}
+
+
 {% if list.length > 0 %}
 <div class='post_list_bottom'>
 {% include config.skinPath.list %}

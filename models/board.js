@@ -98,6 +98,7 @@ const board = {
 					list : skinPath + "/_list.html",
 					form : skinPath + "/_form.html",
 					view : skinPath + "/_view.html",
+					comment : skinPath + "/_comment.html",
 				};
 			}
 			
