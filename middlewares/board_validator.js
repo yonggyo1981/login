@@ -216,7 +216,7 @@ module.exports.commentPermissionCheck = async (req, res, next) => {
 		}
 	} catch (err) {
 		logger(err.stack, 'error');
-		return alert(err.message, res, -1);
+		return alert(err.message, res);
 	}
 	
 	next();

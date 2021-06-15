@@ -262,7 +262,7 @@ router.get("/view/:idx", async (req, res, next) => {
 	
 	/** 댓글 사용하는 경우 작성된 댓글 목록 조회 S */
 	if (data.config.useComment) {
-		data.comments = await board.getComments(idx);
+		data.comments = await board.getComments(idx, req);
 	}
 	/** 댓글 사용하는 경우 작성된 댓글 목록 조회 E */
 	

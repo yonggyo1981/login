@@ -497,7 +497,7 @@ const board = {
 	* @param Integer idxBoard 게시글 번호 
 	* @return Array
 	*/
-	getComments : async function(idxBoard) {
+	getComments : async function(idxBoard, req) {
 		try {
 			const sql = `SELECT a.*, b.memNm, b.memId FROM boardcomment AS a 
 									LEFT JOIN member AS b ON a.memNo = b.memNo 
@@ -511,6 +511,11 @@ const board = {
 			rows.forEach((v, i, _rows) => {
 				_rows[i].regDt = parseDate(v.regDt).datetime;
 				_rows[i].commentHtml = v.comment.replace(/\r\n/g, "<br>");
+				
+				_rows[i].isWriable = _rows[i].isDeletable = true;
+				if (req.isLogin && req.session.memNo != v.memNo) {
+					_rows[i].isWriable = _rows[i].isDeletable  = false;
+				}
 			});
 			
 			return rows;
@@ -540,7 +545,7 @@ const board = {
 			if (data.idx) {
 				data.config = await this.getBoard(data.boardId);
 			}
-
+					
 			return data;
 		} catch(err) {
 			logger(err.stack, 'error');
