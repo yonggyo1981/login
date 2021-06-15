@@ -448,7 +448,34 @@ const board = {
 			return false;
 		}
 	},
-	
+	/**
+	* 게시글별 댓글 목록 
+	*
+	* @param Integer idxBoard 게시글 번호 
+	* @return Array
+	*/
+	getComments : async function(idxBoard) {
+		try {
+			const sql = `SELECT a.*, b.memNm, b.memId FROM boardcomment AS a 
+									LEFT JOIN member AS b ON a.memNo = b.memNo 
+								WHERE idxBoard = ?`;
+			
+			const rows = await sequelize.query(sql, {
+				replacements : [idxBoard],
+				type : QueryTypes.SELECT,
+			});
+			
+			rows.forEach((v, i, _rows) => {
+				_rows[i].regDt = parseDate(v.regDt).datetime;
+				_rows[i].commentHtml = v.comment.replace(/\r\n/g, "<br>");
+			});
+			
+			return rows;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return [];
+		}
+	}
 };
 
 module.exports = board;

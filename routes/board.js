@@ -129,8 +129,8 @@ router.get("/list/:id", boardConfig, async (req, res, next) => {
 /** 게시글 보기 */
 router.get("/view/:idx", async (req, res, next) => {
 	let data;
+	const idx = req.params.idx;
 	try {
-		const idx = req.params.idx;
 		if (!idx) {
 			throw new Error('잘못된 접근입니다');
 		}
@@ -175,9 +175,10 @@ router.get("/view/:idx", async (req, res, next) => {
 	
 	/** 댓글 사용하는 경우 작성된 댓글 목록 조회 S */
 	if (data.config.useComment) {
-		const comments = await board.getComments(idx);
+		data.comments = await board.getComments(idx);
 	}
 	/** 댓글 사용하는 경우 작성된 댓글 목록 조회 E */
+	
 	return res.render("board/view", data);
 });
 
