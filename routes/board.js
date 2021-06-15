@@ -30,12 +30,18 @@ router.route("/comment")
 		/** 댓글 수정 */
 		.patch((req, res, next) => {
 			
-		})
-		/** 댓글 삭제 */
-		.delete((req, res, next) => {
-			
 		});
-		
+
+/** 댓글 수정 양식 */
+router.get("/comment/:idx", (req, res, next) => {
+	return res.render("board/comment_form");
+});
+
+/** 댓글 삭제 처리 */
+router.get("/comment/delete/:idx", (req, res, next) => {
+	
+	return res.send("");
+});	
 
 
 /** 게시글 작성(양식, DB 처리), 수정, 삭제  - /board */
