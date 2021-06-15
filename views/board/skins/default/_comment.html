@@ -23,8 +23,12 @@
 			</div>
 			<div class='comment'>{{ item.commentHtml | safe }}</div>
 			<div class='btns'>
+				{% if item.isWritable %}
 				<span class='btn2 update'>수정</span>
+				{% endif %}
+				{% if item.isDeletable %}
 				<a href='/board/comment/delete/{{ item.idx }}' class='btn2' onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+				{% endif %}
 			</div>
 		</li>
 	{% endfor %}
