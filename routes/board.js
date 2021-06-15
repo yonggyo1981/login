@@ -86,9 +86,10 @@ router.get("/list/:id", boardConfig, async (req, res, next) => {
 	}
 	/** 검색 처리 E */
 	
+	const rowsPerPage = req.boardConfig.rowsPerPage || 20;
 	const data = await board
 								.addWhere(where)
-								.getList(id, req.query.page, 20, req.query);
+								.getList(id, req.query.page, rowsPerPage, req.query);
 								
 	data.config = req.boardConfig;
 	data.addCss = ['board'];
@@ -118,6 +119,34 @@ router.get("/view/:idx", async (req, res, next) => {
 	
 	data.addCss = ["board"];
 	data.addScript = ["board"];
+	
+	// 게시글 보기 하단에 게시글 목록 노출 
+	if (data.config.useViewList) {
+		/**
+		const data = await board
+								.addWhere(where)
+								.getList(id, req.query.page, rowsPerPage, req.query);
+		*/
+		const rowsPerPage = data.config.rowsPerPage || 20;
+		
+		/** 검색 처리 S */
+		const where = {
+			binds : [],
+			params : {},
+		};
+		
+		let category = "";
+		if (data.category) {
+			where.binds.push("a.category = :category");
+			category = where.params.category = data.category;
+		}
+		/** 검색 처리 E */
+		
+		const boardList = await board
+										.addWhere(where)
+										.getList(data.boardId, req.query.page, rowsPerPage, req.query);
+		console.log(boardList);
+	}
 	
 	return res.render("board/view", data);
 });
