@@ -1,5 +1,6 @@
-<div class='comment_box'>
+<div class='board_default comment'>
 	<form method='post' action='/board/comment' target='ifrmHidden' autocomplete='off'>
+		<input type='hidden' name='idxBoard' value='{{ idx }}'>
 		<div class='comment_info'>
 			작성자 : <input type='text' name='poster' value='{% if isLogin %}{{ member.memNm }}{% endif %}'>
 			{% if not isLogin %}

@@ -11,6 +11,24 @@ const bcrypt = require('bcrypt');
 const router = express.Router();
 
 
+/** 댓글  */
+router.route("/comment")
+		/** 댓글 작성 처리 */
+		.post((req, res, next) => {
+			console.log(req.body);
+			return res.send("");
+		})
+		/** 댓글 수정 */
+		.patch((req, res, next) => {
+			
+		})
+		/** 댓글 삭제 */
+		.delete((req, res, next) => {
+			
+		});
+		
+
+
 /** 게시글 작성(양식, DB 처리), 수정, 삭제  - /board */
 router.route('/:id')
 		/** 작성 양식 - id (게시판 아이디) */
