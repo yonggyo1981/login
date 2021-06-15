@@ -7,7 +7,7 @@ const board = require('../models/board');
 */
 
 /** 게시글 작성 - POST, 수정 - PATCH */
-module.exports.writeValidator = (req, res, next) => {
+module.exports.writeValidator = async (req, res, next) => {
 	const required = {
 		id : '잘못된 접근입니다', 
 		subject : '제목을 입력해 주세요.',
@@ -15,13 +15,23 @@ module.exports.writeValidator = (req, res, next) => {
 		contents : '내용을 입력해 주세요.',
 	};
 	
+	let isPasswordRequired = false;
 	// 글 수정시 추가 필수 컬럼
 	if (req.method == "PATCH") {
+		const data = await board.get(req.body.idx);
+		if (data && !data.memNo) { // 비회원 게시글 수정시 
+			isPasswordRequired = true;
+		}
+		
 		required.idx = "잘못된 접근입니다.";
 	}
 	
+	if (req.method == "POST" && !req.isLogin) { // 비회원 게시글 등록 
+		isPasswordRequired = true;
+	}
+	
 	// 비회원은 수정, 삭제 비밀번호가 필수 항목 */
-	if (!req.isLogin) {
+	if (isPasswordRequired) {
 		required.password = '게시글 수정, 삭제 비밀번호를 입력하세요.';
 	}
 	
