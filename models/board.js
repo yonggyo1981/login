@@ -328,7 +328,7 @@ const board = {
 				data.regDt = date.datetime;
 				
 				data.isWritable = data.isDeletable = true;
-				if (req.isLogin && req.session.memNo != data.memNo) {
+				if (req && req.isLogin && req.session.memNo != data.memNo) {
 					data.isWritable = data.isDeletable = false;
 				}
 			}
@@ -518,7 +518,7 @@ const board = {
 				_rows[i].commentHtml = v.comment.replace(/\r\n/g, "<br>");
 				
 				_rows[i].isWriable = _rows[i].isDeletable = true;
-				if (req.isLogin && req.session.memNo != v.memNo) {
+				if (req && req.isLogin && req.session.memNo != v.memNo) {
 					_rows[i].isWriable = _rows[i].isDeletable  = false;
 				}
 			});
