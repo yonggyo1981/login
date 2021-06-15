@@ -15,12 +15,13 @@ const router = express.Router();
 router.route("/comment")
 		/** 댓글 작성 처리 */
 		.post(commentValidator, async (req, res, next) => {
-			const result = await board
+			const idx = await board
 											.data(req.body, req.session)
 											.writeComment();
 			
-			if (result) { // 댓글 작성 성공 
-				const url = `/board/view/${req.body.idxBoard}`;
+			if (idx) { // 댓글 작성 성공 
+				const url = `/board/view/${req.body.idxBoard}/#comment_${idx}`;
+				return go(url, res, "parent");
 			}
 			
 			// 댓글 작성 실패
@@ -148,11 +149,6 @@ router.get("/view/:idx", async (req, res, next) => {
 	
 	// 게시글 보기 하단에 게시글 목록 노출 
 	if (data.config.useViewList) {
-		/**
-		const data = await board
-								.addWhere(where)
-								.getList(id, req.query.page, rowsPerPage, req.query);
-		*/
 		const rowsPerPage = data.config.rowsPerPage || 20;
 		
 		/** 검색 처리 S */
@@ -177,6 +173,11 @@ router.get("/view/:idx", async (req, res, next) => {
 		}
 	}
 	
+	/** 댓글 사용하는 경우 작성된 댓글 목록 조회 S */
+	if (data.config.useComment) {
+		const comments = await board.getComments(idx);
+	}
+	/** 댓글 사용하는 경우 작성된 댓글 목록 조회 E */
 	return res.render("board/view", data);
 });
 
