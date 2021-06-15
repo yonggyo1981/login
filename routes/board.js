@@ -220,7 +220,7 @@ router.get("/view/:idx", async (req, res, next) => {
 			throw new Error('잘못된 접근입니다');
 		}
 		
-		data = await board.get(idx);
+		data = await board.get(idx, req);
 		if (!data.idx) {
 			throw new Error('존재하지 않는 게시글입니다.');
 		}

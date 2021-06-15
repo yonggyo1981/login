@@ -307,7 +307,7 @@ const board = {
 	* @param Integer idx 게시글 번호 
 	* @return Object
 	*/
-	get : async function(idx) {
+	get : async function(idx, req) {
 		try {
 			const sql = `SELECT a.*, b.memId, b.memNm FROM boarddata AS a 
 										LEFT JOIN member AS b ON a.memNo = b.memNo 
@@ -326,6 +326,11 @@ const board = {
 				data.config = await this.getBoard(data.boardId);
 				const date = parseDate(data.regDt);
 				data.regDt = date.datetime;
+				
+				data.isWritable = data.isDeletable = true;
+				if (req.isLogin && req.session.memNo != data.memNo) {
+					data.isWritable = data.isDeletable = false;
+				}
 			}
 			
 			return data;
