@@ -333,7 +333,7 @@ router.route("/password/:idx")
 						if (req.session[keyUrl].indexOf("delete") != -1) { // 게시글 삭제인 경우 바로 삭제 -> 목록 이동 
 							await board.delete(idx);
 						} else {
-							return go(req.session[keyUrl], res);
+							return go(req.session[keyUrl], res, "parent");
 						}
 					}
 					
