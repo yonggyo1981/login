@@ -50,6 +50,7 @@ router.route('/upload/:gid')
 		const data = {
 			gid : req.params.gid,
 			mode : req.query.mode,
+			isAttached : req.query.isAttached?1:0,
 		};
 		return res.render("file/form", data);
 	})

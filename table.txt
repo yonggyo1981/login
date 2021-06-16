@@ -91,6 +91,7 @@ CREATE TABLE `filedata` (
 	`gid` BIGINT(20) NULL DEFAULT NULL COMMENT '그룹번호',
 	`fileName` VARCHAR(100) NULL DEFAULT NULL COMMENT '파일명' COLLATE 'utf8_general_ci',
 	`mimeType` VARCHAR(100) NULL DEFAULT NULL COMMENT '파일 종류' COLLATE 'utf8_general_ci',
+	`isAttached` TINYINT(1) NULL DEFAULT '0' COMMENT '1 - 첨부파일, 0 - 에디터',
 	`isDone` TINYINT(1) NULL DEFAULT '0' COMMENT '1 - 파일 정상 처리, 0 - 정상처리 전',
 	`regDt` DATETIME NULL DEFAULT current_timestamp(),
 	PRIMARY KEY (`idx`) USING BTREE,
