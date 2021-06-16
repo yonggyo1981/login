@@ -98,18 +98,19 @@ $(function() {
 */
 function fileUploadCallback(data) {
 	if (data) {
-		const html = `<span class='file_box' data-idx='${data.idx}' data-url='${data.fileUrl}'>
+		let html = `<span class='file_box' data-idx='${data.idx}' data-url='${data.fileUrl}'>
 							<a href='/file/download/${data.idx}' target='ifrmHidden'>${data.fileName}</a>
-							<i class='remove xi-file-remove'></i>
-							<i class='addContents xi-upload'></i>
-							</span>`;
+							<i class='remove xi-file-remove'></i>`;
 		if (data.mimeType.indexOf('image') != -1 && !data.isAttached) { // 에디터에 이미지 첨부 
 			if ($("#contents").length > 0) {
 				const tag = `<img src='${data.fileUrl}'>`;
 				CKEDITOR.instances.contents.insertHtml(tag);
+				html += `<i class='addContents xi-upload'></i>
+							</span>`;
 				$(".uploaded_images").append(html);
 			}
 		} else {
+			html += `</span>`;
 			$(".uploaded_files").append(html);
 		}
 		

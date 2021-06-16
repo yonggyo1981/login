@@ -96,11 +96,12 @@ router.get("/download/:idx", async (req, res, next) => {
 		if (!info.idx) {
 			throw new Error('파일 정보가 존재하지 않습니다.');
 		}
-
+		
+		info.fileName = encodeURIComponent(info.fileName);
 		return res.set({
 			'Content-Description' : 'File Transfer',
 			'Content-Type' : 'application/octet-stream',
-			'Content-Disposition' : `attachment; filename=${info.fileName}`,
+			'Content-Disposition' : `attachment; filename="${info.fileName}"`,
 			'Expires' : 0,
 			'Cache-Control' : 'must-revalidate',
 			'Pragma' : 'public',

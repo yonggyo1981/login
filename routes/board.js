@@ -227,7 +227,6 @@ router.get("/view/:idx", async (req, res, next) => {
 		}
 		
 		data.idx_comment = req.query.idx_comment;
-		
 	} catch (err) {
 		return alert(err.message, res, -1);
 	}

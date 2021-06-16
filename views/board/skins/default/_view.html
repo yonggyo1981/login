@@ -9,6 +9,12 @@
 	<div class='contents'>
 		{{ contents | safe }}
 	</div>
+	{% if attachedFiles.length > 0 %}
+	<ul class='attached_files'>
+	
+	</ul>
+	{% endif %}
+	
 	<div class='btns'>
 		<a href='/board/{{ id }}' class='btn1'>글 쓰기</a>
 		{% if isWritable %}

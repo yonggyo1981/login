@@ -26,7 +26,7 @@ const fileUpload = {
 					gid : params.gid,
 					fileName : params.originalname, 
 					mimeType : params.mimetype,
-					isAttached : params.isAttached?1:0,
+					isAttached : params.isAttached,
 			};
 			
 			const result = await sequelize.query(sql, {
