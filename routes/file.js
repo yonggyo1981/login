@@ -54,9 +54,12 @@ router.route('/upload/:gid')
 		return res.render("file/form", data);
 	})
 	.post(upload.single('file'), fileTypeCheck, async (req, res, next) => {
+		// 파일 업로드 완료 처리 
+		await fileUpload.finish(req.file.idx);
+		
+		// 파일 업로드 콜백 처리 
 		let fileInfo = await fileUpload.get(req.file.idx);
 		fileInfo = JSON.stringify(fileInfo);
-		return res.send("");
 		const script = `
 			<script>
 			if (typeof parent.fileUploadCallback == 'function') {

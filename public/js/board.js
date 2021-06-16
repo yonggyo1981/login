@@ -60,5 +60,12 @@ $(function() {
 * @params Object data 파일 업로드 후 데이터 
 */
 function fileUploadCallback(data) {
-	console.log(data);
+	if (data) {
+		if (data.mimeType.indexOf('image') != -1 && $("#contents").length > 0) { // 에디터에 이미지 첨부 
+			const tag = `<img src='${data.fileUrl}'>`;
+			CKEDITOR.instances.contents.insertHtml(tag);
+			
+			layer.close();
+		}
+	}
 }

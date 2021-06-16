@@ -78,8 +78,8 @@ const fileUpload = {
 			
 			const data = rows[0] || {};
 			if (data) {
-				data.fileUrl = "/upload/file_" + data.idx;
-				data.filePath = path.join(__dirname, "../public/upload/file_" + data.idx);
+				data.fileUrl = "/upload/" + (data.idx % 10) + "/file_" + data.idx;
+				data.filePath = path.join(__dirname, "../public/upload/" + (data.idx % 10) + "/file_" + data.idx);
 			}
 			
 			return data;
@@ -88,6 +88,27 @@ const fileUpload = {
 			return {};
 		}
 	},
+	/**
+	* 파일 업로드 완료 처리 
+	*
+	* @param Integer idx 파일 등록번호 
+	* @return Boolean 
+	*/
+	finish : async function (idx) {
+		try {
+			const sql = "UPDATE filedata set isDone=1 WHERE idx = ?";
+			await sequelize.query(sql, {
+				replacements : [idx],
+				type : QueryTypes.UPDATE,
+			});
+			
+			return true;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
+	
 };
 
 module.exports = fileUpload;
