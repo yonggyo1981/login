@@ -66,10 +66,15 @@ $(function() {
 			return;
 		}
 		
-		const idx = $(this).closest(".file_box").data("idx");
+		const fileBox = $(this).closest(".file_box");
+		const idx = fileBox.data("idx");
 		axios.get("/file/delete/" + idx)
 			  .then((res) => {
-				  console.log(res);
+				  if (res.data.isSuccess) { // 파일 삭제 성공
+					  fileBox.remove();
+				  } else { // 파일 삭제 실패 
+					  alert("파일 삭제 실패하였습니다.");
+				  }
 			  })
 			  .catch((err) => {
 				 console.error(err); 
