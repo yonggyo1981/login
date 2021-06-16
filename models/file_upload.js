@@ -2,6 +2,7 @@ const fs = require('fs').promises;
 const constants = require('fs').constants;
 const logger = require('../lib/logger');
 const { sequelize, Sequelize : { QueryTypes } } = require('./index');
+const path = require('path');
 
 /**
 * 파일 업로드 
@@ -40,7 +41,27 @@ const fileUpload = {
 			logger(err.stack, 'error');
 			return {};
 		}
-	}
+	},
+	/**
+	* 파일 삭제 
+	*
+	* @param Integer idx 파일 등록 번호
+	* @return Boolean 
+	*/ 
+	delete : async function (idx) {
+		try {
+			const sql = "DELETE FROM filedata WHERE idx = ?";
+			await sequelize.query(sql, {
+				replacements : [idx],
+				type : QueryType.DELETE,
+			});
+			const filePath = path.join(__dirname, "../public/upload/" + (idx % 10) + "/file_" + idx);
+			await fs.unlink(filePath);
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
 };
 
 module.exports = fileUpload;
