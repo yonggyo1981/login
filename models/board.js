@@ -216,6 +216,7 @@ const board = {
 			}
 			
 			const replacements = {
+				gid : this.params.gid,
 				boardId : this.params.id,
 				category : this.params.category,
 				memNo,
@@ -224,7 +225,7 @@ const board = {
 				contents : this.params.contents,
 				password : hash,
 			};		
-
+			console.log(replacements);
 			const result = await sequelize.query(sql, {
 				replacements,
 				type : QueryTypes.INSERT,
