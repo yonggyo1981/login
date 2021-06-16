@@ -62,6 +62,32 @@ const fileUpload = {
 			return false;
 		}
 	},
+	/**
+	* 파일 정보 추출 
+	*
+	* @param Integer idx 
+	* @return Object
+	*/
+	get : async function (idx) {
+		try {
+			const sql = "SELECT * FROM filedata WHERE idx = ?";
+			const rows = await sequelize.query(sql, {
+				replacements : [idx],
+				type : QueryTypes.SELECT,
+			});
+			
+			const data = rows[0] || {};
+			if (data) {
+				data.fileUrl = "/upload/file_" + data.idx;
+				data.filePath = path.join(__dirname, "../public/upload/file_" + data.idx);
+			}
+			
+			return data;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return {};
+		}
+	},
 };
 
 module.exports = fileUpload;
