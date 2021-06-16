@@ -327,12 +327,16 @@ const board = {
 				const date = parseDate(data.regDt);
 				data.regDt = date.datetime;
 				
-				data.isWritable = data.isDeletable = true;
-				if (req && req.isLogin && req.session.memNo != data.memNo) {
-					data.isWritable = data.isDeletable = false;
+				data.isWritable = data.isDeletable = false;
+				if (req && req.isLogin && data.memNo && req.session.memNo == data.memNo) { // 회원 게시글 
+					data.isWritable = data.isDeletable = true;
+				}
+				
+				if (!data.memNo) { // 비회원 게시글 
+					data.isWritable = data.isDeletable = true;
 				}
 			}
-			
+			console.log(data);
 			return data;
 		} catch (err) {
 			logger(err.stack, 'error');
@@ -517,9 +521,13 @@ const board = {
 				_rows[i].regDt = parseDate(v.regDt).datetime;
 				_rows[i].commentHtml = v.comment.replace(/\r\n/g, "<br>");
 				
-				_rows[i].isWriable = _rows[i].isDeletable = true;
-				if (req && req.isLogin && req.session.memNo != v.memNo) {
-					_rows[i].isWriable = _rows[i].isDeletable  = false;
+				_rows[i].isWritable = _rows[i].isDeletable = false;
+				if (req && req.isLogin && v.memNo && req.session.memNo == v.memNo) { // 회원 댓글일때 본인 댓글만 가능
+					_rows[i].isWritable = _rows[i].isDeletable  = true;
+				}
+				
+				if (!v.memNo) { // 비회원은 비밀번호 체크를 하기 위해 버튼 모두 노출
+					_rows[i].isWritable = _rows[i].isDeletable  = true;
 				}
 			});
 			
