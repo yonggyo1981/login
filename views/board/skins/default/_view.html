@@ -13,7 +13,7 @@
 	<ul class='attached_files'>
 		{% for item in attachedFiles %}
 		<li>
-			첨부파일 {{ loop->index }} : 
+			첨부파일 {{ loop.index }} : 
 			<a href='/file/download/{{ item.idx }}' target='ifrmHidden'>{{ item.fileName }}</a>
 		</li>	
 		{% endfor %}

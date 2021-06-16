@@ -415,7 +415,14 @@ const board = {
 			type : QueryTypes.SELECT,
 		});	
 		
-		list.forEach((v, i, _list) => {
+		list.forEach(async (v, i, _list) => {
+			/** new 아이콘 처리 */
+			const registerStamp = new Date(v.regDt).getTime();
+			const stamp = new Date().getTime() - (60 * 60 * 24 * 1000);
+			if (registerStamp > stamp) { // 현재 등록된 게시글이 하루 동안 작성된 경우 -> 새글 
+				_list[i].isNew = true;
+			}
+			
 			_list[i].regDt = parseDate(v.regDt).datetime;
 		});
 		
@@ -427,7 +434,7 @@ const board = {
 			totalResult,
 			limit,
 		};
-
+		
 		return result;
 	},
 	/**
@@ -458,6 +465,9 @@ const board = {
 				replacements,
 				type : QueryTypes.INSERT,
 			});
+			
+			 // 게시글 댓글 갯수 업데이트 
+			await this.updateCommentCount(idxBoard); 
 			
 			return result[0];
 		} catch (err) {
@@ -500,6 +510,9 @@ const board = {
 				replacements, 
 				type : QueryTypes.UPDATE,
 			});
+			
+			 // 게시글 댓글 갯수 업데이트 
+			await this.updateCommentCount(data.idxBoard); 
 			
 			return true;
 		} catch (err) {
@@ -580,11 +593,16 @@ const board = {
 	*/
 	deleteComment : async function(idx) {
 		try {
+			const data = await board.getComment(idx);
+			
 			const sql = 'DELETE FROM boardcomment WHERE idx = ?';
 			await sequelize.query(sql, {
 				replacements : [idx],
 				type : QueryTypes.DELETE,
 			});
+			
+			// 게시글 댓글 갯수 업데이트 
+			await this.updateCommentCount(data.idxBoard); 
 			
 			return true;
 		} catch(err) {
@@ -592,6 +610,51 @@ const board = {
 			return false;
 		}
 	},
+	/**
+	* 댓글 갯수 
+	*
+	* @param Integer idx 게시글 번호 
+	* @return Integer 댓글 갯수 
+	*/
+	getCommentCount : async function(idx) {
+		try {
+			const sql = "SELECT COUNT(*) as cnt FROM boardcomment WHERE idx = ?";
+			const rows = await sequelize.query(sql, {
+					replacements : [idx],
+					type : QueryTypes.SELECT,
+			});
+			return rows[0].cnt;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return 0;
+		}
+	},
+	/**
+	* 게시글에 댓글 갯수를 업데이트 
+	*
+	* @param Integer idxBoard 게시글 번호
+	*/
+	updateCommentCount : async function (idxBoard) {
+		try {
+			const cnt = await this.getCommentCount();
+			const sql = `UPDATE boarddata 
+									SET commentCount = :commentCount 
+								WHERE 
+									idx = :idx`;
+			const replacements = {
+					commentCount : cnt,
+					idx : idxBoard,
+			};
+			
+			await sequelize.query(sql, {
+				replacements,
+				type : QueryTypes.UPDATE,
+			});
+			
+		} catch (err) {
+			logger(err.stack, 'error');
+		}
+	}
 };
 
 module.exports = board;

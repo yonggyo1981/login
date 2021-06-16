@@ -26,6 +26,7 @@
 .board_default.view .contents { border: 1px solid #d5d5d5; padding: 10px; min-height: 300px; }
 
 .board_default .btns { margin: 15px 0; }
+.board_default .attached_files li { border: 1px solid #d5d5d5; padding: 7px 10px; margin-top: 5px; font-size: 12px; background-color: #f8f8f8; }
 
 /** default/_list.html */
 .board_default .post_list > li { border-bottom: 1px solid #d5d5d5;  }

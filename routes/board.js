@@ -19,7 +19,7 @@ router.route("/comment")
 											.data(req.body, req.session)
 											.writeComment();
 			
-			if (idx) { // 댓글 작성 성공 
+			if (idx) { // 댓글 작성 성공 				
 				const url = `/board/view/${req.body.idxBoard}/#comment_${idx}`;
 				return go(url, res, "parent");
 			}
