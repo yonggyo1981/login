@@ -1,4 +1,8 @@
 $(function() {
+	if ($(".body_board_view").length > 0) {
+		initBoardView(); // 게시글 보기 
+	}
+	
 	if ($("#contents").length > 0) { // contents textarea가 존재하는 경우 에디터 로딩 
 		CKEDITOR.replace("contents");
 		CKEDITOR.config.height = 350;
@@ -115,5 +119,22 @@ function fileUploadCallback(data) {
 		}
 		
 		layer.close();
+	}
+}
+
+
+/** 게시판 보기 초기화 */
+function initBoardView() {
+	const qs = {};
+	location.search.replace("?", "")
+						.split("&")
+						.map((v) => {
+							v = v.split("=");
+							qs[v[0]] = v[1];
+						});
+	if (qs.comment_done) {
+		const target = $(".comment_list #comment_" + qs.comment_done);
+		const offset = target.offset();
+		$("html, body").animate({scrollTop : offset.top + "px"}, 300);
 	}
 }

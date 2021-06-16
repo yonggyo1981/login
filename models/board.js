@@ -467,7 +467,7 @@ const board = {
 			});
 			
 			 // 게시글 댓글 갯수 업데이트 
-			await this.updateCommentCount(idxBoard); 
+			await this.updateCommentCount(this.params.idxBoard); 
 			
 			return result[0];
 		} catch (err) {
@@ -618,7 +618,7 @@ const board = {
 	*/
 	getCommentCount : async function(idx) {
 		try {
-			const sql = "SELECT COUNT(*) as cnt FROM boardcomment WHERE idx = ?";
+			const sql = "SELECT COUNT(*) as cnt FROM boardcomment WHERE idxBoard = ?";
 			const rows = await sequelize.query(sql, {
 					replacements : [idx],
 					type : QueryTypes.SELECT,
@@ -636,7 +636,7 @@ const board = {
 	*/
 	updateCommentCount : async function (idxBoard) {
 		try {
-			const cnt = await this.getCommentCount();
+			const cnt = await this.getCommentCount(idxBoard);
 			const sql = `UPDATE boarddata 
 									SET commentCount = :commentCount 
 								WHERE 
@@ -645,7 +645,7 @@ const board = {
 					commentCount : cnt,
 					idx : idxBoard,
 			};
-			
+
 			await sequelize.query(sql, {
 				replacements,
 				type : QueryTypes.UPDATE,

@@ -20,7 +20,7 @@ router.route("/comment")
 											.writeComment();
 			
 			if (idx) { // 댓글 작성 성공 				
-				const url = `/board/view/${req.body.idxBoard}/#comment_${idx}`;
+				const url = `/board/view/${req.body.idxBoard}/?comment_done=${idx}`;
 				return go(url, res, "parent");
 			}
 			
