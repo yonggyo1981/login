@@ -18,6 +18,7 @@ const upload = multer({
 		storage : multer.diskStorage({
 				destination : async (req, file, done) => {
 						file.gid = req.params.gid;
+						file.isAttached = req.body.isAttached;
 						const result = await fileUpload.registerFileInfo(file);
 						file.idx = result.idx;
 						req.fileInfo = result;
@@ -52,6 +53,7 @@ router.route('/upload/:gid')
 			mode : req.query.mode,
 			isAttached : req.query.isAttached?1:0,
 		};
+		console.log(data);
 		return res.render("file/form", data);
 	})
 	.post(upload.single('file'), fileTypeCheck, async (req, res, next) => {

@@ -40,18 +40,26 @@ $(function() {
 		layer.popup(url, 450, 450);
 	});
 	
-	/** 이미지 업로드 */
-	$(".upload_image").click(function() {
-		var obj = $(this).closest("form").find("input[name='gid']");
+	/** 이미지 또는 파일  업로드 */
+	$(".upload_image, .upload_file").click(function() {
+		const obj = $(this).closest("form").find("input[name='gid']");
 		if (obj.length == 0) return;
 		
 		const gid = obj.val();
 		if (gid == '') return;
 		
 		
-		const url = `/file/upload/${gid}?mode=image`;
+		let url = `/file/upload/${gid}`;
+		if ($(this).hasClass("upload_image")) { // 이미지 업로드 
+			url += "?mode=image";
+		} else { // 파일 첨부
+			url += "?isAttached=1";
+		}
+		
 		layer.popup(url, 320, 250);
 	});
+	
+
 	
 	/** 이미지 에디터에 첨부 */
 	$("body").on("click", ".file_box .addContents", function() {
@@ -90,19 +98,21 @@ $(function() {
 */
 function fileUploadCallback(data) {
 	if (data) {
-		if (data.mimeType.indexOf('image') != -1 && $("#contents").length > 0 && !data.isAttached) { // 에디터에 이미지 첨부 
-			const tag = `<img src='${data.fileUrl}'>`;
-			CKEDITOR.instances.contents.insertHtml(tag);
-			
-			const html = `<span class='file_box' data-idx='${data.idx}' data-url='${data.fileUrl}'>
-						<a href='/file/download/${data.idx}' target='ifrmHidden'>${data.fileName}</a>
-						<i class='remove xi-file-remove'></i>
-						<i class='addContents xi-upload'></i>
-						</span>`;
-
-			$(".uploaded_images").append(html);
-			
-			layer.close();
+		const html = `<span class='file_box' data-idx='${data.idx}' data-url='${data.fileUrl}'>
+							<a href='/file/download/${data.idx}' target='ifrmHidden'>${data.fileName}</a>
+							<i class='remove xi-file-remove'></i>
+							<i class='addContents xi-upload'></i>
+							</span>`;
+		if (data.mimeType.indexOf('image') != -1 && !data.isAttached) { // 에디터에 이미지 첨부 
+			if ($("#contents").length > 0) {
+				const tag = `<img src='${data.fileUrl}'>`;
+				CKEDITOR.instances.contents.insertHtml(tag);
+				$(".uploaded_images").append(html);
+			}
+		} else {
+			$(".uploaded_files").append(html);
 		}
+		
+		layer.close();
 	}
 }
