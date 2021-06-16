@@ -34,22 +34,8 @@ const fileUpload = {
 			
 			const idx = result[0];
 			const folder = "public/upload/" + (idx % 10);
-			let folderExists = true;
-			fs.access(folder, constants.F_OK | constants.W_OK | constants.R_OK)
-				.then(() => { // 폴더가 이미 존재
-					
-				})
-				.catch((err) => { // 폴더가 존재하지 않으면 폴더 생성 
-					return fs.mkdir(folder);
-				})
-				.then(() => {
-					logger("폴더 생성 완료 - " + folder);
-				})
-				.catch((err) => {
-					logger("폴더 생성 실패 - " + folder, 'error');
-					folderExists = false;
-				});
-				console.log(folderExists);
+		
+			return { idx, folder };
 		} catch (err) {
 			logger(err.stack, 'error');
 			return {};

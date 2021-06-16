@@ -1,5 +1,8 @@
 <!-- 파일 업로드 -->
 <form method='post' action='/file/upload/{{ gid }}' target='ifrmHidden' enctype='multipart/form-data' autocomplete='off'>
+	{% if mode %}
+	<input type='hidden' name='mode' value='{{ mode }}'>
+	{% endif %}
 	<input type='file' name='file'>
 	<input type='submit'>
 </form>
