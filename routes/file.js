@@ -1,13 +1,14 @@
 const express = require('express');
 const multer = require('multer');
-const fs = require('fs').promises;
+const fileUpload = require('../models/file_upload');
 const router = express.Router();
 
 const upload = multer({
 		storage : multer.diskStorage({
 				destination : async (req, file, done) => {
-					console.log("req", req.body);
-					console.log("file", file);
+					file.gid = req.params.gid;
+					const result = await fileUpload.registerFileInfo(file);
+					
 					done(null, 'public/upload/');
 				},
 				filename : (req, file, done) => {
