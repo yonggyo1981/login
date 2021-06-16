@@ -5,7 +5,7 @@
 const board = require('../models/board');
 const { boardConfig } = require('../middlewares/board_config');
 const { writeValidator, permissionCheck, guestOnly, commentValidator, commentPermissionCheck } = require('../middlewares/board_validator');
-const { alert, go, reload } = require('../lib/common');
+const { alert, go, reload, getUid } = require('../lib/common');
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
@@ -131,6 +131,7 @@ router.route('/:id')
 				config : req.boardConfig,
 				addScript : ['board'],
 				addCss : ['board'],
+				gid : getUid(),
 			};
 			
 			return res.render('board/form', data);
