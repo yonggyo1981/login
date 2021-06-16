@@ -342,6 +342,9 @@ const board = {
 				const fileData = await fileUpload.gets(data.gid); // 그룹 아이디(gid)로 업로드된 파일 정보 조회 
 				data.editorFiles = fileData.editor || [];
 				data.attachedFiles = fileData.attached || [];
+				
+				/** 조회수 처리 */
+				data.viewCountStr = data.viewCount.toLocaleString();
 			}
 
 			return data;
@@ -424,8 +427,11 @@ const board = {
 			}
 			
 			_list[i].regDt = parseDate(v.regDt).datetime;
+			
+			/** 조회수 처리 */
+			_list[i].viewCountStr = v.viewCount.toLocaleString();
 		});
-		
+		console.log(list);
 		const result = {
 			pagination : paginator.render(),
 			list,
@@ -662,12 +668,43 @@ const board = {
 	* @param Object req - request 객체 
 	*/
 	updateViewCount : async function (idx, req) {
+		/** boardview에 UV(Unique view) 추가 */
 		try {
-			const browserId = getBrowserId(req);
+			if (!idx || !req) 
+				return;
 			
-		} catch (err) {
-			logger(err, 'error');
-		}
+			const browserId = getBrowserId(req);
+			const sql = 'INSERT INTO boardview VALUES (?, ?)';
+			await sequelize.query(sql, {
+				replacements : [browserId, idx],
+				type : QueryTypes.INSERT,
+			});
+		} catch (err) {}
+		
+		/** UV 데이터를 계산해서 조회수 업데이트 */
+		try {
+			let sql = "SELECT COUNT(*) as cnt FROM boardview WHERE idx = ?";
+			const rows = await sequelize.query(sql, {
+				replacements : [idx],
+				type : QueryTypes.SELECT,
+			});
+			
+			sql = `UPDATE boarddata 
+								SET 
+									viewCount = :viewCount
+							WHERE 
+								idx = :idx
+					`;
+			const replacements = {
+				viewCount : rows[0].cnt,
+				idx,
+			};
+			
+			await sequelize.query(sql, {
+				replacements,
+				type : QueryTypes.UPDATE,
+			});
+		} catch (err) {}
 	}
 };
 

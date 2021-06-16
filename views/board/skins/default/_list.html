@@ -21,6 +21,9 @@
 				<div class='post_info'>
 					<span class='poster'>{{ item.poster }}{% if item.memNo > 0 %}({{ item.memId }}){% endif %}</span>
 					<span class='date'>{{ item.regDt }}</span>
+					{% if item.viewCount > 0 %}
+					<span class='hit'>조회수 : {{ item.viewCountStr }}</span>
+					{% endif %}
 				</div>
 			</li>
 		{% endfor %}
