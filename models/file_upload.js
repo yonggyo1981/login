@@ -92,6 +92,47 @@ const fileUpload = {
 		}
 	},
 	/**
+	* 업로드된 파일 목록
+	*
+	* @param String gid 그룹 ID 
+	* @return Object
+	*/
+	gets : async function(gid) {
+		try {
+			const sql = 'SELECT * FROM filedata WHERE gid = ? AND isDone=1';
+			const rows = await sequelize.query(sql, {
+				replacements : [gid],
+				type : QueryTypes.SELECT,
+			});
+			
+			const data = {};
+			rows.forEach((v) => {
+				/**
+				* isAttached - 0 -> 에디터 파일 
+				* 				  - 1 -> 첨부파일 
+				*
+				*/
+				
+				v.fileUrl = "/upload/" + (v.idx % 10) + "/file_" + v.idx;
+				v.filePath = path.join(__dirname, "../public/upload/" + (v.idx % 10) + "/file_" + v.idx);
+				
+				if (v.isAttached) { // 첨부 파일 
+					data.attached = data.attached || [];
+					data.attached.push(v);
+				} else { // 에디터 파일 
+					data.editor = data.editor || [];
+					data.editor.push(v);
+				}
+			});
+			
+			return data;
+			
+		} catch(err) {
+			logger(err.stack, 'error');
+			return {};
+		}
+	},
+	/**
 	* 파일 업로드 완료 처리 
 	*
 	* @param Integer idx 파일 등록번호 

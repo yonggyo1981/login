@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const fs = require('fs').promises;
 const path = require('path');
 const pagination = require('pagination');
+const fileUpload = require('./file_upload');
 
 /**
 * 게시판 Model
@@ -336,8 +337,13 @@ const board = {
 				if (!data.memNo) { // 비회원 게시글 
 					data.isWritable = data.isDeletable = true;
 				}
+				
+				/** 업로드된 파일 조회 */
+				const fileData = await fileUpload.gets(data.gid); // 그룹 아이디(gid)로 업로드된 파일 정보 조회 
+				data.editorFiles = fileData.editor || [];
+				data.attachedFiles = fileData.attached || [];
 			}
-			console.log(data);
+
 			return data;
 		} catch (err) {
 			logger(err.stack, 'error');

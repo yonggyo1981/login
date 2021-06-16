@@ -94,17 +94,16 @@ router.get("/download/:idx", async (req, res, next) => {
 		if (!info.idx) {
 			throw new Error('파일 정보가 존재하지 않습니다.');
 		}
-		/**
-		header('Content-Description: File Transfer');
-	header('Content-Type: application/octet-stream');
-	header('Content-Disposition: attachment; filename="'.basename($path).'"');
-	header('Expires: 0');
-	header('Cache-Control: must-revalidate');
-	header('Pragma: public');
 
-		*/
-		res.set('Content-Description', 'File Transfer');
-		//return res.sendFile(info.filePath);
+		return res.set({
+			'Content-Description' : 'File Transfer',
+			'Content-Type' : 'application/octet-stream',
+			'Content-Disposition' : `attachment; filename=${info.fileName}`,
+			'Expires' : 0,
+			'Cache-Control' : 'must-revalidate',
+			'Pragma' : 'public',
+		}).sendFile(info.filePath);
+
 	} catch (err) {
 		return alert(err.message, res);
 	}

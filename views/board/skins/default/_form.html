@@ -38,7 +38,17 @@
 		<dt>이미지</dt>
 		<dd>
 			<span class='btn2 upload_image'>이미지 추가</span>
-			<span class='uploaded_images'></span>
+			<span class='uploaded_images'>
+			{% if editorFiles.length > 0 %}
+			{% for item in editorFiles %}
+				<span class='file_box' data-idx='{{ item.idx }}' data-url='{{ item.fileUrl }}'>
+					<a href='/file/download/{{ item.idx }}' target='ifrmHidden'>{{ item.fileName }}</a>
+					<i class='remove xi-file-remove'></i>
+					<i class='addContents xi-upload'></i>
+				</span>
+			{% endfor %}
+			{% endif %}
+			</span>
 		</dd>
 	</dl>
 	{% endif %}
