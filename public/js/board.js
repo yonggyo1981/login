@@ -39,4 +39,17 @@ $(function() {
 		const url = "/board/comment/" + idx;
 		layer.popup(url, 450, 450);
 	});
+	
+	/** 이미지 업로드 */
+	$(".upload_image").click(function() {
+		var obj = $(this).closest("form").find("input[name='gid']");
+		if (obj.length == 0) return;
+		
+		const gid = obj.val();
+		if (gid == '') return;
+		
+		
+		const url = `/file/upload/${gid}?mode=image`;
+		layer.popup(url, 320, 250);
+	});
 });

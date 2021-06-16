@@ -205,8 +205,8 @@ const board = {
 	*/
 	write : async function() {
 		try {
-			const sql = `INSERT INTO boarddata (boardId, category, memNo, poster, subject, contents, password) 
-										VALUES (:boardId, :category, :memNo, :poster, :subject, :contents, :password)`;
+			const sql = `INSERT INTO boarddata (gid, boardId, category, memNo, poster, subject, contents, password) 
+										VALUES (:gid, :boardId, :category, :memNo, :poster, :subject, :contents, :password)`;
 			
 			
 			const memNo = this.session.memNo || 0;
