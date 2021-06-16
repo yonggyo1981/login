@@ -19,7 +19,8 @@ const upload = multer({
 				destination : async (req, file, done) => {
 						file.gid = req.params.gid;
 						const result = await fileUpload.registerFileInfo(file);
-						req.idx_file = file.idx = result.idx;
+						file.idx = result.idx;
+						req.fileInfo = result;
 						fs.access(result.folder, constants.F_OK | constants.W_OK | constants.R_OK)
 							.then(() => {
 								// 폴더 있음 
@@ -48,13 +49,20 @@ router.route('/upload/:gid')
 	.get((req, res, next) => {
 		const data = {
 			gid : req.params.gid,
-			mode : req.body.mode,
+			mode : req.query.mode,
 		};
 		return res.render("file/form", data);
 	})
 	.post(upload.single('file'), fileTypeCheck, (req, res, next) => {
-		
-		return res.send("");
+		const script = `
+			<script>
+			if (typeof parent.fileUploadCallback == 'function') {
+				parent.fileUploadCallback(req.fileInfo);
+			} else {
+				alert('파일 업로드 성공');
+			}				
+			</script>`;
+		return res.send(scsript);
 	});
 
 module.exports = router;

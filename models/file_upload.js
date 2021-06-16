@@ -53,7 +53,7 @@ const fileUpload = {
 			const sql = "DELETE FROM filedata WHERE idx = ?";
 			await sequelize.query(sql, {
 				replacements : [idx],
-				type : QueryType.DELETE,
+				type : QueryTypes.DELETE,
 			});
 			const filePath = path.join(__dirname, "../public/upload/" + (idx % 10) + "/file_" + idx);
 			await fs.unlink(filePath);
