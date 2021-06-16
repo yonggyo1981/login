@@ -72,4 +72,15 @@ router.route('/upload/:gid')
 		return res.send(script);
 	});
 
+/**
+* 파일 삭제 
+*
+*/
+router.get("/delete/:idx", async (req, res, next) => {
+	const idx = req.params.idx;
+	const result = await fileUpload.delete(idx);
+	
+	return res.json({isSuccess : result});
+});
+
 module.exports = router;

@@ -52,6 +52,30 @@ $(function() {
 		const url = `/file/upload/${gid}?mode=image`;
 		layer.popup(url, 320, 250);
 	});
+	
+	/** 이미지 에디터에 첨부 */
+	$("body").on("click", ".file_box .addContents", function() {
+		const fileUrl = $(this).closest(".file_box").data("url");
+		const tag = `<img src='${fileUrl}'>`;
+		CKEDITOR.instances.contents.insertHtml(tag);
+	});
+	
+	/** 파일 삭제 */
+	$("body").on("click", ".file_box .remove", function() {
+		if (!confirm('정말 삭제하시겠습니까?')) {
+			return;
+		}
+		
+		const idx = $(this).closest(".file_box").data("idx");
+		axios.get("/file/delete/" + idx)
+			  .then((res) => {
+				  console.log(res);
+			  })
+			  .catch((err) => {
+				 console.error(err); 
+			  });
+	});
+	
 });
 
 /**
@@ -61,9 +85,17 @@ $(function() {
 */
 function fileUploadCallback(data) {
 	if (data) {
-		if (data.mimeType.indexOf('image') != -1 && $("#contents").length > 0) { // 에디터에 이미지 첨부 
+		if (data.mimeType.indexOf('image') != -1 && $("#contents").length > 0 && !data.isAttached) { // 에디터에 이미지 첨부 
 			const tag = `<img src='${data.fileUrl}'>`;
 			CKEDITOR.instances.contents.insertHtml(tag);
+			
+			const html = `<span class='file_box' data-idx='${data.idx}' data-url='${data.fileUrl}'>
+						<a href='/file/download/${data.idx}' target='ifrmHidden'>${data.fileName}</a>
+						<i class='remove xi-file-remove'></i>
+						<i class='addContents xi-upload'></i>
+						</span>`;
+
+			$(".uploaded_images").append(html);
 			
 			layer.close();
 		}

@@ -58,6 +58,8 @@ const fileUpload = {
 			});
 			const filePath = path.join(__dirname, "../public/upload/" + (idx % 10) + "/file_" + idx);
 			await fs.unlink(filePath);
+			
+			return true;
 		} catch (err) {
 			logger(err.stack, 'error');
 			return false;
