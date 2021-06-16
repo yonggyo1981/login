@@ -105,3 +105,13 @@ CREATE TABLE `filedata` (
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
+
+
+CREATE TABLE `boardview` (
+	`browserId` VARCHAR(40) NOT NULL COMMENT '브라우저 ID' COLLATE 'utf8_general_ci',
+	`idx` INT(11) NOT NULL COMMENT '게시글 번호',
+	PRIMARY KEY (`browserId`, `idx`) USING BTREE
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;

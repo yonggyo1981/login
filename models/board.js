@@ -1,5 +1,5 @@
 const { sequelize, Sequelize : { QueryTypes } } = require("./index");
-const { parseDate } = require('../lib/common'); // 날짜 분해 
+const { parseDate, getBrowserId } = require('../lib/common'); // 날짜 분해 
 const logger = require("../lib/logger");
 const bcrypt = require('bcrypt');
 const fs = require('fs').promises;
@@ -653,6 +653,20 @@ const board = {
 			
 		} catch (err) {
 			logger(err.stack, 'error');
+		}
+	},
+	/**
+	* 게시글 조회수 업데이트 
+	*
+	* @param Integer idx 게시글 번호
+	* @param Object req - request 객체 
+	*/
+	updateViewCount : async function (idx, req) {
+		try {
+			const browserId = getBrowserId(req);
+			
+		} catch (err) {
+			logger(err, 'error');
 		}
 	}
 };

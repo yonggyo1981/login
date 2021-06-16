@@ -5,7 +5,7 @@
 const board = require('../models/board');
 const { boardConfig } = require('../middlewares/board_config');
 const { writeValidator, permissionCheck, guestOnly, commentValidator, commentPermissionCheck } = require('../middlewares/board_validator');
-const { alert, go, reload, getUid } = require('../lib/common');
+const { alert, go, reload, getUid, getBrowserId } = require('../lib/common');
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
@@ -214,8 +214,10 @@ router.get("/list/:id", boardConfig, async (req, res, next) => {
 
 /** 게시글 보기 */
 router.get("/view/:idx", async (req, res, next) => {
+	
 	let data;
 	const idx = req.params.idx;
+		
 	try {
 		if (!idx) {
 			throw new Error('잘못된 접근입니다');
@@ -265,6 +267,9 @@ router.get("/view/:idx", async (req, res, next) => {
 		data.comments = await board.getComments(idx, req);
 	}
 	/** 댓글 사용하는 경우 작성된 댓글 목록 조회 E */
+	
+	/** 게시글 조회수 업데이트 */
+	await board.updateViewCount(idx, req);
 	
 	return res.render("board/view", data);
 });
