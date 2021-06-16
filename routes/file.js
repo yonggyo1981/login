@@ -5,10 +5,12 @@ const router = express.Router();
 
 const upload = multer({
 		storage : multer.diskStorage({
-				destination : (req, file, done) => {
+				destination : async (req, file, done) => {
+					console.log("req", req.body);
+					console.log("file", file);
 					done(null, 'public/upload/');
 				},
-				filename(req, file, done) => {
+				filename : (req, file, done) => {
 					/* 
 					* filedata에 추가된 idx 번호가 파일명
 					* 폴더는 생성된 idx번호 뒷자리
@@ -20,10 +22,12 @@ const upload = multer({
 });
 
 
-router.route('/upload/:gid', 
+router.route('/upload/:gid')
 	.get((req, res, next) => {
-		
-		return res.render("file/form");
+		const data = {
+			gid : req.params.gid,
+		};
+		return res.render("file/form", data);
 	})
 	.post(upload.single('file'), (req, res, next) => {
 		
