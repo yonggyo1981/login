@@ -3,6 +3,10 @@
 .no_post { text-align: center; padding: 100px 0; font-size: 16px; font-weight: bold; }
 .post_list_bottom { margin: 50px 0; }
 
+.file_box { border: 1px solid #d5d5d5; padding: 7px 15px; border-radius: 5px; }
+.file_box i { cursor: pointer; }
+.file_box a:hover { text-decoration: underline; }
+
 /** default category_tab */
 .board_default .category_tab { text-align: center; margin-bottom: 20px; }
 .board_default .category_tab .tab { padding:10px 20px; border: 1px solid #212121; margin: 0 3px; border-radius: 20px; font-weight: bold; }
