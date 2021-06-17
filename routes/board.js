@@ -122,6 +122,23 @@ router.route("/comment/password/:idx")
 			}
 		});
 
+/** 게시글 검색 */
+router.get("/search", async (req, res, next) => {
+	try {
+		const sopt = req.query.sopt || 'all'; // 없는 경우는 기본값 'all' -> 통합 검색
+		const skey = req.query.skey; 
+		if (!skey) {
+			throw new Error('검색어를 입력하세요.');
+		}
+		
+		
+	
+		return res.render("board/search");
+	} catch (err) {
+		return alert(err.message, res, -1);
+	}
+});
+
 
 /** 게시글 작성(양식, DB 처리), 수정, 삭제  - /board */
 router.route('/:id')
@@ -219,7 +236,6 @@ router.get("/list/:id", boardConfig, async (req, res, next) => {
 		}
 		
 		where.params.skey = "%" + skey + "%";
-		
 	}
 	
 	/** 검색 처리 E */

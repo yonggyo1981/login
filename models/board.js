@@ -369,6 +369,10 @@ const board = {
 		
 		const offset = (page - 1) * limit;
 		let prelink = "/board/list/" + boardId;
+		if (!boardId) { // 게시판 아이디가 없으면 검색 페이지 
+			prelink = "/board/search";
+		}
+		
 		if (qs) {
 			const addQuery = [];
 			for (key in qs) {
@@ -380,13 +384,22 @@ const board = {
 			prelink += "?" + addQuery.join("&");
 		}
 		
-		const replacements = {
-			boardId,
-		};
+		const replacements = {};
+		if (boardId) {
+			replacements.boardId = boardId;
+		}
 		
 		let addWhere = "";
+		
+		if (boardId) {
+			addWhere = "a.boardId = :boardId";
+		}
+		
 		if (this._addWhere.binds && this._addWhere.binds.length > 0) { // 추가 검색 조건이 있는 경우 
-			addWhere = " AND " + this._addWhere.binds.join(" AND ");
+			addWhere = this._addWhere.binds.join(" AND ");
+			if (boardId) {
+				addWhere = " AND " + addWhere;
+			}
 			
 			if (this._addWhere.params) {
 				const params = this._addWhere.params;
@@ -398,7 +411,7 @@ const board = {
 		
 		let sql = `SELECT COUNT(*) as cnt FROM boarddata AS a 
 								LEFT JOIN member AS b ON a.memNo = b.memNo 
-							WHERE a.boardId = :boardId${addWhere}`;
+							WHERE ${addWhere}`;
 		let rows = await sequelize.query(sql, {
 			replacements, 
 			type : QueryTypes.SELECT,
@@ -412,7 +425,7 @@ const board = {
 		replacements.limit = limit;
 		sql = `SELECT a.*, b.memNm, b.memId FROM boarddata AS a 
 							LEFT JOIN member AS b ON a.memNo = b.memNo 
-						WHERE a.boardId = :boardId${addWhere} LIMIT :offset, :limit`;
+						WHERE ${addWhere} LIMIT :offset, :limit`;
 		const list  = await sequelize.query(sql, {
 			replacements,
 			type : QueryTypes.SELECT,
