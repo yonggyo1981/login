@@ -33,4 +33,15 @@ router.route("/")
 			return alert('상품등록 실패하였습니다.', res);
 		});
 
+router.route("/:goodsCd")
+		/** 상품 수정 양식 */
+		.get((req, res, next) => {
+			
+			return res.render("travel/form");
+		})
+		/** 상품 수정 처리 */
+		.post((req, res, next) => {
+			
+		});
+		
 module.exports = router;
