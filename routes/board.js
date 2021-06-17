@@ -214,7 +214,7 @@ router.get("/list/:id", boardConfig, async (req, res, next) => {
 			default: 
 				column = sopt;
 		}
-		if (opt != 'all') {
+		if (sopt != 'all') {
 			where.binds.push(column + " LIKE :skey");
 		}
 		
