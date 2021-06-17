@@ -1,5 +1,6 @@
 /** admin/travel */
 const { adminOnly } = require('../../middlewares/member_only');
+const { alert, reload } = require('../../lib/common');
 const travel = require('../../models/travel');
 const express = require('express');
 const router = express.Router();
@@ -23,9 +24,12 @@ router.route("/")
 		/** 여행 상품 등록 처리 */
 		.post(async (req, res, next) => {
 			const result = await travel.create(req.body.goodsCd, req.body.goodsNm);
+			if (result) { // 등록 성공시 -> 새로고침 
+				return reload(res, 'parent');
+			}
 			
-			return res.send("");
+			// 실패시 
+			return alert('상품등록 실패하였습니다.', res);
 		});
-
 
 module.exports = router;
