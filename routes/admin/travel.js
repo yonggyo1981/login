@@ -39,7 +39,9 @@ router.route("/:goodsCd")
 			try {
 				const goodsCd = req.params.goodsCd;
 				const data = await travel.get(goodsCd);
-				if (!data.idx) {
+				data.transportations = travel.transportations;
+				
+				if (!data.goodsCd) {
 					throw new Error('등록된 상품이 아닙니다.');
 				}
 				

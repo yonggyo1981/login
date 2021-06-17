@@ -10,6 +10,16 @@ const pagination = require('pagination');
 const travel = {
 	/** 처리할 데이터 */
 	params : {},
+	
+	/** 교통편 */
+	transportations : [
+		{ type : 'airline_domestic', name1 : '국내선', name2 : '항공편' },
+		{ type : 'airline_inter', name1 : '국제선', name2 : '항공편' },
+		{ type : 'ship_domestic', name1 : '국내선', name2 : '배편' },
+		{ type : 'ship_inter', name1 : '국제선', name2 : '배편' },
+		{ type : 'bus', name1 : '버스', name2 : '' },
+	],
+	
 	/**
 	* 처리할 데이터 설정
 	*
