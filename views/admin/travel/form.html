@@ -30,7 +30,7 @@
 			<th>교통편</th>
 			<td>
 				{% for item in transportations %}
-				<input type='radio' name='transportation' value='{{ item.type }}' id='transportation_{{ item.loop }}'>
+				<input type='radio' name='transportation' value='{{ item.type }}' id='transportation_{{ item.loop }}'{% if transportation == item %} checked{% endif %}>
 				<label for='transportation_{{ item.loop }}'>{{ item.name1 }}{% if item.name2 %}({{ item.name2 }}){% endif %}</label>
 				{% endfor %}
 			</td>
