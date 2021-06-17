@@ -226,7 +226,7 @@ const board = {
 				contents : this.params.contents,
 				password : hash,
 			};		
-			console.log(replacements);
+
 			const result = await sequelize.query(sql, {
 				replacements,
 				type : QueryTypes.INSERT,
@@ -431,7 +431,7 @@ const board = {
 			/** 조회수 처리 */
 			_list[i].viewCountStr = v.viewCount.toLocaleString();
 		});
-		console.log(list);
+
 		const result = {
 			pagination : paginator.render(),
 			list,

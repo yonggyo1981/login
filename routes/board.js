@@ -4,7 +4,7 @@
 */
 const board = require('../models/board');
 const { boardConfig } = require('../middlewares/board_config');
-const { writeValidator, permissionCheck, guestOnly, commentValidator, commentPermissionCheck } = require('../middlewares/board_validator');
+const { writeValidator, permissionCheck, guestOnly, commentValidator, commentPermissionCheck, memberOnlyCheck } = require('../middlewares/board_validator');
 const { alert, go, reload, getUid, getBrowserId } = require('../lib/common');
 const express = require('express');
 const bcrypt = require('bcrypt');
@@ -126,7 +126,7 @@ router.route("/comment/password/:idx")
 /** 게시글 작성(양식, DB 처리), 수정, 삭제  - /board */
 router.route('/:id')
 		/** 작성 양식 - id (게시판 아이디) */
-		.get(boardConfig, async (req, res, next) => {
+		.get(boardConfig, memberOnlyCheck, async (req, res, next) => {
 			const data = { 
 				config : req.boardConfig,
 				addScript : ['board'],
