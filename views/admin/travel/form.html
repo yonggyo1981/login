@@ -1,7 +1,26 @@
 {% extends '../layout.html' %}
 {% block content %}
-<div class='mtitle'>상품 수정</div>
-<form method='post' action='/admin/travel/'>
-
+<div class='mtitle'>상품 수정 - {{ goodsNm }}</div>
+<form method='post' action='/admin/travel/{{ goodsCd }}' target='ifrmHidden' autocomplete='off'>
+	<input type='hidden' name='goodsCd' value='{{ item.goodsCd }}'>
+	<table class='table_cols'>
+		<tr>
+			<th>상품코드</th>
+			<td>{{ item.goodsCd }}</td>
+		</tr>
+		<tr>
+			<th>상품명</th>
+			<td>
+				<input type='text' name='goodsNm' value='{{ goodsNm }'>
+			</td>
+		</tr>
+		<tr>
+			<th>짧은설명</th>
+			<td>
+				<input type='text' name='shortDescription' value='{{ shortDescription }}'>
+			</td>
+		</tr>
+		
+	</table>
 </form>
 {% endblock %}
