@@ -1,4 +1,5 @@
 const { sequelize, Sequelize : { QueryTypes } } = require('./index');
+const { parseDate } = require('../lib/common');
 const logger = require('../lib/logger');
 const pagination = require('pagination');
 
@@ -86,6 +87,10 @@ const travel = {
 			const list = await sequelize.query(sql, {
 				replacements, 
 				type : QueryTypes.SELECT,
+			});
+			
+			list.forEach((v, i, _list) => {
+				_list[i].regDt = parseDate(v.regDt).datetime;
 			});
 			
 			const data = { 
