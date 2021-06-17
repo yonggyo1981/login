@@ -131,7 +131,36 @@ router.get("/search", async (req, res, next) => {
 			throw new Error('검색어를 입력하세요.');
 		}
 		
+		/** 검색어 처리 */
+		const where = {
+			binds : [],
+			params : {},
+		};
+		if (sopt && skey) {
+			let column = "";
+			switch (sopt) {
+				case "all" : 
+					where.binds.push("(CONCAT(a.subject, a.contents, a.poster) LIKE :skey OR b.memId LIKE :skey)");
+					break;
+				case "subject_contents":
+					column = "CONCAT(a.subject, a.contents)";
+					break;
+				default: 
+					column = sopt;
+			}
+			if (sopt != 'all') {
+				where.binds.push(column + " LIKE :skey");
+			}
+			
+			where.params.skey = "%" + skey + "%";
+		}
 		
+		/** 검색 처리 E */
+		
+		const rowsPerPage = 20;
+		const data = await board
+								.addWhere(where)
+								.getList(undefined, req.query.page, rowsPerPage, req.query);
 	
 		return res.render("board/search");
 	} catch (err) {
@@ -220,7 +249,7 @@ router.get("/list/:id", boardConfig, async (req, res, next) => {
 	const skey = req.query.skey; // 검색어 
 	
 	if (sopt && skey) {
-		let column = "", column2 = "";
+		let column = "";
 		switch (sopt) {
 			case "all" : 
 				where.binds.push("(CONCAT(a.subject, a.contents, a.poster) LIKE :skey OR b.memId LIKE :skey)");

@@ -392,7 +392,8 @@ const board = {
 		let addWhere = "";
 
 		if (boardId) {
-			addWhere = "a.boardId = :boardId AND ";
+			addWhere = "a.boardId = :boardId";
+			if (this._addWhere.binds.length > 0) addWhere += " AND ";
 		}
 		
 		if (this._addWhere.binds && this._addWhere.binds.length > 0) { // 추가 검색 조건이 있는 경우 
