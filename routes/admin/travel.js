@@ -17,8 +17,9 @@ router.use((req, res, next) => {
 
 router.route("/")
 		/** 여행상품 등록, 목록 */
-		.get((req, res, next) => {
-			
+		.get(async (req, res, next) => {
+			const data = await travel.getGoods(req.query.page, 20, req.query);
+			console.log(data);
 			return res.render("admin/travel/index");
 		})
 		/** 여행 상품 등록 처리 */

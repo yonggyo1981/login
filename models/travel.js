@@ -77,9 +77,24 @@ const travel = {
 			});
 			
 			const totalResult = rows[0].cnt;
-			
-			
 			const paginator = pagination.create('search', {prelink, current: page, rowsPerPage: limit, totalResult });
+			
+			replacements.offset = offset;
+			replacements.limit = limit;
+			
+			sql = `SELECT * FROM travelgoods ORDER BY regDt DESC LIMIT :offset, :limit`;
+			const list = await sequelize.query(sql, {
+				replacements, 
+				type : QueryTypes.SELECT,
+			});
+			
+			const data = { 
+				totalResult, 
+				list, 
+				offset, 
+				pagination : paginator.render() 
+			};
+			return data;
 		} catch (err) {
 			logger(err.stack, 'error');
 			return {};
