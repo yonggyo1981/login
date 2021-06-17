@@ -35,9 +35,18 @@ router.route("/")
 
 router.route("/:goodsCd")
 		/** 상품 수정 양식 */
-		.get((req, res, next) => {
-			
-			return res.render("admin/travel/form");
+		.get(async (req, res, next) => {
+			try {
+				const goodsCd = req.params.goodsCd;
+				const data = await travel.get(goodsCd);
+				if (!data.idx) {
+					throw new Error('등록된 상품이 아닙니다.');
+				}
+				
+				return res.render("admin/travel/form", data);
+			} catch (err) {
+				return alert(err.message, res, -1);
+			}
 		})
 		/** 상품 수정 처리 */
 		.post((req, res, next) => {

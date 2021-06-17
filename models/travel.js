@@ -44,6 +44,28 @@ const travel = {
 		}
 	},
 	/**
+	* 상품정보 
+	*
+	* @param String goodsCd 상품코드
+	* @return Object
+	*/
+	get : async function(goodsCd) {
+		try {
+			const sql = "SELECT * FROM travelgoods WHERE goodsCd = ?";
+			const rows = await sequelize.query(sql, {
+				replacements : [goodsCd],
+				type : QueryTypes.SELECT,
+			});
+			
+			const data = rows[0] || {};
+			
+			return data;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return {};
+		}
+	},
+	/**
 	* 상품목록 
 	*
 	* @param Integer page 페이지번호, 기본값 1 
