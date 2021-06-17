@@ -161,8 +161,7 @@ router.get("/search", async (req, res, next) => {
 		const data = await board
 								.addWhere(where)
 								.getList(undefined, req.query.page, rowsPerPage, req.query);
-	
-		return res.render("board/search");
+		return res.render("board/search", data);
 	} catch (err) {
 		return alert(err.message, res, -1);
 	}
