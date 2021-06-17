@@ -165,6 +165,10 @@ router.get("/search", async (req, res, next) => {
 								
 		const skin = "default";
 		data.skinPath = path.join(__dirname, "../views/board/skins/" + skin + "/_list.html");
+		data.addCss = ['board'];
+		data.isSearchPage = true;
+		data.sopt = sopt;
+		data.skey = skey;
 		
 		return res.render("board/search", data);
 	} catch (err) {
