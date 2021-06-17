@@ -21,6 +21,8 @@ const fileRouter = require('./routes/file'); // 파일 업로드 페이지
 const adminRouter = require('./routes/admin'); // 관리자 메인페이지 
 const adminMemberRouter = require('./routes/admin/member'); // 회원관리
 const adminBoardRouter = require('./routes/admin/board'); // 게시판관리 
+const adminTravelRouter = require('./routes/admin/travel'); // 여행상품관리
+const adminReservationRouter = require('./routes/admin/reservation'); // 여행예약관리 
 
 
 dotenv.config();
@@ -112,6 +114,8 @@ app.use("/file", fileRouter); //파일 업로드 페이지
 app.use("/admin", adminRouter); // 관리자 메인
 app.use("/admin/member", adminMemberRouter); // 회원 관리
 app.use("/admin/board", adminBoardRouter); // 게시판 관리 
+app.use("/admin/travel", adminTravelRouter); // 여행상품관리
+app.use("/admin/reservation", adminReservationRouter); // 여행예약관리
 
 // 없는 페이지 처리 
 app.use((req, res, next) => {

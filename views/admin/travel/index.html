@@ -1,0 +1,19 @@
+{% extends '../layout.html' %}
+{% block content %}
+<div class='mtitle'>여행상품 등록</div>
+<form method='post' action='/admin/travel' target='ifrmHidden' autocomplete='off'>
+	<table class='table_cols'>
+		<tr>
+			<th>상품코드</th>
+			<td width='180'>
+				<input type='text' name='goodsCd'>
+			</td>
+			<th>상품명</th>
+			<td>
+				<input type='text' name='goodsNm'>
+			</td>
+		</tr>
+	</table>
+	<input type='submit' value='등록하기' class='submit_btn'>
+</form>	
+{% endblock %}
