@@ -28,7 +28,12 @@
 		</tr>
 		<tr>
 			<th>교통편</th>
-			<td></td>
+			<td>
+				{% for item in transportations %}
+				<input type='radio' name='transportation' value='{{ item.type }}' id='transportation_{{ item.loop }}'>
+				<label for='transportation_{{ item.loop }}'>{{ item.name1 }}{% if item.name2 %}({{ item.name2 }}){% endif %}</label>
+				{% endfor %}
+			</td>
 		</tr>
 		<tr>
 			<th>쇼핑횟수</th>
