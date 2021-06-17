@@ -41,8 +41,10 @@ router.route("/")
 			
 		})
 		/** 게시판 삭제 */
-		.delete((req, res, nexxt) => {
+		.delete(async (req, res, nexxt) => {
+			const result = await board.deleteBoard(req.body.id, req.body.delete_post);
 			
+			return res.send("");
 		});
 
 /** 게시판 수정 양식 */

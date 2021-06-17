@@ -716,6 +716,47 @@ const board = {
 				type : QueryTypes.UPDATE,
 			});
 		} catch (err) {}
+	},
+	/**
+	* 게시판 삭제
+	*
+	* @param String boardId 게시판 아이디 
+	* @param Boolean delete_post true - 게시글도 함께 삭제 
+	*
+	* @return Boolean
+	*/
+	deleteBoard : async function(boardId, delete_post) {
+		try {
+			if (!boardId) 
+				return false;
+			
+			if (!(boardId instanceof Array)) { // boardId 가 배열 객체가 아닌 경우 
+				boardId = [boardId];
+			}
+			
+			boardId.forEach(async boardId => {
+				/** 게시판 삭제 */
+				let sql = "DELETE FROM board WHERE id = ?";
+				await sequelize.query(sql, {
+					replacements : [boardId],
+					type : QueryTypes.DELETE,
+				});
+				
+				/** 게시글 삭제 */
+				if (delete_post) {
+					sql = "DELETE FROM boarddata WHERE boardId = ?";
+					await sequelize.query(sql, {
+						replacements : [boardId],
+						type : QueryTypes.DELETE,
+					});
+				}
+			});
+			
+			return true;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
 	}
 };
 
