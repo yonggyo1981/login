@@ -197,6 +197,28 @@ router.get("/list/:id", boardConfig, async (req, res, next) => {
 		where.binds.push("a.category = :category");
 		category = where.params.category = req.query.category;
 	}
+	
+	/** 검색어 처리 */
+	const sopt = req.query.sopt; // 검색 조건 
+	const skey = req.query.skey; // 검색어 
+	
+	if (sopt && skey) {
+		let column = "";
+		switch (sopt) {
+			case "all" : 
+				column = "CONCAT(a.subject, a.contents, a.poster, b.memId)";
+				break;
+			case "subject_contents":
+				column = "CONCAT(a.subject, a.contents)";
+				break;
+			default: 
+				column = sopt;
+		}
+		
+		where.binds.push(column + " LIKE :skey");
+		where.params.skey = "%" + skey + "%";
+	}
+	
 	/** 검색 처리 E */
 	
 	const rowsPerPage = req.boardConfig.rowsPerPage || 20;
@@ -207,6 +229,9 @@ router.get("/list/:id", boardConfig, async (req, res, next) => {
 	data.config = req.boardConfig;
 	data.addCss = ['board'];
 	data.category = category;
+	
+	data.sopt = sopt;
+	data.skey = skey;
 	
 	return res.render('board/list', data);
 });	
