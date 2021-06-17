@@ -122,17 +122,18 @@ const board = {
 				throw new Error('게시판 아이디와 게시판명 누락');
 			}
 			
-			let category = [];
+			let _category = [];
 			if (params.category) {
 				params.category.split("\r\n")
 									.forEach((v) => {
 										v = v.trim();
 										if (v) {
-											category.push(v);
+											_category.push(v);
 										}
 									});
-				category = category.join("||");
 			}
+			const category = (_category.length > 0)?_category.join("||"):"";
+			
 			
 			const sql = `UPDATE board 
 								SET 
@@ -219,7 +220,7 @@ const board = {
 			const replacements = {
 				gid : this.params.gid,
 				boardId : this.params.id,
-				category : this.params.category,
+				category : this.params.category || "",
 				memNo,
 				poster : this.params.poster,
 				subject : this.params.subject,
@@ -735,21 +736,32 @@ const board = {
 			}
 			
 			boardId.forEach(async boardId => {
-				/** 게시판 삭제 */
-				let sql = "DELETE FROM board WHERE id = ?";
-				await sequelize.query(sql, {
-					replacements : [boardId],
-					type : QueryTypes.DELETE,
-				});
-				
+							
 				/** 게시글 삭제 */
 				if (delete_post) {
+					// 댓글 삭제 
+					let sql = `DELETE FROM boardcomment 
+										WHERE idxBoard = (SELECT idx FROM board WHERE boardId = ?)`;
+					await sequelize.query(sql, {
+						replacements : [boardId],
+						type : QueryTypes.DELETE,
+					});
+					
+					
+					// 본글 삭제 
 					sql = "DELETE FROM boarddata WHERE boardId = ?";
 					await sequelize.query(sql, {
 						replacements : [boardId],
 						type : QueryTypes.DELETE,
 					});
 				}
+				
+				/** 게시판 삭제 */
+				sql = "DELETE FROM board WHERE id = ?";
+				await sequelize.query(sql, {
+					replacements : [boardId],
+					type : QueryTypes.DELETE,
+				});
 			});
 			
 			return true;
