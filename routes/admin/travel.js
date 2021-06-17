@@ -51,8 +51,14 @@ router.route("/:goodsCd")
 			}
 		})
 		/** 상품 수정 처리 */
-		.post((req, res, next) => {
+		.post(async (req, res, next) => {
+			const result = await travel.data(req.body).save();
+			if (result) { // 상품 수정 성공 -> 새로고침 
+				return alert("저장되었습니다", res, 'reload', 'parent');
+			}
 			
+			// 실패 
+			return alert("상품 저장하기 실패 하였습니다.", res);
 		});
 		
 module.exports = router;

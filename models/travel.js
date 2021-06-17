@@ -54,6 +54,45 @@ const travel = {
 		}
 	},
 	/**
+	* 상품정보 저장 
+	*
+	* @return Boolean
+	*/
+	save : async function() {
+		try {
+			const sql = `UPDATE travelgoods 
+									SET 
+										goodsNm = :goodsNm,
+										shortDescription = :shortDescription,
+										itinerary = :itinerary,
+										transportation = :transportation,
+										shopping = :shopping,
+										isGroup = :isGroup
+								WHERE 
+										goodsCd = :goodsCd`;
+			
+			const replacements = {
+				goodsNm : this.params.goodsNm,
+				shortDescription : this.params.shortDescription,
+				itinerary : this.params.itinerary,
+				transportation : this.params.transportation || 'bus',
+				shopping : this.params.shopping || 0,
+				isGroup : this.params.isGroup || 0,
+				goodsCd : this.params.goodsCd,
+			};
+			
+			await sequelize.query(sql, {
+				replacements,
+				type : QueryTypes.UPDATE,
+			});
+			
+			return true;
+		} catch(err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
+	/**
 	* 상품정보 
 	*
 	* @param String goodsCd 상품코드

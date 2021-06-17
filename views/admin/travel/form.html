@@ -30,8 +30,8 @@
 			<th>교통편</th>
 			<td>
 				{% for item in transportations %}
-				<input type='radio' name='transportation' value='{{ item.type }}' id='transportation_{{ item.loop }}'{% if transportation == item %} checked{% endif %}>
-				<label for='transportation_{{ item.loop }}'>{{ item.name1 }}{% if item.name2 %}({{ item.name2 }}){% endif %}</label>
+				<input type='radio' name='transportation' value='{{ item.type }}' id='transportation_{{ loop.index }}'{% if transportation == item.type %} checked{% endif %}>
+				<label for='transportation_{{ loop.index }}'>{{ item.name1 }}{% if item.name2 %}({{ item.name2 }}){% endif %}</label>
 				{% endfor %}
 			</td>
 		</tr>
@@ -51,6 +51,21 @@
 				<label for='isGroup_0'>개인</label>
 			</td>
 		</tr>
+		<tr>
+			<th>메인 이미지</th>
+			<td>
+				<span class='btn1' onclick="layer.popup('/file/upload/{{ goodsCd }}_main?mode=image', 320, 250);">이미지 추가</span>
+				<span class='main_images'></span>
+			</td>
+		</tr>
+		<tr>
+			<th>목록 이미지</th>
+			<td>
+				<span class='btn1' onclick="layer.popup('/file/upload/{{ goodsCd }}_list?mode=image', 320, 250);">이미지 추가</span>
+				<span class='list_images'></span>
+			</td>
+		</tr>
 	</table>
+	<input type='submit' value='저장하기' class='submit_btn'>
 </form>
 {% endblock %}
