@@ -37,7 +37,7 @@ router.route("/:goodsCd")
 		/** 상품 수정 양식 */
 		.get((req, res, next) => {
 			
-			return res.render("travel/form");
+			return res.render("admin/travel/form");
 		})
 		/** 상품 수정 처리 */
 		.post((req, res, next) => {
