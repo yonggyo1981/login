@@ -14,4 +14,9 @@ $(function() {
 		$(this).closest("form").find("input[name='goodsCd']").val(uid);
 	});
 	/** 상품코드 자동생성 E */
+	
+	/** 파일 업로드 폼에서 파일 선택시 자동 submit */
+	$("body").on("change", ".file_upload_form input[type='file']", function() {
+		$(this).closest("form").submit();
+	});
 });

@@ -45,6 +45,8 @@ router.route("/:goodsCd")
 					throw new Error('등록된 상품이 아닙니다.');
 				}
 				
+				data.addScript = ['travel'];
+				
 				return res.render("admin/travel/form", data);
 			} catch (err) {
 				return alert(err.message, res, -1);
