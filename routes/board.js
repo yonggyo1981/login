@@ -203,10 +203,10 @@ router.get("/list/:id", boardConfig, async (req, res, next) => {
 	const skey = req.query.skey; // 검색어 
 	
 	if (sopt && skey) {
-		let column = "";
+		let column = "", column2 = "";
 		switch (sopt) {
 			case "all" : 
-				column = "CONCAT(a.subject, a.contents, a.poster, b.memId)";
+				where.binds.push("(CONCAT(a.subject, a.contents, a.poster) LIKE :skey OR b.memId LIKE :skey)");
 				break;
 			case "subject_contents":
 				column = "CONCAT(a.subject, a.contents)";
@@ -214,9 +214,12 @@ router.get("/list/:id", boardConfig, async (req, res, next) => {
 			default: 
 				column = sopt;
 		}
+		if (opt != 'all') {
+			where.binds.push(column + " LIKE :skey");
+		}
 		
-		where.binds.push(column + " LIKE :skey");
 		where.params.skey = "%" + skey + "%";
+		
 	}
 	
 	/** 검색 처리 E */
