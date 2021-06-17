@@ -16,4 +16,19 @@
 	</table>
 	<input type='submit' value='등록하기' class='submit_btn'>
 </form>	
+
+<div class='mtitle'>상품목록</div>
+<table class='table_rows'>
+	<thead>
+		<tr>
+			<th width='20'>
+				<input type='checkbox' class='check_all' data-target-name='goodsCd'>
+			</th>
+			<th>상품코드</th>
+			<th>상품명</th>
+		</tr>
+	</thead>
+</table>
+
+{{ pagination | safe }}
 {% endblock %}
