@@ -741,7 +741,7 @@ const board = {
 				if (delete_post) {
 					// 댓글 삭제 
 					let sql = `DELETE FROM boardcomment 
-										WHERE idxBoard = (SELECT idx FROM board WHERE boardId = ?)`;
+										WHERE idxBoard = (SELECT idx FROM boarddata WHERE boardId = ?)`;
 					await sequelize.query(sql, {
 						replacements : [boardId],
 						type : QueryTypes.DELETE,
