@@ -8,6 +8,7 @@ const { writeValidator, permissionCheck, guestOnly, commentValidator, commentPer
 const { alert, go, reload, getUid, getBrowserId } = require('../lib/common');
 const express = require('express');
 const bcrypt = require('bcrypt');
+const path = require('path');
 const router = express.Router();
 
 
