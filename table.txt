@@ -128,6 +128,8 @@ CREATE TABLE `travelgoods` (
 	`transportation` ENUM('airline_domestic','airline_inter','ship_domestic','ship_inter','bus') NULL DEFAULT 'bus' COMMENT '교통편' COLLATE 'utf8_general_ci',
 	`shopping` TINYINT(4) NULL DEFAULT '0' COMMENT '쇼핑 횟수',
 	`isGroup` TINYINT(1) NULL DEFAULT '1' COMMENT '1 - 단체, 0 - 개인',
+	`priceAdult` INT(11) NULL DEFAULT '0' COMMENT '성인 판매가',
+	`priceChild` INT(11) NULL DEFAULT '0' COMMENT '아동 판매가',
 	`regDt` DATETIME NULL DEFAULT current_timestamp(),
 	`modDt` DATETIME NULL DEFAULT NULL,
 	PRIMARY KEY (`goodsCd`) USING BTREE,

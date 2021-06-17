@@ -47,7 +47,17 @@ const layer = {
 		
 		axios.get(url)
 			.then(function(response) {
-				 $("#layer_popup").html(response.data);
+				 $("#layer_popup").html(response.data).append("<i class='xi-close-thin close' onclick='layer.close();'></i>");
+				 
+				 $("#layer_popup .close").css({
+					position: 'absolute',
+					fontSize: "25px",
+					top: "-20px",
+					right: "-20px",
+					cursor: "pointer",
+					color: "#ffffff",
+				 });
+				 
 			})
 			.catch(function (error) {
 				console.error(error);
