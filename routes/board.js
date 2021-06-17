@@ -161,6 +161,10 @@ router.get("/search", async (req, res, next) => {
 		const data = await board
 								.addWhere(where)
 								.getList(undefined, req.query.page, rowsPerPage, req.query);
+								
+		const skin = "default";
+		data.skinPath = path.join(__dirname, "../views/board/skins/" + skin + "/_list.html");
+		
 		return res.render("board/search", data);
 	} catch (err) {
 		return alert(err.message, res, -1);
