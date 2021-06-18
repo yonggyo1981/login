@@ -12,8 +12,8 @@
 				</div>
 				{% endfor %}
 			  </div>
-			  <div class="swiper-button-next"></div>
-			  <div class="swiper-button-prev"></div>
+			  <i class='xi-angle-left-thin navi prev'></i>
+			  <i class='xi-angle-right-thin navi next'></i>
 			  <div class="swiper-pagination"></div>
 			</div>
 			{% endif %}
@@ -89,7 +89,50 @@
 			{{ contents | safe }}
 		</div>
 		<div class='reservation'>
-			예약
+			<form method='post' action='/travel/{{ goodsCd }}' target='ifrmHidden' autocomplete='off'>
+				<div class='persons'>
+					<div class='tit'>인원선택</div>
+					<dl>
+						<dt>
+							<div class='txt'>성인</div>
+							<div class='price'>{{ priceAdult.toLocaleString() }}원</div>
+						</dt>
+						<dd>
+							<div class='goods_cnt_wrap'>
+								<i class='cnt_btn up xi-minus-thin'></i>
+								<input type='text' name='goodsCnt_adult' value='1' class='goods_cnt' readonly>
+								<i class='cnt_btn down xi-plus-thin'></i>
+							</div>
+						</dd>
+					</dl>
+					<dl>
+						<dt>
+							<div class='txt'>아동(만 13세 이하)</div>
+							<div class='price'>{{ priceChild.toLocaleString() }}원</div>
+						</dt>
+						<dd>
+							<div class='goods_cnt_wrap'>
+								<i class='cnt_btn up xi-minus-thin'></i>
+								<input type='text' name='goodsCnt_child' value='0' class='goods_cnt' readonly>
+								<i class='cnt_btn down xi-plus-thin'></i>
+							</div>
+						</dd>
+					</dl>
+					<dl>
+						<dt>
+							<div class='txt'>유아(만 2세 이하)</div>
+							<div class='price'>-</div>
+						</dt>
+						<dd>
+							<div class='goods_cnt_wrap'>
+								<i class='cnt_btn up xi-minus-thin'></i>
+								<input type='text' name='goodsCnt_infant' value='0' class='goods_cnt' readonly>
+								<i class='cnt_btn down xi-plus-thin'></i>
+							</div>
+						</dd>
+					</dl>
+				</div>
+			</form>
 		</div>
 	</div>
 	<!--// bottom_box -->

@@ -23,8 +23,25 @@
 
 .body_travel .bottom_box { border-top: 2px solid #111111; }
 .body_travel .bottom_box .description { width: calc(100% - 305px); float: left; padding: 40px 24px 0 0; border-right: 1px solid #dddddd; }
-.body_travel .bottom_box .reservation { width: 305px; float: right; }
+.body_travel .bottom_box .reservation { width: 305px; float: right; padding: 40px 20px; }
 .body_travel .bottom_box:after { clear: both; content: ''; display: block; }
 .body_travel .bottom_box .description img { max-width: 870px; }
 
-.body_travel .top_box .swiper-pagination-fraction { text-align: right;  bottom: 20px !important; padding-right: 40px;}
+.body_travel .top_box .swiper-pagination-fraction {  bottom: 20px !important; padding-right: 40px; background:rgba(0, 0, 0, 0.5); color: #ffffff; display: inline-block !important; width: auto !important; height: 30px; padding: 0 15px !important; line-height: 30px; border-radius: 7px; left: auto;  right: 20px; }
+
+.body_travel .navi { font-size: 50px; position: absolute; z-index: 5; top: 200px; cursor: pointer; color: #ffffff; }
+.body_travel .navi.next { right: 0; }
+
+.body_travel .reservation .tit { font-size: 22px;  font-weight: 600; color: #111; }
+.body_travel .reservation .persons dd { width: 120px; }
+.body_travel .reservation .persons dt { width: calc(100% - 110px); }
+.body_travel .reservation .persons dt .txt { font-size: 13px; color: #888; padding-bottom: 3px; }
+.body_travel .reservation .persons dt .price { font-size: 17px; font-weight: 600; line-height: 1; }
+
+.body_travel .reservation .goods_cnt_wrap { border: 1px solid #c3c3c3; width: 106px; }
+.body_travel .reservation .goods_cnt { width: 34px; height: 34px; border: 1px solid #c3c3c3; border-top: 0; border-bottom: 0; border-radius: 0; display: block; float: left; font-size: 13px; text-align: center; }
+.body_travel .reservation .cnt_btn { display: block; height: 34px; width: 34px; text-align: center; line-height: 34px; float: left; cursor: pointer; font-size: 17px; }
+.body_travel .reservation .goods_cnt_wrap:after { clear: left; content: ''; display: block; }
+
+.body_travel .reservation .persons dl { margin: 25px 0; }
+.body_travel .reservation .persons { border-bottom: 1px solid #cecece; }
