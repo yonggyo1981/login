@@ -1,11 +1,30 @@
-.body_travel .top_box .images { float: left; width: 674px; }
-.body_travel .top_box .goods_info { float: right; width: calc(100% - 710px); }
+.body_travel .top_box { padding-bottom: 60px; }
+.body_travel .top_box .images { float: left; width: 674px; height: 449px; }
+.body_travel .top_box .goods_info { float: right; width: calc(100% - 710px); position: relative; height: 449px; }
 .body_travel .top_box:after { clear: both; content: ''; display: block; }
 
 .body_travel .top_box .images img { width: 100%; display: block; }
+.body_travel .top_box .images .goods_cd { margin-top: 20px;  font-size: 13px; font-weight: 400; color: #666; line-height: 26px; }
+.body_travel .top_box .images .goods_cd strong { margin-left: 10px; font-weight: 900; }
+
+.body_travel .goods_info .goods_nm { font-size: 26px; font-weight: 400; color: #111; line-height: 36px; letter-spacing: -1px; margin-bottom: 10px; }
+
+.body_travel .goods_info .short_desc { font-size: 13px; color: #333; line-height: 20px; border-bottom: 1px solid #eaeaea; padding: 5px 0 20px; margin-bottom: 20px; }
+
+.body_travel .goods_info .price_info { position: absolute; bottom: 0; right: 0; text-align: right; }
+.body_travel .goods_info .price_info .target { margin-bottom: 2px; font-size: 14px; color: #666; }
+.body_travel .goods_info .price_info .price { font-size: 22px; color: #333; font-weight: 400; }
+.body_travel .goods_info .price_info .no { font-size: 32px; color: #333; font-weight: 600; }
+
+.body_travel .icon_info li { float: left; margin-right: 30px; text-align: center; }
+.body_travel .icon_info:after { clear: left; content: ''; display: block; }
+.body_travel .icon_info li i { font-size: 30px; color: #666666; }
+.body_travel .icon_info li .text { font-size: 13px; line-height: 20px; color: #333; margin-top: 5px; }
 
 .body_travel .bottom_box { border-top: 2px solid #111111; }
 .body_travel .bottom_box .description { width: calc(100% - 305px); float: left; padding: 40px 24px 0 0; border-right: 1px solid #dddddd; }
 .body_travel .bottom_box .reservation { width: 305px; float: right; }
 .body_travel .bottom_box:after { clear: both; content: ''; display: block; }
 .body_travel .bottom_box .description img { max-width: 870px; }
+
+.body_travel .top_box .swiper-pagination-fraction { text-align: right;  bottom: 20px !important; padding-right: 40px;}

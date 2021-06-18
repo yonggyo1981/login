@@ -21,9 +21,13 @@
 		</div>
 		<div class='goods_info'>
 			<div class='goods_nm'>{{ goodsNm }}</div>
+			<div class='short_desc'>
 			{% if shortDescription %}
-			<div class='short_desc'>{{ shortDescription }}</div>
+				<i class='xi-info-o'></i>
+				{{ shortDescription }}
 			{% endif %}
+			</div>
+			
 			<ul class='icon_info'>
 			{% if itinerary > 0 %}
 				<li>

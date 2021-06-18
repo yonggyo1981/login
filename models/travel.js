@@ -18,6 +18,7 @@ const travel = {
 		{ type : 'airline_inter', name1 : '국제선', name2 : '항공편' },
 		{ type : 'ship_domestic', name1 : '국내선', name2 : '배편' },
 		{ type : 'ship_inter', name1 : '국제선', name2 : '배편' },
+		{ type : 'train', name1 : '기차', name2 : '' },
 		{ type : 'bus', name1 : '버스', name2 : '' },
 	],
 	
