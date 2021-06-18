@@ -146,3 +146,17 @@ ENGINE=InnoDB
 ;
 
 
+
+CREATE TABLE `travelgoods_package` (
+	`startDate` DATE NOT NULL COMMENT '여행 시작일',
+	`endDate` DATE NOT NULL COMMENT '여행 종료일',
+	`goodsCd` VARCHAR(20) NOT NULL COMMENT '상품코드' COLLATE 'utf8_general_ci',
+	`addPrice` INT(11) NULL DEFAULT NULL COMMENT '판매가 조정',
+	`minPersons` SMALLINT(6) NULL DEFAULT NULL COMMENT '최소 예약인원',
+	`maxPersons` SMALLINT(6) NULL DEFAULT NULL COMMENT '최대 예약인원',
+	`regDt` DATETIME NULL DEFAULT current_timestamp(),
+	PRIMARY KEY (`startDate`, `endDate`, `goodsCd`) USING BTREE
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;

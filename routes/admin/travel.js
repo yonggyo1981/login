@@ -85,5 +85,27 @@ router.route("/:goodsCd")
 			// 실패 
 			return alert("상품 저장하기 실패 하였습니다.", res);
 		});
-		
+
+/** 패키지 일정 관리 */
+router.route("/package/:goodsCd")
+		/** 일정 등록 양식 */
+		.get(async (req, res, next) => {
+			const goodsCd = req.params.goodsCd;
+			const schedules = await travel.getPackageSchedules(goodsCd);
+			
+			const data = {
+					goodsCd,
+					schedules,
+			};
+			
+			return res.render("admin/travel/package", data);
+		})
+		/** 일정 등록 처리 */
+		.post(async (req, res, next) => {
+			req.body.goodsCd = req.params.goodsCd;
+			const result = await travel.data(req.body).registerPackage();
+						
+			return res.send("");
+		});
+
 module.exports = router;
