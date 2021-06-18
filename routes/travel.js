@@ -10,7 +10,8 @@ router.route("/:goodsCd")
 			const data = await travel.get(goodsCd);
 			
 			data.addCss = ["travel"];
-			
+			data.addScript = ["travel"];
+			console.log(data);
 			return res.render("travel/goods", data);
 		})
 		/** 상품 예약 처리 */

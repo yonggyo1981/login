@@ -1,0 +1,5 @@
+.body_travel .top_box .images { float: left; width: 674px; }
+.body_travel .top_box .goods_info { float: right; width: calc(100% - 710px); }
+.body_travel .top_box:after { clear: both; content: ''; display: block; }
+
+.body_travel .top_box .images img { width: 100%; display: block; }

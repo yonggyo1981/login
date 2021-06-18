@@ -3,15 +3,78 @@
 <div class='travel_goods layout_width'>
 	<div class='top_box'>
 		<div class='images'>
-			메인이미지
+			{% if mainImages.length > 0 %}
+			<div class="swiper-container mySwiper">
+			  <div class="swiper-wrapper">
+				{% for item in mainImages %}
+				<div class="swiper-slide">
+					<img src='{{ item.fileUrl }}'>
+				</div>
+				{% endfor %}
+			  </div>
+			  <div class="swiper-button-next"></div>
+			  <div class="swiper-button-prev"></div>
+			  <div class="swiper-pagination"></div>
+			</div>
+			{% endif %}
+			<div class='goods_cd'>상품코드 <strong>{{ goodsCd }}</strong></div>
 		</div>
 		<div class='goods_info'>
-			상품 설명
+			<div class='goods_nm'>{{ goodsNm }}</div>
+			{% if shortDescription %}
+			<div class='short_desc'>{{ shortDescription }}</div>
+			{% endif %}
+			<ul class='icon_info'>
+			{% if itinerary > 0 %}
+				<li>
+					<i class='xi-calendar'></i>
+					<div class='text'>
+					{% if itinerary == 1 %}
+						하루일정
+					{% else %}
+						{{ itinerary - 1}}박 {{ itinerary }}일
+					{% endif %}
+					</div>
+				</li>
+			{% endif %}
+				<li>
+					{% if transportation == 'airline_domestic' or transportation == 'airline_inter' %}
+					<i class='xi-airplane'></i>
+					{% elseif transportation == 'ship_domestic' or transportation == 'ship_inter' %}
+					<i class='xi-ship'></i>
+					{% elseif transportation == 'train' %}
+					<i class='xi-train'></i>
+					{% else %}
+					<i class='xi-bus'></i>
+					{% endif %}
+					<div class='text'>
+					{% if transportation == 'airline_domestic' or transportation == 'ship_domestic' %} 
+						국내선
+					{% elseif transportation == 'airline_inter' or transportation == 'ship_inter' %}
+						국제선				
+					{% elseif transportation == 'train' %}
+						기차
+					{% else %}
+						버스
+					{% endif %}
+					</div>
+				</li>
+				{% if shopping > 0 %}
+				<li>
+					<i class='xi-cart-o'></i>
+					<div class='text'>쇼핑 {{ shopping }}회</div>
+				</li>
+				{% endif %}
+				<li>
+					<i class='xi-gift-o'></i>
+					<div class='text'>{{ '단체행사' if isGroup else '자유여행' }}</div>
+				</li>
+			</ul>	
 		</div>
 	</div>
 	<!--// top_box -->
 	<div class='bottom_box'>
-	
+		
 	</div>
 	<!--// bottom_box -->
 </div>
