@@ -64,6 +64,23 @@
 			</td>
 		</tr>
 		<tr>
+			<th>예약가능요일</th>
+			<td>
+			{% for yoil in _yoils %}
+				<input type='checkbox' name='yoils' value='{{ loop.index - 1 }}' id='yoils_{{ loop.index }}'>
+				<label for='yoils_{{ loop.index }}'>{{ yoil }}</label>&nbsp;&nbsp;
+			{% endfor %}
+			</td>
+		</tr>
+		<tr>
+			<th>예약가능일</th>
+			<td>
+				<input type='text' name='startDate' value='{{ startDate }}' class='datepicker' readonly>
+				~ 
+				<input type='text' name='endDate' value='{{ endDate }}' class='datepicker' readonly>
+			</td>
+		</tr>
+		<tr>
 			<th>메인 이미지</th>
 			<td>
 				<span class='btn1' onclick="layer.popup('/file/upload/{{ goodsCd }}_main?mode=image', 320, 250);">이미지 추가</span>
@@ -96,6 +113,27 @@
 				</span>
 				{% endfor %}
 				{% endif %}
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<th>상품설명</th>
+			<td>
+				<textarea name='contents' id='contents'>{{ contents }}</textarea>
+				<div class='mt10'>
+					<span class='btn1' onclick="layer.popup('/file/upload/{{ goodsCd }}_desc?mode=image', 320, 250);">이미지 추가</span>
+					<div class='uploaded_images desc_images'>
+					{% if descImages.length >0 %}
+					{% for item in descImages %}
+					<span class='images' 
+					data-idx='{{ item.idx }}' 
+					style="background:url('{{ item.fileUrl }}') no-repeat center center; background-size: cover;">
+						<div onclick="layer.popup('/file/view/{{ item.idx }}', 600, 600);"></div>
+						<i class='xi-close-min remove'></i>
+					</span>
+					{% endfor %}
+					{% endif %}
+					</div>
 				</div>
 			</td>
 		</tr>

@@ -1,6 +1,6 @@
 /** admin/travel */
 const { adminOnly } = require('../../middlewares/member_only');
-const { alert, reload } = require('../../lib/common');
+const { alert, reload, getYoils } = require('../../lib/common');
 const travel = require('../../models/travel');
 const express = require('express');
 const router = express.Router();
@@ -44,6 +44,8 @@ router.route("/:goodsCd")
 				if (!data.goodsCd) {
 					throw new Error('등록된 상품이 아닙니다.');
 				}
+				
+				data._yoils = getYoils(); // 선택 가능 요일 목록
 				
 				data.addScript = ['travel'];
 				

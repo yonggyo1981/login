@@ -68,10 +68,17 @@ const travel = {
 										itinerary = :itinerary,
 										transportation = :transportation,
 										shopping = :shopping,
-										isGroup = :isGroup
+										isGroup = :isGroup,
+										priceAdult = :priceAdult,
+										priceChild = :priceChild,
+										contents = :contents,
+										yoils = :yoils,
+										startDate = :startDate,
+										endDate = :endDate
 								WHERE 
 										goodsCd = :goodsCd`;
 			
+			let yoils = "";
 			const replacements = {
 				goodsNm : this.params.goodsNm,
 				shortDescription : this.params.shortDescription,
@@ -79,6 +86,12 @@ const travel = {
 				transportation : this.params.transportation || 'bus',
 				shopping : this.params.shopping || 0,
 				isGroup : this.params.isGroup || 0,
+				priceAdult : this.params.priceAdult || 0,
+				priceChild : this.params.priceChild || 0,
+				contents : this.params.contents,
+				yoils,
+				startDate : this.params.startDate || new Date(),
+				endDate	: this.params.endDate || new Date(),
 				goodsCd : this.params.goodsCd,
 			};
 			
@@ -111,6 +124,7 @@ const travel = {
 			if (rows.length > 0) {
 				data.mainImages = await this.getImages(goodsCd, "main");
 				data.listImages = await this.getImages(goodsCd, "list");
+				data.descImages = await this.getImages(goodsCd, "desc");
 			}
 			return data;
 		} catch (err) {
