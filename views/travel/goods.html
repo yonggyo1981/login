@@ -90,7 +90,7 @@
 		</div>
 		<div class='reservation'>
 			<form method='post' action='/travel/{{ goodsCd }}' target='ifrmHidden' autocomplete='off'>
-				<div class='persons'>
+				<div class='persons' data-adult='{{ priceAdult }}' data-child='{{ priceChild }}'>
 					<div class='tit'>인원선택</div>
 					<dl>
 						<dt>
@@ -99,9 +99,9 @@
 						</dt>
 						<dd>
 							<div class='goods_cnt_wrap'>
-								<i class='cnt_btn up xi-minus-thin'></i>
+								<i class='cnt_btn down xi-minus-thin'></i>
 								<input type='text' name='goodsCnt_adult' value='1' class='goods_cnt' readonly>
-								<i class='cnt_btn down xi-plus-thin'></i>
+								<i class='cnt_btn up xi-plus-thin'></i>
 							</div>
 						</dd>
 					</dl>
@@ -112,9 +112,9 @@
 						</dt>
 						<dd>
 							<div class='goods_cnt_wrap'>
-								<i class='cnt_btn up xi-minus-thin'></i>
+								<i class='cnt_btn down xi-minus-thin'></i>
 								<input type='text' name='goodsCnt_child' value='0' class='goods_cnt' readonly>
-								<i class='cnt_btn down xi-plus-thin'></i>
+								<i class='cnt_btn up xi-plus-thin'></i>
 							</div>
 						</dd>
 					</dl>
@@ -125,13 +125,22 @@
 						</dt>
 						<dd>
 							<div class='goods_cnt_wrap'>
-								<i class='cnt_btn up xi-minus-thin'></i>
+								<i class='cnt_btn down xi-minus-thin'></i>
 								<input type='text' name='goodsCnt_infant' value='0' class='goods_cnt' readonly>
-								<i class='cnt_btn down xi-plus-thin'></i>
+								<i class='cnt_btn up xi-plus-thin'></i>
 							</div>
 						</dd>
 					</dl>
 				</div>
+				<dl class='settle_info'>
+					<dt>총금액</dt>
+					<dd>
+						<div class='total_price'>
+							<span class='no'>{{ priceAdult.toLocaleString() }}</span>원
+						</div>
+						<div class='guide_txt'>유류할증료&amp;제세공과금 포함</div>
+					</dd>
+				</dl>
 			</form>
 		</div>
 	</div>
