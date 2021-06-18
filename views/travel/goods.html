@@ -88,9 +88,9 @@
 		<div class='description'>
 			{{ contents | safe }}
 		</div>
-		<div class='reservation'>
-			<form method='post' action='/travel/{{ goodsCd }}' target='ifrmHidden' autocomplete='off'>
-				<div class='persons' data-adult='{{ priceAdult }}' data-child='{{ priceChild }}'>
+		<div class='reservation' data-adult='{{ priceAdult }}' data-child='{{ priceChild }}' data-goodscd='{{ goodsCd }}'>
+			<form name='frmTravelGoods' method='post' action='/travel/{{ goodsCd }}' target='ifrmHidden' autocomplete='off'>
+				<div class='persons'>
 					<div class='tit'>인원선택</div>
 					<dl>
 						<dt>
@@ -141,6 +141,7 @@
 						<div class='guide_txt'>유류할증료&amp;제세공과금 포함</div>
 					</dd>
 				</dl>
+				<div class='apply_reservation{% if not isLogin %} not_login{% endif %}'>예약하기</div>
 			</form>
 		</div>
 	</div>

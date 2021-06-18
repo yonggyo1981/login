@@ -8,7 +8,20 @@ const travel = {
 	*
 	*/
 	updateTotal : function() {
+		let total = 0;
+		const priceAdult = Number($(".reservation").data("adult"));
+		const priceChild = Number($(".reservation").data("child"));
 		
+		const list = $(".reservation .goods_cnt");
+		$.each(list, function() {
+			const name = $(this).attr("name");
+			if (name.indexOf("adult") != -1) {
+				total += priceAdult * Number($(this).val());
+			} else if (name.indexOf("child") != -1) { 
+				total += priceChild * Number($(this).val());
+			}
+		});
+		$(".reservation .total_price .no").text(total.toLocaleString());
 	},
 	
 };
@@ -43,4 +56,17 @@ $(function() {
 		travel.updateTotal();
 	});
 	/** 수량 증가 E */
+	
+	/** 예약하기 버튼 클릭 처리 */
+	$(".apply_reservation").click(function() {
+		if ($(this).hasClass("not_login")) {
+			if (!confirm('여행상품 예약은 로그인이 필요합니다. 로그인페이지로 이동하시겠습니까?')) {
+				return;
+			}
+			
+			const goodsCd = $(".reservation").data("goodscd");
+			location.href='/member/login?returnUrl=/travel/' + goodsCd;
+			return;
+		}
+	});
 });
