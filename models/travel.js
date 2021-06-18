@@ -79,10 +79,18 @@ const travel = {
 										goodsCd = :goodsCd`;
 			
 			let yoils = "";
+			if (this.params.yoils) {
+				if (!(this.params.yoils instanceof Array)) { // 배열객체가 아닌 경우는 단일 선택 -> 배열객체 변경
+					this.params.yoils = [this.params.yoils];
+				}
+				
+				yoils = this.params.yoils.join("||");
+			}
+			
 			const replacements = {
 				goodsNm : this.params.goodsNm,
 				shortDescription : this.params.shortDescription,
-				itinerary : this.params.itinerary,
+				itinerary : this.params.itinerary || 0,
 				transportation : this.params.transportation || 'bus',
 				shopping : this.params.shopping || 0,
 				isGroup : this.params.isGroup || 0,
@@ -125,7 +133,21 @@ const travel = {
 				data.mainImages = await this.getImages(goodsCd, "main");
 				data.listImages = await this.getImages(goodsCd, "list");
 				data.descImages = await this.getImages(goodsCd, "desc");
+				
+				/** 예약 가능 요일 */
+				data.yoils = data.yoils?data.yoils.split("||"):[];
+				data.yoilChecked = [];
+				for (let i = 0; i < 7; i++) {
+					let isChecked = false;
+					data.yoils.forEach((yoil) => {
+						if (yoil == i) {
+							isChecked = true;
+						}
+					});
+					data.yoilChecked[i] = isChecked;
+				}
 			}
+			
 			return data;
 		} catch (err) {
 			logger(err.stack, 'error');

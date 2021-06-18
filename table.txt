@@ -124,7 +124,7 @@ CREATE TABLE `travelgoods` (
 	`goodsCd` VARCHAR(20) NOT NULL COMMENT '상품코드' COLLATE 'utf8_general_ci',
 	`goodsNm` VARCHAR(100) NULL DEFAULT NULL COMMENT '상품명' COLLATE 'utf8_general_ci',
 	`shortDescription` VARCHAR(255) NULL DEFAULT NULL COMMENT '짧은 설명' COLLATE 'utf8_general_ci',
-	`itinerary` VARCHAR(20) NULL DEFAULT NULL COMMENT '여행일정' COLLATE 'utf8_general_ci',
+	`itinerary` SMALLINT(6) NULL DEFAULT '0' COMMENT '여행일정',
 	`transportation` ENUM('airline_domestic','airline_inter','ship_domestic','ship_inter','bus') NULL DEFAULT 'bus' COMMENT '교통편' COLLATE 'utf8_general_ci',
 	`shopping` TINYINT(4) NULL DEFAULT '0' COMMENT '쇼핑 횟수',
 	`isGroup` TINYINT(1) NULL DEFAULT '1' COMMENT '1 - 단체, 0 - 개인',
@@ -142,3 +142,4 @@ CREATE TABLE `travelgoods` (
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
+

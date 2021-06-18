@@ -25,7 +25,7 @@ $(function() {
 			.catch((err) => {
 				console.error(err);
 			});
-	});
+	});	
 });
 
 /**

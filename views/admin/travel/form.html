@@ -23,7 +23,7 @@
 		<tr>
 			<th>여행일정</th>
 			<td>
-				<input type='text' name='itinerary' value='{{ itinerary }}'>
+				<input type='number' name='itinerary' value='{{ itinerary }}'>
 			<td>
 		</tr>
 		<tr>
@@ -67,7 +67,7 @@
 			<th>예약가능요일</th>
 			<td>
 			{% for yoil in _yoils %}
-				<input type='checkbox' name='yoils' value='{{ loop.index - 1 }}' id='yoils_{{ loop.index }}'>
+				<input type='checkbox' name='yoils' value='{{ loop.index - 1 }}' id='yoils_{{ loop.index }}'{{ ' checked' if yoilChecked[loop.index - 1] }}>
 				<label for='yoils_{{ loop.index }}'>{{ yoil }}</label>&nbsp;&nbsp;
 			{% endfor %}
 			</td>

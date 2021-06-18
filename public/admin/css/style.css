@@ -49,6 +49,9 @@ textarea { border: 1px solid #d5d5d5; min-height: 150px; resize: none; border-ra
 .uploaded_images .images div { width: 48px; height: 48px; }
 .uploaded_images .remove { position: absolute; top: 0; right: 0; z-index: 10; padding: 3px; background-color: #212121; color: #ffffff !important; cursor: pointer;  }
 
+/** datepicker */
+#ui-datepicker-div { z-index: 50 !important; }
+
 /** outline/header/_main.html */
 .main_menu { background-color: #d5d5d5; }
 .main_menu li { float: left; }
@@ -56,3 +59,6 @@ textarea { border: 1px solid #d5d5d5; min-height: 150px; resize: none; border-ra
 .main_menu:after { clear: left; content: ''; display: block; }
 .main_menu li a:hover,
 .main_menu li.on a { background-color: orange; }
+
+/** travel/form.html */
+.datepicker { width: 150px !important; }
