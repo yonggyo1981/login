@@ -64,9 +64,12 @@ $(function() {
 				return;
 			}
 			
-			const goodsCd = $(".reservation").data("goodscd");
+			const goodsCd = $(".reservation .goodscd").val();
 			location.href='/member/login?returnUrl=/travel/' + goodsCd;
 			return;
 		}
+		
+		// 로그인 되어 있는 경우 -> 예약하기 양식으로 이동 
+		frmTravelGoods.submit();
 	});
 });

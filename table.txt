@@ -122,6 +122,7 @@ ENGINE=InnoDB
 
 CREATE TABLE `travelgoods` (
 	`goodsCd` VARCHAR(20) NOT NULL COMMENT '상품코드' COLLATE 'utf8_general_ci',
+	`category` ENUM('domestic','overseas') NOT NULL DEFAULT 'domestic' COMMENT 'domestic - 국내여행, overseas - 해외여행' COLLATE 'utf8_general_ci',
 	`goodsNm` VARCHAR(100) NULL DEFAULT NULL COMMENT '상품명' COLLATE 'utf8_general_ci',
 	`shortDescription` VARCHAR(255) NULL DEFAULT NULL COMMENT '짧은 설명' COLLATE 'utf8_general_ci',
 	`itinerary` SMALLINT(6) NULL DEFAULT '0' COMMENT '여행일정',

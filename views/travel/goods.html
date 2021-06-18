@@ -88,8 +88,9 @@
 		<div class='description'>
 			{{ contents | safe }}
 		</div>
-		<div class='reservation' data-adult='{{ priceAdult }}' data-child='{{ priceChild }}' data-goodscd='{{ goodsCd }}'>
-			<form name='frmTravelGoods' method='post' action='/travel/{{ goodsCd }}' target='ifrmHidden' autocomplete='off'>
+		<div class='reservation' data-adult='{{ priceAdult }}' data-child='{{ priceChild }}'>
+			<form name='frmTravelGoods' method='post' action='/travel/reservation' autocomplete='off'>
+				<input type='hidden' name='goodsCd' value='{{ goodsCd }}' class='goodscd'>
 				<div class='persons'>
 					<div class='tit'>인원선택</div>
 					<dl>
