@@ -70,11 +70,23 @@
 					<div class='text'>{{ '단체행사' if isGroup else '자유여행' }}</div>
 				</li>
 			</ul>	
+			<div class='price_info'>
+				<div class='target'>성인 1인</div>
+				<div class='price'>
+					<span class='no'>{{ priceAdult.toLocaleString() }}</span>원
+				</div>
+			</div>
+			<!--// price_info -->
 		</div>
 	</div>
 	<!--// top_box -->
 	<div class='bottom_box'>
-		
+		<div class='description'>
+			{{ contents | safe }}
+		</div>
+		<div class='reservation'>
+			예약
+		</div>
 	</div>
 	<!--// bottom_box -->
 </div>

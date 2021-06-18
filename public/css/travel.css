@@ -3,3 +3,9 @@
 .body_travel .top_box:after { clear: both; content: ''; display: block; }
 
 .body_travel .top_box .images img { width: 100%; display: block; }
+
+.body_travel .bottom_box { border-top: 2px solid #111111; }
+.body_travel .bottom_box .description { width: calc(100% - 305px); float: left; padding: 40px 24px 0 0; border-right: 1px solid #dddddd; }
+.body_travel .bottom_box .reservation { width: 305px; float: right; }
+.body_travel .bottom_box:after { clear: both; content: ''; display: block; }
+.body_travel .bottom_box .description img { max-width: 870px; }
