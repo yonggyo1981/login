@@ -35,6 +35,9 @@ a { text-decoration: none; color: #212121; }
 /** 팝업 공통 */
 .popup_tit { font-size: 17px; font-weight: bold; padding-bottom: 15px; margin-bottom: 20px; border-bottom: 1px solid #212121; }
 
+/** 레이아웃 */
+.layout_width { width: 1200px; margin: 0 auto; }
+
 /** outline/header/_main.html */
 header .logo_search .logo { float: left; }
 header .logo_search .search { float: right; width: 250px; }

@@ -26,7 +26,7 @@
 		{% endblock %}
 		<title>{% if pageTitle %}{{ pageTitle }} - {% endif %}연희직업전문학교</title>
 	</head>
-	<body{%if bodyClass %} class="body_{{ bodyClass }}"{% endif %}>
+	<body class="{% if bodyClass %}body_{{ bodyClass }}{% endif %}{% if bodyClass2 %} body_{{ bodyClass2 }}{% endif %}">
 	<header>
 	{% block header %}
 	{% include "outline/header/_main.html" %}

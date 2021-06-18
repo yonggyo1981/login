@@ -8,8 +8,10 @@ router.route("/:goodsCd")
 		.get(async (req, res, next) => {
 			const goodsCd = req.params.goodsCd;
 			const data = await travel.get(goodsCd);
-			console.log(data);
-			return res.render("travel/goods");
+			
+			data.addCss = ["travel"];
+			
+			return res.render("travel/goods", data);
 		})
 		/** 상품 예약 처리 */
 		.post((req, res, next) => {
