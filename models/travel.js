@@ -235,9 +235,43 @@ const travel = {
 	* 상품 삭제 
 	*
 	* @param String goodsCd
+	* @return Boolean
 	*/
-	delete : function(goodsCd) {
-		
+	delete : async function(goodsCd) {
+		try {
+			/** 
+			  1. 이미지 파일 삭제 
+			  2. 상품 DB 삭제 
+			*/
+			 const data = await this.get(goodsCd);
+			 if (!data.goodsCd) {
+				 throw new Error('등록되지 않은 상품입니다.');
+			 }
+			 
+			 /** 이미지 파일 삭제 S */
+			 ["main", "list", "desc"].forEach(async (type) => {
+				const key = `${type}Images`;
+				if (data[key] && data[key].length > 0) {
+					data[key].forEach(async (v) => {
+						await fileUpload.delete(v.idx);
+					});
+				}
+			 });
+			 /** 이미지 파일 삭제 E */
+			 
+			 /** 상품 DB 데이터 삭제 S */
+			 const sql = "DELETE FROM travelgoods WHERE goodsCd = ?";
+			 await sequelize.query(sql, {
+				replacements : [goodsCd],
+				type : QueryTypes.DELETE,
+			 });
+			 /** 상품 DB 데이터 삭제 E */
+			 
+			 return true;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
 	},
 };
 

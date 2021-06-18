@@ -16,6 +16,7 @@ const indexRouter = require('./routes'); // 메인 페이지
 const memberRouter = require('./routes/member'); // 회원 페이지 
 const boardRouter = require('./routes/board'); // 게시판 페이지
 const fileRouter = require('./routes/file'); // 파일 업로드 페이지
+const travelRouter = require('./routes/travel'); // 여행 상품 페이지 
 
 /** admin 라우터 */
 const adminRouter = require('./routes/admin'); // 관리자 메인페이지 
@@ -109,6 +110,7 @@ app.use("/", indexRouter); // 메인페이지
 app.use("/member", memberRouter); // 회원페이지
 app.use("/board", boardRouter); // 게시판 페이지 
 app.use("/file", fileRouter); //파일 업로드 페이지 
+app.use("/travel", travelRouter); // 여행 페이지
 
 /** Admin 라우터 등록 */
 app.use("/admin", adminRouter); // 관리자 메인

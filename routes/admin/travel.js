@@ -48,11 +48,10 @@ router.route("/")
 					await travel.delete(goodsCd);
 				});
 				
-				
+				return alert("삭제되었습니다.", res, "reload", "parent");
 			} catch (err) {
 				return alert(err.message, res);
 			}
-			return res.send("");
 		});
 
 router.route("/:goodsCd")
