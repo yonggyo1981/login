@@ -31,6 +31,28 @@ router.route("/")
 			
 			// 실패시 
 			return alert('상품등록 실패하였습니다.', res);
+		})
+		/** 상품 삭제 */
+		.delete(async (req, res, next) => {
+			try {
+				let list = req.body.goodsCd;
+				if (!list) {
+					throw new Error("삭제할 상품을 선택하세요.");
+				}
+				
+				if (!(list instanceof Array)) { // goodsCd가 배열이 아니면 -> 배열 객체로 변환
+					list = [list];
+				}
+				
+				list.forEach(async (goodsCd) => {
+					await travel.delete(goodsCd);
+				});
+				
+				
+			} catch (err) {
+				return alert(err.message, res);
+			}
+			return res.send("");
 		});
 
 router.route("/:goodsCd")

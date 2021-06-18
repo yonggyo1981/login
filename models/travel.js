@@ -231,6 +231,14 @@ const travel = {
 		
 		return data;
 	},
+	/**
+	* 상품 삭제 
+	*
+	* @param String goodsCd
+	*/
+	delete : function(goodsCd) {
+		
+	},
 };
 
 module.exports = travel;
