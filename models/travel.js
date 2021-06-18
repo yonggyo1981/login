@@ -64,8 +64,10 @@ const travel = {
 		try {
 			const sql = `UPDATE travelgoods 
 									SET 
+										category = :category,
 										goodsNm = :goodsNm,
 										shortDescription = :shortDescription,
+										city = :city,
 										itinerary = :itinerary,
 										transportation = :transportation,
 										shopping = :shopping,
@@ -89,8 +91,10 @@ const travel = {
 			}
 			
 			const replacements = {
+				category : this.params.category || 'domestic',
 				goodsNm : this.params.goodsNm,
 				shortDescription : this.params.shortDescription,
+				city : this.params.city,
 				itinerary : this.params.itinerary || 0,
 				transportation : this.params.transportation || 'bus',
 				shopping : this.params.shopping || 0,
