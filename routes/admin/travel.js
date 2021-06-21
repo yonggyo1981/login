@@ -129,8 +129,10 @@ router.route("/package")
 					req.body.num = [req.body.num];
 				}
 				
-				req.body.num.forEach((num) => {
-					
+				req.body.num.forEach(async (num) => {
+					const startDate =req.body['startDate_' + num];
+					const endDate = req.body['endDate_' + num];
+					await travel.deletePackage(req.body.goodsCd, startDate, endDate);
 				});
 				
 			} catch (err) {
