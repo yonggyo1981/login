@@ -566,7 +566,7 @@ const travel = {
 			const idxReservation = result[0];
 			['adult', 'child', 'infant'].forEach(async (personType) => {
 				const cnt = Number(travel.params['goodsCnt_' + personType]);
-				if (cnt == 0) { // 인원수가 1명일때 
+				if (cnt == 1) { // 인원수가 1명일때 
 					 travel.params['travelerNm_' + personType] = [travel.params['travelerNm_' + personType]];
 					 travel.params['travelerBirth_' + personType] = [travel.params['travelerBirth_' + personType]];
 					 travel.params['travelerGender_' + personType] = [travel.params['travelerGender_' + personType]];
@@ -575,7 +575,13 @@ const travel = {
 						travel.params['travelerEmail_' + personType] = [travel.params['travelerEmail_' + personType]];
 					 }
 				}
+				
+				const nums = [];
 				for (let i = 0; i < cnt; i++) {
+					nums.push(i);
+				}
+				console.log(nums);
+ 				for (let i = 0; i < cnt; i++) {
 					const sql = `INSERT INTO travelreservation_persons (idxReservation, personType, travelerNm, travelerBirth, travelerGender, travelerCellPhone, travelerEmail)
 											VALUES (:idxReservation, :personType, :travelerNm, :travelerBirth, :travelerGender, :travelerCellPhone, :travelerEmail)`;
 					 
@@ -585,10 +591,10 @@ const travel = {
 						travelerNm : travel.params['travelerNm_' + personType][i] || "",
 						travelerBirth : travel.params['travelerBirth_' + personType][i] || "",
 						travelerGender : travel.params['travelerGender_' + personType][i] || "",
-						travelerCellPhone : travel.params['travelerCellPhone_' + personType]?travel.params['travelerCellPhone_' + personType][i]:"";
+						travelerCellPhone : travel.params['travelerCellPhone_' + personType]?travel.params['travelerCellPhone_' + personType][i]:"",
 						travelerEmail : travel.params['travelerEmail_' + personType]? travel.params['travelerEmail_' + personType][i]:"",
 					};
-					
+
 					await sequelize.query(sql, {
 						replacements,
 						transaction,
@@ -596,10 +602,10 @@ const travel = {
 					});
 				}
 			});
-			
+
 			await transaction.commit();
 			
-			return idxReservation;
+
 		} catch (err) {
 			logger(err.stack, 'error');
 			await transaction.rollback();
