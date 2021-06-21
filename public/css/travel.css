@@ -85,3 +85,14 @@
 .body_travel_reservation .reservation_persons .goods_cnt_wrap { margin: 30px auto; }
 .body_travel_reservation .guide_txt { margin-bottom: 30px; }
 .body_travel_reservation .guide_txt li { font-size: 13px; line-height: 20px; color: #888888 }
+.body_travel_reservation .summary > .inner { width: 306px; margin-left: 24px; }
+.body_travel_reservation .summary_info { background-color: #f7f7f7; border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd; padding: 15px 20px 20px; }
+.body_travel_reservation .summary { position: relative; }
+.body_travel_reservation .summary > .inner { position: fixed; }
+.body_travel_reservation .summary .top { margin-bottom: 20px; }
+.body_travel_reservation .summary .top dd { text-align: right; }
+.body_travel_reservation .summary .top dd span { margin-right: 15px; }
+.body_travel_reservation .summary .top dd span.infant_cnt { margin-right: 0; }
+.body_travel_reservation .summary .total_price { font-size: 15px; color: #e5236d; text-align: right; margin-bottom: 10px; }
+.body_travel_reservation .summary .total_price .no { font-size: 26px; font-weight: bold; letter-spacing: -2px; }
+.body_travel_reservation .summary .txt { font-size: 13px; color: #666666; text-align: right; }

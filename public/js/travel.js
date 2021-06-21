@@ -23,7 +23,39 @@ const travel = {
 		});
 		$(".reservation .total_price .no").text(total.toLocaleString());
 	},
-	
+	/**  
+	* 예약 인원 정보 변경시 업데이트 
+	*
+	*/
+	updateReservation : function() {
+		const list = $(".reservation_persons .goods_cnt");
+		
+		let totalPrice = 0;
+		$.each(list, function() {
+			const li = $(this).closest("li");
+			const cnt = Number($(this).val());
+			let price = 0;
+			if (!li.hasClass("infant")) {
+				price = Number(li.data("price"));
+			}
+			
+			let target;
+			if (li.hasClass("adult")) {
+				target = $(".summary .adult_cnt");
+			} else if (li.hasClass("child")) {
+				target = $(".summary .child_cnt");
+			} else {
+				target = $(".summary .infant_cnt");
+			}
+			
+			target.text(cnt.toLocaleString());
+			
+			const tot = price * cnt;
+			totalPrice += tot;
+		});
+		
+		$(".summary_info .total_price .no").text(totalPrice.toLocaleString());
+	},
 };
 
 $(function() {
@@ -75,6 +107,32 @@ $(function() {
 	
 	/** 예약하기 페이지 인원 변경 */
 	$(".reservation_persons .cnt_btn").click(function() {
+		const goodsCnt = $(this).closest(".goods_cnt_wrap").find(".goods_cnt");
+		let cnt = Number(goodsCnt.val());
 		
+		if ($(this).hasClass("up")) { // 증가
+			cnt++;
+		} else { // 감소 
+			cnt--;
+		}
+		
+		const li = $(this).closest("li");
+		let price = 0;
+		if (!li.hasClass("infant")) {
+			price = Number(li.data("price"));
+		}
+			
+		const minCnt = li.hasClass("adult")?1:0;
+		if (cnt < minCnt) cnt = minCnt;
+			
+		goodsCnt.val(cnt);
+		
+		const totalPrice =  price * cnt;
+		const tot = li.find(".tot_price .no");
+		if (tot.length > 0) {
+			tot.text(totalPrice.toLocaleString());
+		}
+		
+		travel.updateReservation();
 	});
 });

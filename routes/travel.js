@@ -26,8 +26,11 @@ router.route("/reservation")
 				data.infant = req.body.goodsCnt_infant || 0;
 				data.totalPriceAdult = data.priceAdult * data.adult;
 				data.totalPriceChild = data.priceChild * data.child;
+				data.totalPrice = data.totalPriceAdult  + data.totalPriceChild;
+
 				data.totalPriceAdult = data.totalPriceAdult.toLocaleString();
 				data.totalPriceChild = data.totalPriceChild.toLocaleString();
+				data.totalPrice = data.totalPrice.toLocaleString();
 				
 				data.packages = await travel.getPackages(goodsCd);
 				
