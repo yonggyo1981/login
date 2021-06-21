@@ -94,10 +94,10 @@ router.route("/package/:goodsCd")
 			const schedules = await travel.getPackageSchedules(goodsCd);
 			
 			const list = await travel.getPackages(goodsCd); // 등록된 패키지 일정 목록
-			console.log(list);
 			const data = {
 					goodsCd,
 					schedules,
+					list,
 			};
 			
 			return res.render("admin/travel/package", data);

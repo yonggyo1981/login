@@ -384,6 +384,8 @@ const travel = {
 				_list[i].regDt = parseDate(v.regDt).datetime;
 				const sdate = Date.parse(v.startDate + " 00:00:00");
 				const edate = Date.parse(v.endDate + " 00:00:00");
+				_list[i].startDate = parseDate(v.startDate).date2;
+				_list[i].endDate = parseDate(v.endDate).date2;
 				_list[i].period = `${sdate}_${edate}`;
 			});
 			

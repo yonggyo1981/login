@@ -39,12 +39,36 @@
 				<th width='20'>
 					<input type='checkbox' class='check_all' data-target-name='period'>
 				</th>
-				<th width='120'>시작일</th>
-				<th width='120'>종료일</th>
-				<th>금액조정</th>
+				<th width='250'>여행기간</th>
+				<th width='120'>금액조정</th>
 				<th>최소 / 최대인원</th>
 			</tr>
 		</thead>
+		<tbody>
+		{% if list.length  > 0 %}
+		{% for item in list %}
+			<tr>
+				<td align='center'>
+					<input type='hidden' name='num' value='{{ loop.index }}'>
+					<input type='checkbox' name='period_{{ loop.index }}' value='{{ item.period }}'>
+				</td>
+				<td align='center'>{{ item.period }}</td>
+				<td>
+					<input type='text' name='addPrice_{{ loop.index }}' value='{{ item.addPrice }}'> 
+				</td>
+				<td>
+					<input type='number' name='minPersons_{{ loop.index }' value='{{ item.minPersons }}'>
+					/ 
+					<input type='number' name='maxPersons_{{ loop.index }}' value='{{ item.maxPersons }}'>
+				</td>
+			</tr>
+		{% endfor %}
+		{% else %}
+		<tr>
+			<td colspan='4' class='no_schedule'>등록된 일정이 없습니다.</td>
+		</tr>
+		{% endif %}
+		</tbody>
 	</table>
 </form>
 {% endblock %}
