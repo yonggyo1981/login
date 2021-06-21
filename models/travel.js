@@ -151,6 +151,9 @@ const travel = {
 					});
 					data.yoilChecked[i] = isChecked;
 				}
+				
+				// 가능한 최근 패키지 일정 
+				const pack = await this.getPackage(goodsCd);
 			}
 			
 			return data;
@@ -465,7 +468,42 @@ const travel = {
 			logger(err.stack, 'error');
 			return false;
 		}
-	}
+	},
+	/**
+	* 패키지 일정 정보 
+	*
+	* @param String goodsCd 상품코드
+	* @param String starteDate 일정 시작일
+	* @param String endDate 일정 종료일
+	* 
+	* @return Object
+	*/
+	getPackage : async function(goodsCd, startDate, endDate) {
+		try {
+			if (!goodsCd) {
+				throw new Error('상품코드 누락');
+			}
+			
+			const nextDate = new Date(Date.now() + 60 * 60 * 24);
+			
+			startDate = startDate?new Date(startDate):nextDate;
+			const replacements = { goodsCd, startDate };
+			let sql = "SELECT * FROM travelgoods_package WHERE goodsCd = :goodsCd";
+			if (endDate) {
+				replacements.endDate = new Date(endDate);
+				sql += " AND startDate = :startDate AND endDate = :endDate";
+			} else { 
+				sql += " AND startDate >= :startDate";
+			}
+			
+			sql += " LIMIT 1";
+			
+			
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
 };
 
 module.exports = travel;

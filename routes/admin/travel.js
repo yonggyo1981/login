@@ -134,6 +134,8 @@ router.route("/package")
 					await travel.deletePackage(req.body.goodsCd, period[0], period[1]);
 				});
 				
+				// 삭제 완료시 새로고침
+				return reload(res, "parent");
 			} catch (err) {
 				return alert(err.message, res);
 			}
