@@ -404,7 +404,18 @@ const travel = {
 			return false;
 		}
 	},
-	
+	/**
+	* 일정 삭제 
+	*
+	* @param String goodsCd 상품코드 
+	* @param String startDate 일정 시작일
+	* @param String endDate 일정 종료일 
+	* 
+	* @return Boolean
+	*/
+	deletePackage : async function(goodsCd, startDate, endDate) {
+		console.log(goodsCd, startDate, endDate);
+	},
 	/**
 	* 등록된 패키지 목록 
 	*
