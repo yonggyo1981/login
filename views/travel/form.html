@@ -208,6 +208,29 @@
 	</div>
 </script>
 <script type='text/html' id='person_child_template'>
-
+	<div class='person_info'>
+		<div class='sub_tit2'><%=tit%></div>
+		<table>
+			<tr>
+				<th>성명(한글)</th>
+				<td colspan='3'>
+					<input type='text' name='travelerNm_adult' placeholder='한글성명(ex. 홍길동)'>
+				</td>
+			</tr>
+			<tr>
+				<th>생년월일</th>
+				<td>
+					<input type='number' name='travelerBirth_adult' placeholder='법정 생년월일(ex. 19911223)'>
+				</td>
+				<th>성별</th>
+				<td>
+					<select name='travelerGender_adult'>
+						<option value='남성'>남성</option>
+						<option value='여성'>여성</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+	</div>
 </script>
 {% endblock %}
