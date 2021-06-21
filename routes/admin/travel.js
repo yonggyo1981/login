@@ -87,6 +87,46 @@ router.route("/:goodsCd")
 		});
 
 /** 패키지 일정 관리 */
+router.route("/package")
+		/** 일정 수정 */
+		.patch(async (req, res, next) => {
+			try {
+				
+				if (req.body.num instanceof Array) { // 여러개 있는 경우 
+					req.body.num.forEach(async (num) => {
+						const data = {
+							period : req.body['period_' + num],
+							addPrice : req.body['addPrice_' + num],
+							minPersons : req.body['minPersons_' + num],
+							maxPersons : req.body['maxPersons_' + num],
+							goodsCd : req.body.goodsCd,
+						};
+						await travel.data(data).updatePackage();
+					});
+				} else { // 단일개 있는 경우 
+					const num = req.body.num;
+					const data = {
+						period : req.body['period_' + num],
+						addPrice : req.body['addPrice_' + num],
+						minPersons : req.body['minPersons_' + num],
+						maxPersons : req.body['maxPersons_' + num],
+						goodsCd : req.body.goodsCd,
+					};
+					
+					await travel.data(data).updatePackage();
+				}
+				
+				
+			} catch (err) {
+				return alert(err.message, res);
+			}
+		})
+		/** 일정 삭제 */
+		.delete((req, res, next) => {
+			
+			return res.send("");
+		});
+		
 router.route("/package/:goodsCd")
 		/** 일정 등록 양식 */
 		.get(async (req, res, next) => {
@@ -98,6 +138,7 @@ router.route("/package/:goodsCd")
 					goodsCd,
 					schedules,
 					list,
+					addScript : ['travel'],
 			};
 			
 			return res.render("admin/travel/package", data);

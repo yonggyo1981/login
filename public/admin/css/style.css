@@ -29,6 +29,9 @@ textarea { border: 1px solid #d5d5d5; min-height: 150px; resize: none; border-ra
 .table_rows thead th { background-color: #f8f8f8; padding: 10px; border: 1px solid #d5d5d5; border-left: 0; border-right: 0; }
 .table_rows tbody td { border-bottom: 1px solid #d5d5d5; padding: 10px; }
 
+.action_box { margin: 10px 0; }
+.action_box select { width: auto; }
+
 /* 메인 제목 */
 .mtitle { font-size: 14px; font-weight: bold; margin-bottom: 15px; }
 
@@ -40,6 +43,7 @@ textarea { border: 1px solid #d5d5d5; min-height: 150px; resize: none; border-ra
 .submit_btn { background-color: #212121; color: #ffffff; height: 45px; line-height: 45px; cursor: pointer; border-radius: 7px; width: 250px; margin: 20px auto; border: 0; display: block; }
 .btn1, .btn2 { display: inline-block; padding: 5px 15px; background-color: blue; color: #ffffff; border-radius: 5px; font-size: 11px; cursor: pointer; border: 0; }
 .btn2 { background-color: red; }
+.btn3 { display: inline-block; height: 40px; padding: 0 20px; line-height: 40px; color: #ffffff; background-color: blue; border-radius: 5px; font-size: 12px; border: 0; cursor: pointer; }
 
 /** 팝업 공통 */
 .popup_tit { font-size: 17px; font-weight: bold; padding-bottom: 15px; margin-bottom: 20px; border-bottom: 1px solid #212121; }

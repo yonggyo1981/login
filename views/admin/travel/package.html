@@ -33,6 +33,7 @@
 
 <div class='mtitle'>패키지 일정 목록</div>
 <form id='frmTravelPackages' name='frmTravelPackages' method='post' action='/admin/travel/package?_method=PATCH' target='ifrmHidden' autocomplete='off'>
+	<input type='hidden' name='goodsCd' value='{{ goodsCd }}'>
 	<table class='table_rows'>
 		<thead>
 			<tr>
@@ -70,12 +71,14 @@
 		{% endif %}
 		</tbody>
 	</table>
-	<div class='mt10'>
+	{% if list.length >  0 %}
+	<div class='action_box'>
 		<select class='mode'>
 			<option value='update'>수정</option>
 			<option value='delete'>삭제</option>
 		</select>
-		<input type='submit' value='처리하기' class='btn1' onclick="return confirm('정말 처리하시겠습니까?');">
+		<input type='submit' value='처리하기' class='btn3' onclick="return confirm('정말 처리하시겠습니까?');">
 	</div>
+	{% endif %}
 </form>
 {% endblock %}
