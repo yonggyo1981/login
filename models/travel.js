@@ -367,6 +367,45 @@ const travel = {
 		}
 	},
 	/**
+	* 패키지 수정 
+	*
+	* @return Boolean 
+	*/ 
+	updatePackage : async function() {
+		try {
+			const dates = this.params.period.split("_");
+			const startDate = new Date(Number(dates[0]));
+			const endDate = new Date(Number(dates[1]));
+			
+			const sql = `UPDATE travelgoods_package 
+									SET 
+										addPrice = :addPrice,
+										minPersons = :minPersons,
+										maxPersons = :maxPersons
+								WHERE 
+										startDate = :startDate AND endDate = :endDate AND goodsCd = :goodsCd`;
+			const replacements = {
+				addPrice : this.params.addPrice || 0,
+				minPersons : this.params.minPersons || 0,
+				maxPersons : this.params.maxPersons || 0,
+				startDate,
+				endDate,
+				goodsCd : this.params.goodsCd,
+			};
+			
+			await sequelize.query(sql, {
+				replacements, 
+				type : QueryTypes.UPDATE,
+			});
+			
+			return true;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
+	
+	/**
 	* 등록된 패키지 목록 
 	*
 	* @param String goodsCd 상품코드 
