@@ -72,7 +72,7 @@
 			
 			<div class='sub_tit'>인원정보</div>
 			<ul class='reservation_persons'>
-				<li class='box adult'>
+				<li class='box adult' data-price='{{ priceAdult }}'>
 					<div class='t1'>
 						<span>성인</span>
 						만 13세 이상 
@@ -87,7 +87,7 @@
 					<!--// goods_cnt_wrap -->
 				</li>
 				
-				<li class='box child'>
+				<li class='box child' data-price='{{ priceChild }}'>
 					<div class='t1'>
 						<span>아동</span>
 						만 13세 미만
@@ -117,6 +117,11 @@
 					<!--// goods_cnt_wrap -->
 				</li>
 				
+			</ul>
+			
+			<ul class='guide_txt'>
+				<li>※ [+], [-] 버튼으로 인원을 선택하세요.<li>
+				<li>※ 싱글 차지 금액은 예약 이후 추가 될 수 있사오니, 예약 내역 확인 시 상품 결제 정보를 꼭! 확인 하시기 바랍니다.</li>
 			</ul>
 			
 			<div class='sub_tit'>여행자 정보</div>

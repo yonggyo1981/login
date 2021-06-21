@@ -72,4 +72,9 @@ $(function() {
 		// 로그인 되어 있는 경우 -> 예약하기 양식으로 이동 
 		frmTravelGoods.submit();
 	});
+	
+	/** 예약하기 페이지 인원 변경 */
+	$(".reservation_persons .cnt_btn").click(function() {
+		
+	});
 });
