@@ -54,3 +54,10 @@
 .body_travel .reservation .settle_info .guide_txt { color: #888888; font-size: 12px; margin-top: 5px; }
 
 .body_travel .apply_reservation { background-color: #5e99cb; height: 56px; line-height: 56px; text-align: center; color: #ffffff; font-size: 17px; border-radius: 5px; cursor: pointer; }
+
+
+/** travel/form.html */
+.body_travel_reservation .main_contents { float: left; width: calc(100% - 330px); } 
+.body_travel_reservation .summary { float: right; width: 330px; }
+.body_travel_reservation .content_wrap { clear: both; content: ''; display: block; }
+

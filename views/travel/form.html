@@ -1,4 +1,26 @@
 {% extends '../layout.html' %}
 {% block content %}
-예약하기 
+<div class='main_tit'>예약하기</div>
+<div class='content_wrap'>
+	<div class='main_contents'>
+	<form method='post' action='/travel/reservation' target='ifrmHidden' autocomplete='off'>
+		<input type='hidden' name='goodsCd' value='{{ goodsCd }}'>
+		
+		<div class='sub_tit'>{{ goodsNm }}</div>
+		<table>
+			<tr>
+				<th>여행기간</th>
+				<td>
+					
+				</td>
+			</tr>
+		</table>
+	</form>
+	</div>
+	<div class='summary'>
+		선택 요약
+	</div>
+</div>
+<!--// content_wrap -->
+
 {% endblock %}

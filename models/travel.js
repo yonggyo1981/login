@@ -154,6 +154,18 @@ const travel = {
 				
 				// 가능한 최근 패키지 일정 
 				const pack = await this.getPackage(goodsCd);
+				if (pack) {
+					// 판매가 조정 
+					if (pack.addPrice) {
+						data.priceAdult += pack.addPrice;
+						data.priceChild += pack.addPrice;
+					}
+					
+					data.pack = pack;
+				}
+				
+				data.priceAdultStr = Number(data.priceAdult).toLocaleString();
+				data.priceChildStr = Number(data.priceChild).toLocaleString();
 			}
 			
 			return data;
@@ -458,8 +470,8 @@ const travel = {
 				_list[i].regDt = parseDate(v.regDt).datetime;
 				const sdate = Date.parse(v.startDate + " 00:00:00");
 				const edate = Date.parse(v.endDate + " 00:00:00");
-				_list[i].startDate = parseDate(v.startDate).date2;
-				_list[i].endDate = parseDate(v.endDate).date2;
+				_list[i].startDate = parseDate(v.startDate).date;
+				_list[i].endDate = parseDate(v.endDate).date;
 				_list[i].period = `${sdate}_${edate}`;
 			});
 			
@@ -498,7 +510,20 @@ const travel = {
 			
 			sql += " LIMIT 1";
 			
+			const rows = await sequelize.query(sql, {
+				replacements,
+				type : QueryTypes.SELECT,
+			});
 			
+			const data = rows[0] || {};
+			if (rows.length > 0) {
+				const sDate = parseDate(data.startDate).date;
+				const eDate = parseDate(data.endDate).date;
+				
+				data.period = `${sDate}~${eDate}`;
+			}
+			
+			return data;
 		} catch (err) {
 			logger(err.stack, 'error');
 			return false;
