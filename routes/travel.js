@@ -24,9 +24,13 @@ router.route("/reservation")
 				data.adult = req.body.goodsCnt_adult || 1;
 				data.child = req.body.goodsCnt_child || 0;
 				data.infant = req.body.goodsCnt_infant || 0;
+				data.totalPriceAdult = data.priceAdult * data.adult;
+				data.totalPriceChild = data.priceChild * data.child;
+				data.totalPriceAdult = data.totalPriceAdult.toLocaleString();
+				data.totalPriceChild = data.totalPriceChild.toLocaleString();
 				
 				data.packages = await travel.getPackages(goodsCd);
-				console.log(data.packages);
+				
 				data.addCss = ['travel'];
 				data.addScript = ['travel'];
 				return res.render("travel/form", data);
