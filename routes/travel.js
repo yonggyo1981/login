@@ -42,6 +42,13 @@ router.route("/reservation")
 			}
 		});
 
+router.route("/reservation/apply")
+		/** 여행 예약하기 신청 처리 */
+		.post((req, res, next) => {
+			console.log(req.body);
+			return res.send("");
+		});
+
 /** 여행 상품 상세 */
 router.route("/:goodsCd")
 		/** 상품 상세 */

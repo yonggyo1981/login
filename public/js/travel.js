@@ -40,26 +40,30 @@ const travel = {
 				price = Number(li.data("price"));
 			}
 			
-			let target, tpl = "", tit = "";
+			let target, tpl = "", tit = "", personType = "";
 
 			if (li.hasClass("adult")) {
 				tit = "성인";
+				personType = "adult";
 				target = $(".summary .adult_cnt");	
 				tpl = $("#person_adult_template").html();
 				
 			} else if (li.hasClass("child")) {
 				tit = "아동";
+				personType = "child";
 				target = $(".summary .child_cnt");
 				tpl = $("#person_child_template").html();
 			} else {
 				tit = "유아";
+				personType = "infant";
 				target = $(".summary .infant_cnt");
 				tpl = $("#person_child_template").html();
 			}
 			
 			for (let i = 0; i < cnt; i++) {
 				const _tit = tit + (i + 1);
-				const _html = tpl.replace(/<%=tit%>/g, _tit);
+				let _html = tpl.replace(/<%=tit%>/g, _tit);
+				_html = _html.replace(/<%=personType%>/g, personType);
 				html += _html;
 			}
 			
@@ -111,7 +115,7 @@ $(function() {
 	/** 수량 증가 E */
 	
 	/** 예약하기 버튼 클릭 처리 */
-	$(".apply_reservation").click(function() {
+	$(".travel_goods  .apply_reservation").click(function() {
 		if ($(this).hasClass("not_login")) {
 			if (!confirm('여행상품 예약은 로그인이 필요합니다. 로그인페이지로 이동하시겠습니까?')) {
 				return;
@@ -158,7 +162,7 @@ $(function() {
 	});
 	
 	/** 예약 신청하기 클릭시 */
-	$(".apply_reservation").click(function() {
+	$(".body_travel_reservation .apply_reservation").click(function() {
 		frmReservation.submit();
 	});
 });
