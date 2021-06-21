@@ -342,7 +342,8 @@ const travel = {
 	*/
 	registerPackage : async function() {
 		try {
-			const period = this.parrams.period.split("_");
+			const period = this.params.period.split("_");
+						
 			const replacements = {
 				startDate :  new Date(Number(period[0])),
 				endDate : new Date(Number(period[1])),
@@ -353,8 +354,13 @@ const travel = {
 			}
 			
 			const sql = `INSERT INTO travelgoods_package (startDate, endDate, goodsCd, addPrice, minPersons, maxPersons)
-								
-			`;
+									VALUES (:startDate, :endDate, :goodsCd, :addPrice, :minPersons, :maxPersons)`;
+			await sequelize.query(sql, {
+				replacements, 
+				type : QueryTypes.INSERT,
+			});
+			
+			return true;
 		} catch (err) {
 			logger(err, 'error');
 			return false;

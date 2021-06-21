@@ -93,6 +93,8 @@ router.route("/package/:goodsCd")
 			const goodsCd = req.params.goodsCd;
 			const schedules = await travel.getPackageSchedules(goodsCd);
 			
+			const list = await travel.getPackages(goodsCd); // 등록된 패키지 일정 목록
+			
 			const data = {
 					goodsCd,
 					schedules,
@@ -104,8 +106,12 @@ router.route("/package/:goodsCd")
 		.post(async (req, res, next) => {
 			req.body.goodsCd = req.params.goodsCd;
 			const result = await travel.data(req.body).registerPackage();
-						
-			return res.send("");
+			if (result) { // 등록 성공 -> 새로고침 
+				return reload(res, "parent");
+			}
+			
+			// 등록 실패 
+			return alert("일정 등록 실패하였습니다.", res);
 		});
 
 module.exports = router;
