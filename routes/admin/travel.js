@@ -101,7 +101,9 @@ router.route("/package")
 							maxPersons : req.body['maxPersons_' + num],
 							goodsCd : req.body.goodsCd,
 						};
-						await travel.data(data).updatePackage();
+						if (data.period) { // 일정을 선택한 것만 수정
+							await travel.data(data).updatePackage();
+						}
 					});
 				} else { // 단일개 있는 경우 
 					const num = req.body.num;
@@ -113,9 +115,12 @@ router.route("/package")
 						goodsCd : req.body.goodsCd,
 					};
 					
-					await travel.data(data).updatePackage();
+					if (data.period) { // 일정을 선택한 것만 수정 
+						await travel.data(data).updatePackage();
+					}
 				}
 				
+				return reload(res, "parent");
 				
 			} catch (err) {
 				return alert(err.message, res);
