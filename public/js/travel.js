@@ -31,6 +31,7 @@ const travel = {
 		const list = $(".reservation_persons .goods_cnt");
 		
 		let totalPrice = 0;
+		let html = "";
 		$.each(list, function() {
 			const li = $(this).closest("li");
 			const cnt = Number($(this).val());
@@ -39,13 +40,27 @@ const travel = {
 				price = Number(li.data("price"));
 			}
 			
-			let target;
+			let target, tpl = "", tit = "";
+
 			if (li.hasClass("adult")) {
-				target = $(".summary .adult_cnt");
+				tit = "성인";
+				target = $(".summary .adult_cnt");	
+				tpl = $("#person_adult_template").html();
+				
 			} else if (li.hasClass("child")) {
+				tit = "아동";
 				target = $(".summary .child_cnt");
+				tpl = $("#person_child_template").html();
 			} else {
+				tit = "유아";
 				target = $(".summary .infant_cnt");
+				tpl = $("#person_child_template").html();
+			}
+			
+			for (let i = 0; i < cnt; i++) {
+				const _tit = tit + (i + 1);
+				const _html = tpl.replace(/<%=tit%>/g, _tit);
+				html += _html;
 			}
 			
 			target.text(cnt.toLocaleString());
@@ -53,12 +68,18 @@ const travel = {
 			const tot = price * cnt;
 			totalPrice += tot;
 		});
-		
+	
 		$(".summary_info .total_price .no").text(totalPrice.toLocaleString());
+		
+		$("#person_info_html").html(html);
 	},
 };
 
 $(function() {
+	if ($(".body_travel_reservation").length > 0) { // 예약하기 페이인 경우만 updateReservation 초기 로드 
+		travel.updateReservation();
+	}
+	
 	/** 상품 상세 메인배너 롤링 S */
 	var swiper = new Swiper(".top_box .mySwiper", {
         pagination: {
@@ -134,5 +155,10 @@ $(function() {
 		}
 		
 		travel.updateReservation();
+	});
+	
+	/** 예약 신청하기 클릭시 */
+	$(".apply_reservation").click(function() {
+		frmReservation.submit();
 	});
 });

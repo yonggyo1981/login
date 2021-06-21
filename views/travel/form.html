@@ -4,7 +4,7 @@
 	<div class='main_tit'>예약하기</div>
 	<div class='content_wrap'>
 		<div class='main_contents'>
-		<form method='post' action='/travel/reservation' target='ifrmHidden' autocomplete='off'>
+		<form name='frmReservation' method='post' action='/travel/reservation/apply' target='ifrmHidden' autocomplete='off'>
 			<input type='hidden' name='goodsCd' value='{{ goodsCd }}'>
 			
 			<div class='sub_tit'>{{ goodsNm }}</div>
@@ -125,6 +125,7 @@
 			</ul>
 			
 			<div class='sub_tit'>여행자 정보</div>
+			<div id='person_info_html'></div>
 			
 			<div class='reservation_guide'>
 				<div class='tit'><i class='xi-info-o'></i> 예약 시 유의사항</div>
@@ -163,6 +164,7 @@
 					<div class='txt'>유류할증료&amp;제세공과금 포함</div>
 				</div>
 				<!--// summary_info -->
+				<div class='apply_reservation'>예약 신청하기</div>
 			</div>
 			<!--// inner -->
 		</div>
