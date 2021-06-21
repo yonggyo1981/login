@@ -532,6 +532,7 @@ const travel = {
 	/**
 	* 예약 신청
 	*
+	* return Integer|Boolean 성공한 경우 등록번호(idx), 실패 false
 	*/
 	apply : async function() {
 		
@@ -561,10 +562,47 @@ const travel = {
 				transaction,
 				type : QueryTypes.INSERT,
 			});
-			console.log(result);
+			
+			const idxReservation = result[0];
+			['adult', 'child', 'infant'].forEach(async (personType) => {
+				const cnt = Number(travel.params['goodsCnt_' + personType]);
+				if (cnt == 0) { // 인원수가 1명일때 
+					 travel.params['travelerNm_' + personType] = [travel.params['travelerNm_' + personType]];
+					 travel.params['travelerBirth_' + personType] = [travel.params['travelerBirth_' + personType]];
+					 travel.params['travelerGender_' + personType] = [travel.params['travelerGender_' + personType]];
+					 if (personType == 'adult') {
+						travel.params['travelerCellPhone_' + personType] = [travel.params['travelerCellPhone_' + personType]];
+						travel.params['travelerEmail_' + personType] = [travel.params['travelerEmail_' + personType]];
+					 }
+				}
+				for (let i = 0; i < cnt; i++) {
+					const sql = `INSERT INTO travelreservation_persons (idxReservation, personType, travelerNm, travelerBirth, travelerGender, travelerCellPhone, travelerEmail)
+											VALUES (:idxReservation, :personType, :travelerNm, :travelerBirth, :travelerGender, :travelerCellPhone, :travelerEmail)`;
+					 
+					const replacements = {
+						idxReservation,
+						personType,
+						travelerNm : travel.params['travelerNm_' + personType][i] || "",
+						travelerBirth : travel.params['travelerBirth_' + personType][i] || "",
+						travelerGender : travel.params['travelerGender_' + personType][i] || "",
+						travelerCellPhone : travel.params['travelerCellPhone_' + personType]?travel.params['travelerCellPhone_' + personType][i]:"";
+						travelerEmail : travel.params['travelerEmail_' + personType]? travel.params['travelerEmail_' + personType][i]:"",
+					};
+					
+					await sequelize.query(sql, {
+						replacements,
+						transaction,
+						type : QueryTypes.INSERT,
+					});
+				}
+			});
+			
+			await transaction.commit();
+			
+			return idxReservation;
 		} catch (err) {
 			logger(err.stack, 'error');
-			transaction.rollback();
+			await transaction.rollback();
 			return false;
 		}
 	},
