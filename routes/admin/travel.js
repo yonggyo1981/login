@@ -92,21 +92,15 @@ router.route("/package")
 		.patch(async (req, res, next) => {
 			try {
 				
-				if (req.body.num instanceof Array) { // 여러개 있는 경우 
-					req.body.num.forEach(async (num) => {
-						const data = {
-							period : req.body['period_' + num],
-							addPrice : req.body['addPrice_' + num],
-							minPersons : req.body['minPersons_' + num],
-							maxPersons : req.body['maxPersons_' + num],
-							goodsCd : req.body.goodsCd,
-						};
-						if (data.period) { // 일정을 선택한 것만 수정
-							await travel.data(data).updatePackage();
-						}
-					});
-				} else { // 단일개 있는 경우 
-					const num = req.body.num;
+				if (!req.body.num) {
+					throw new Error("수정할 일정을 선택하세요.");
+				}
+				
+				if (!(req.body.num instanceof Array)) {
+					req.body.num = [req.body.num];
+				}
+				
+				req.body.num.forEach(async (num) => {
 					const data = {
 						period : req.body['period_' + num],
 						addPrice : req.body['addPrice_' + num],
@@ -114,11 +108,9 @@ router.route("/package")
 						maxPersons : req.body['maxPersons_' + num],
 						goodsCd : req.body.goodsCd,
 					};
-					
-					if (data.period) { // 일정을 선택한 것만 수정 
-						await travel.data(data).updatePackage();
-					}
-				}
+		
+					await travel.data(data).updatePackage();
+				});
 				
 				return reload(res, "parent");
 				
@@ -127,8 +119,23 @@ router.route("/package")
 			}
 		})
 		/** 일정 삭제 */
-		.delete((req, res, next) => {
-			
+		.delete(async (req, res, next) => {
+			try {
+				if (!req. body.num) {
+					throw new Error('삭제할 일정을 선택하세요.');
+				}
+				
+				if (!(req.body.num instanceof Array)) {  // 단일
+					req.body.num = [req.body.num];
+				}
+				
+				req.body.num.forEach((num) => {
+					
+				});
+				
+			} catch (err) {
+				return alert(err.message, res);
+			}
 			return res.send("");
 		});
 		

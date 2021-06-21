@@ -38,7 +38,7 @@
 		<thead>
 			<tr>
 				<th width='20'>
-					<input type='checkbox' class='check_all' data-target-name='period'>
+					<input type='checkbox' class='check_all' data-target-name='num'>
 				</th>
 				<th width='250'>여행기간</th>
 				<th width='120'>금액조정</th>
@@ -50,8 +50,8 @@
 		{% for item in list %}
 			<tr>
 				<td align='center'>
-					<input type='hidden' name='num' value='{{ loop.index }}'>
-					<input type='checkbox' name='period_{{ loop.index }}' value='{{ item.period }}'>
+					<input type='checkbox' name='num' value='{{ loop.index }}'>
+					<input type='hidden' name='period_{{ loop.index }}' value='{{ item.period }}'>
 				</td>
 				<td align='center'>{{ item.startDate }} ~ {{ item.endDate }}</td>
 				<td>
