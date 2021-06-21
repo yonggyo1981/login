@@ -32,7 +32,7 @@
 </form>
 
 <div class='mtitle'>패키지 일정 목록</div>
-<form method='post' action='/admin/travel/package?_method=PATCH' target='ifrmHidden' autocomplete='off'>
+<form id='frmTravelPackages' name='frmTravelPackages' method='post' action='/admin/travel/package?_method=PATCH' target='ifrmHidden' autocomplete='off'>
 	<table class='table_rows'>
 		<thead>
 			<tr>
@@ -52,14 +52,14 @@
 					<input type='hidden' name='num' value='{{ loop.index }}'>
 					<input type='checkbox' name='period_{{ loop.index }}' value='{{ item.period }}'>
 				</td>
-				<td align='center'>{{ item.period }}</td>
+				<td align='center'>{{ item.startDate }} ~ {{ item.endDate }}</td>
 				<td>
 					<input type='text' name='addPrice_{{ loop.index }}' value='{{ item.addPrice }}'> 
 				</td>
 				<td>
-					<input type='number' name='minPersons_{{ loop.index }' value='{{ item.minPersons }}'>
-					/ 
-					<input type='number' name='maxPersons_{{ loop.index }}' value='{{ item.maxPersons }}'>
+					<input type='number' name='minPersons_{{ loop.index }}' value='{{ item.minPersons }}'>명
+				    	/ 
+					<input type='number' name='maxPersons_{{ loop.index }}' value='{{ item.maxPersons }}'>명
 				</td>
 			</tr>
 		{% endfor %}
@@ -70,5 +70,12 @@
 		{% endif %}
 		</tbody>
 	</table>
+	<div class='mt10'>
+		<select class='mode'>
+			<option value='update'>수정</option>
+			<option value='delete'>삭제</option>
+		</select>
+		<input type='submit' value='처리하기' class='btn1' onclick="return confirm('정말 처리하시겠습니까?');">
+	</div>
 </form>
 {% endblock %}

@@ -62,3 +62,7 @@ textarea { border: 1px solid #d5d5d5; min-height: 150px; resize: none; border-ra
 
 /** travel/form.html */
 .datepicker { width: 150px !important; }
+
+
+/** travel/package.html */
+.body_admin_travel  .table_rows input[type='number'] { width: 60px; }
