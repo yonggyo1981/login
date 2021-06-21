@@ -1,26 +1,15 @@
 const { alert, go } = require("../lib/common");
-const { reservationApplyValidator } = require('../middlewares/travel_validator');
+const { reservationValidator, reservationApplyValidator } = require('../middlewares/travel_validator');
 const express = require('express');
 const travel = require('../models/travel');
 const router = express.Router();
 
 /** 여행 예약하기 */
 router.route("/reservation")
-		.post(async (req, res, next) => {
-			try {
+		.post(reservationValidator, async (req, res, next) => {
+			try {	
 				goodsCd = req.body.goodsCd;
-				if (!goodsCd) {
-					throw new Error('잘못된 접근입니다.');
-				}
-				
 				const data = await travel.get(goodsCd);
-				if (!data.goodsCd) {
-					throw new Error('등록되지 않은 여행 상품입니다.');
-				}
-				
-				if (!data.pack) {
-					throw new Error('마감된 여행상품 입니다.');
-				}
 				
 				data.adult = req.body.goodsCnt_adult || 1;
 				data.child = req.body.goodsCnt_child || 0;
@@ -58,10 +47,20 @@ router.post("/reservation/apply", reservationApplyValidator, async (req, res, ne
 /** 여행 예약 신청 조회 */
 router.route("/reservation/:idx")
 		/** 신청 조회 */
-		.get((req, res, next) => {
-			const idx = req.params.idx;
-			
-			return res.render("travel/view");
+		.get(async(req, res, next) => {
+			try {
+				const idx = req.params.idx;
+				const data = await travel.getApply(idx);
+				if (!data) {
+					throw new Error('접수되지 않은 예약번호입니다.');
+				}
+				
+				data.addCss = ['travel'];
+				data.addScript = ['travel'];
+				return res.render("travel/view");
+			} catch (err) {
+				return alert(err.message, res, -1);
+			}
 		})
 		/** 신청 취소 */
 		.delete((req, res, next) => {

@@ -171,7 +171,7 @@ const travel = {
 			return data;
 		} catch (err) {
 			logger(err.stack, 'error');
-			return {};
+			return false;
 		}
 	},
 	/**
@@ -604,6 +604,32 @@ const travel = {
 		} catch (err) {
 			logger(err.stack, 'error');
 			await transaction.rollback();
+			return false;
+		}
+	},
+	/**
+	* 예약 신청 정보 
+	*
+	* @param Integer idx 신청번호 
+	* @return Object|Boolean
+	*/
+	getApply : async function(idx) {
+		try {
+			let sql = `SELECT a.*, b.memNm, b.memId FROM travelreservation AS a 
+									LEFT JOIN member AS b ON a.memNo = b.memNo 
+							WHERE a.idx = ?`;
+			const rows = await sequelize.query(sql, {
+				replacements : [idx],
+				type : QueryTypes.SELECT,
+			});
+			
+			const data = rows[0] || {};
+			if (data.idx) {
+				// 여행자 정보 
+				sql = "SELECT * FROM travelreservation_persons WHERE idxReservation = ? ORDER BY regDt";
+			}
+		} catch (err) {
+			logger(err.stack);
 			return false;
 		}
 	},
