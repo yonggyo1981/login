@@ -1,4 +1,5 @@
 const { alert, go } = require("../lib/common");
+const { reservationApplyValidator } = require('../middlewares/travel_validator');
 const express = require('express');
 const travel = require('../models/travel');
 const router = express.Router();
@@ -42,12 +43,31 @@ router.route("/reservation")
 			}
 		});
 
-router.route("/reservation/apply")
-		/** 여행 예약하기 신청 처리 */
-		.post(async (req, res, next) => {
-			req.body.memNo = req.session.memNo;
-			const result = await travel.data(req.body).apply();
+/** 여행 예약하기 신청 처리 */
+router.post("/reservation/apply", reservationApplyValidator, async (req, res, next) => {
+		req.body.memNo = req.session.memNo;
+		const idx = await travel.data(req.body).apply();
+		if (idx) { // 예약 신청 성공 -> 예약 신청 조회
+			return go("/travel/reservation/" + idx, res, "parent");
+		}
+			
+		// 예약신청 실패
+		return alert("예약신청 실패하였습니다", res);
+	});
+
+/** 여행 예약 신청 조회 */
+router.route("/reservation/:idx")
+		/** 신청 조회 */
+		.get((req, res, next) => {
+			const idx = req.params.idx;
+			
+			return res.render("travel/view");
+		})
+		/** 신청 취소 */
+		.delete((req, res, next) => {
+			
 		});
+
 
 /** 여행 상품 상세 */
 router.route("/:goodsCd")
@@ -58,7 +78,6 @@ router.route("/:goodsCd")
 			
 			data.addCss = ["travel"];
 			data.addScript = ["travel"];
-			console.log(data);
 			return res.render("travel/goods", data);
 		});
 		
