@@ -30,4 +30,21 @@
 	</table>
 	<input type='submit' value='등록하기' class='submit_btn'>
 </form>
+
+<div class='mtitle'>패키지 일정 목록</div>
+<form method='post' action='/admin/travel/package?_method=PATCH' target='ifrmHidden' autocomplete='off'>
+	<table class='table_rows'>
+		<thead>
+			<tr>
+				<th width='20'>
+					<input type='checkbox' class='check_all' data-target-name='period'>
+				</th>
+				<th width='120'>시작일</th>
+				<th width='120'>종료일</th>
+				<th>금액조정</th>
+				<th>최소 / 최대인원</th>
+			</tr>
+		</thead>
+	</table>
+</form>
 {% endblock %}

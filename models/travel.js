@@ -365,6 +365,33 @@ const travel = {
 			logger(err, 'error');
 			return false;
 		}
+	},
+	/**
+	* 등록된 패키지 목록 
+	*
+	* @param String goodsCd 상품코드 
+	* @return Array
+	*/
+	getPackages : async function (goodsCd) {
+		try {
+			const sql = `SELECT * FROM travelgoods_package WHERE goodsCd = ? ORDER BY startDate`;
+			const list = await sequelize.query(sql, {
+				replacements : [goodsCd],
+				type : QueryTypes.SELECT,
+			});
+			
+			list.forEach((v, i, _list) => {
+				_list[i].regDt = parseDate(v.regDt).datetime;
+				const sdate = Date.parse(v.startDate + " 00:00:00");
+				const edate = Date.parse(v.endDate + " 00:00:00");
+				_list[i].period = `${sdate}_${edate}`;
+			});
+			
+			return list;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
 	}
 };
 
