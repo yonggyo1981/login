@@ -11,7 +11,7 @@ const fileUpload = require("./file_upload");
 const travel = {
 	/** 처리할 데이터 */
 	params : {},
-	
+		
 	/** 교통편 */
 	transportations : [
 		{ type : 'airline_domestic', name1 : '국내선', name2 : '항공편' },
@@ -527,6 +527,17 @@ const travel = {
 		} catch (err) {
 			logger(err.stack, 'error');
 			return false;
+		}
+	},
+	/**
+	* 예약 신청
+	*
+	*/
+	apply : async function() {
+		try {
+			
+		} catch (err) {
+			
 		}
 	},
 };

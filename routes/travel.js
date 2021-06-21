@@ -44,9 +44,9 @@ router.route("/reservation")
 
 router.route("/reservation/apply")
 		/** 여행 예약하기 신청 처리 */
-		.post((req, res, next) => {
-			console.log(req.body);
-			return res.send("");
+		.post(async (req, res, next) => {
+			req.body.memNo = req.session.memNo;
+			const result = await travel.data(req.body).apply();
 		});
 
 /** 여행 상품 상세 */
