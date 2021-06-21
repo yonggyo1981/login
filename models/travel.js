@@ -534,10 +534,38 @@ const travel = {
 	*
 	*/
 	apply : async function() {
+		
+		let transaction;
 		try {
+			/**
+			* travelreservation 
+			*  -> idx -> travelreservation_person 
+			*/
+			transaction = await sequelize.transaction();
+			const period = this.params.period.split("_");
 			
+			let sql = `INSERT INTO travelreservation (memNo, goodsCd, startDate, endDate, name, birth, email, cellPhone)
+								VALUES (:memNo, :goodsCd, :startDate, :endDate, :name, :birth, :email, :cellPhone)`;
+			let replacements = {
+					memNo : this.params.memNo || 0,
+					goodsCd : this.params.goodsCd,
+					startDate : new Date(Number(period[0])),
+					endDate : new Date(Number(period[1])),
+					name : this.params.name,
+					birth : this.params.birth,
+					email : this.params.email,
+					cellPhone : this.params.cellPhone,
+			};
+			const result = await sequelize.query(sql, {
+				replacements,
+				transaction,
+				type : QueryTypes.INSERT,
+			});
+			console.log(result);
 		} catch (err) {
-			
+			logger(err.stack, 'error');
+			transaction.rollback();
+			return false;
 		}
 	},
 };
