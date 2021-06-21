@@ -564,7 +564,7 @@ const travel = {
 			});
 			
 			const idxReservation = result[0];
-			['adult', 'child', 'infant'].forEach(async (personType) => {
+			for (const personType of ['adult', 'child', 'infant']) {
 				const cnt = Number(travel.params['goodsCnt_' + personType]);
 				if (cnt == 1) { // 인원수가 1명일때 
 					 travel.params['travelerNm_' + personType] = [travel.params['travelerNm_' + personType]];
@@ -576,12 +576,7 @@ const travel = {
 					 }
 				}
 				
-				const nums = [];
 				for (let i = 0; i < cnt; i++) {
-					nums.push(i);
-				}
-				console.log(nums);
- 				for (let i = 0; i < cnt; i++) {
 					const sql = `INSERT INTO travelreservation_persons (idxReservation, personType, travelerNm, travelerBirth, travelerGender, travelerCellPhone, travelerEmail)
 											VALUES (:idxReservation, :personType, :travelerNm, :travelerBirth, :travelerGender, :travelerCellPhone, :travelerEmail)`;
 					 
@@ -601,11 +596,11 @@ const travel = {
 						type : QueryTypes.INSERT,
 					});
 				}
-			});
-
+			};
+		
 			await transaction.commit();
 			
-
+			return idxReservation;
 		} catch (err) {
 			logger(err.stack, 'error');
 			await transaction.rollback();
