@@ -128,7 +128,7 @@ router.route("/package")
 				if (!(req.body.num instanceof Array)) {  // 단일
 					req.body.num = [req.body.num];
 				}
-				console.log(req.body);
+				
 				req.body.num.forEach(async (num) => {
 					const period = req.body['period_' + num].split("_");
 					await travel.deletePackage(req.body.goodsCd, period[0], period[1]);

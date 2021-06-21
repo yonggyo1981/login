@@ -414,7 +414,28 @@ const travel = {
 	* @return Boolean
 	*/
 	deletePackage : async function(goodsCd, startDate, endDate) {
-		console.log(goodsCd, startDate, endDate);
+		try {
+			if (!goodsCd || !startDate || !endDate) {
+				throw new Error('상품코드, 일정시작일, 일정 종료일은 필수 항목 입니다.');
+			}
+			
+			const sql = "DELETE FROM travelgoods_package WHERE goodsCd = :goodsCd AND startDate = :startDate AND endDate = :endDate";
+			const replacements = {
+				goodsCd, 
+				startDate : new Date(Number(startDate)),
+				endDate : new Date(Number(endDate)),
+			};
+			
+			await sequelize.query(sql, {
+				replacements,
+				type : QueryTypes.DELETE,
+			});
+			
+			return true;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
 	},
 	/**
 	* 등록된 패키지 목록 
