@@ -237,12 +237,12 @@ const travel = {
 				type : QueryTypes.SELECT,
 			});
 			
-			list.forEach(async (v, i, _list) => {
-				_list[i].regDt = parseDate(v.regDt).datetime;
+			for (let i = 0; i < list.length; i++) {
+				list[i].regDt = parseDate(list[i].regDt).datetime;
 				/** 목록 이미지 */
-				_list[i].listImages = await travel.getImages(v.goodsCd, 'list');
-			});
-			
+				list[i].listImages = await travel.getImages(list[i].goodsCd, 'list');
+			}
+
 			const data = { 
 				totalResult, 
 				list, 

@@ -8,6 +8,7 @@ const router = express.Router();
 router.get("/", async (req, res, next) => {
 	const data = await travel.getGoods(req.query.page, 20, req.query, true);
 	data.addCss = ['travel'];
+	console.log("data", data);
 	return res.render("travel/index", data);
 });
 
