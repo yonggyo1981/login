@@ -686,16 +686,33 @@ const travel = {
 			
 			return data;
 		} catch (err) {
-			logger(err.stack);
+			logger(err.stack, 'error');
 			return false;
 		}
 	},
 	/**
-	* 
+	* 예약 취소 
 	*
+	* @param Integer idx 신청번호
+	* @return Boolean 
 	*/
-	cancel : function(idx) {
-		
+	cancel : async function(idx) {
+		try {
+			const sql = `UPDATE travelreservation
+									SET 
+										status = '예약취소' 
+								WHERE 
+									idx = ?`;
+			await sequelize.query(sql, {
+				replacements : [idx],
+				type : QueryTypes.UPDATE,
+			});
+			
+			return true;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
 	},
 };
 

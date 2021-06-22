@@ -48,8 +48,12 @@ router.post("/reservation/apply", reservationApplyValidator, async (req, res, ne
 router.post("/reservation/cancel", cancelValidator, async (req, res, next) => {
 	const idx = req.body.idx;
 	const result = await travel.cancel(idx);
+	if (result) { // 예약 취소 성공
+		return alert("예약취소 되었습니다.", res, 'reload', 'parent');
+	}
 	
-	return res.send("");
+	// 예약 취소 실패 
+	return alert("예약취소 실패하였습니다.", res);
 });
 
 /** 여행 예약 신청 조회 */
@@ -58,9 +62,14 @@ router.route("/reservation/:idx")
 		.get(async(req, res, next) => {
 			try {
 				const idx = req.params.idx;
-				const data = await travel.getApply(idx, req);
+				const data = await travel.getApply(idx, req);	
 				if (!data) {
 					throw new Error('접수되지 않은 예약번호입니다.');
+				}
+				
+				/** 관리자 이거나, 본인이 신청한 예약만 조회 가능 */
+				if (!req.isLogin || !req.member.isAdmin || req.session.memNo != data.memNo) {
+					throw new Error('조회 권한이 없습니다.');
 				}
 				
 				data.addCss = ['travel'];
