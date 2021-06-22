@@ -186,13 +186,17 @@ const travel = {
 	* 
 	* @return Object
 	*/
-	getGoods : async function(page, limit, qs) {
+	getGoods : async function(page, limit, qs, isFront) {
 		try {
 			page = page || 1;
 			limit = limit || 20;
 			const offset = (page - 1) * limit;
 			
 			let prelink = "/admin/travel";
+			
+			let addWhere = "";
+			const _addWhere = [];
+			const replacements = {};
 			if (qs) {
 				const addQuery = [];
 				for (key in qs) {
@@ -204,8 +208,18 @@ const travel = {
 				prelink += "?" + addQuery.join("&");
 			}
 			
-			const replacements = {};
-			let sql = `SELECT COUNT(*) as cnt FROM travelgoods`;
+			/** 추가 검색 처리 S */
+			if (isFront) {
+				const endStamp = Date.now() + (60 * 60 * 24 * 1000);
+				_addWhere.push("endDate >= :endDate");
+				replacements.endDate = new Date(endStamp);
+			}
+			if (_addWhere.length > 0) {
+				addWhere = " WHERE " + _addWhere.join(" AND ");
+			}
+			/** 추가 검색 처리 E */
+			
+			let sql = `SELECT COUNT(*) as cnt FROM travelgoods${addWhere}`;
 			const rows = await sequelize.query(sql, {
 				replacements,
 				type : QueryTypes.SELECT,
@@ -217,14 +231,16 @@ const travel = {
 			replacements.offset = offset;
 			replacements.limit = limit;
 			
-			sql = `SELECT * FROM travelgoods ORDER BY regDt DESC LIMIT :offset, :limit`;
+			sql = `SELECT * FROM travelgoods${addWhere} ORDER BY regDt DESC LIMIT :offset, :limit`;
 			const list = await sequelize.query(sql, {
 				replacements, 
 				type : QueryTypes.SELECT,
 			});
 			
-			list.forEach((v, i, _list) => {
+			list.forEach(async (v, i, _list) => {
 				_list[i].regDt = parseDate(v.regDt).datetime;
+				/** 목록 이미지 */
+				_list[i].listImages = await travel.getImages(v.goodsCd, 'list');
 			});
 			
 			const data = { 
@@ -795,6 +811,10 @@ const travel = {
 			const list = await sequelize.query(sql, {
 				replacements,
 				type : QueryTypes.SELECT,
+			});
+			
+			list.forEach((v, i, _list) => {
+				_list[i].regDt = parseDate(v.regDt).datetime;
 			});
 			
 			const data = {

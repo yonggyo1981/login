@@ -4,6 +4,13 @@ const express = require('express');
 const travel = require('../models/travel');
 const router = express.Router();
 
+/** 여행상품 목록 */
+router.get("/", async (req, res, next) => {
+	const data = await travel.getGoods(req.query.page, 20, req.query, true);
+	data.addCss = ['travel'];
+	return res.render("travel/index", data);
+});
+
 /** 여행 예약하기 */
 router.route("/reservation")
 		.post(reservationValidator, async (req, res, next) => {

@@ -38,6 +38,12 @@ a { text-decoration: none; color: #212121; }
 /** 레이아웃 */
 .layout_width { width: 1200px; margin: 0 auto; }
 
+/** 테이블 공통 */
+.table_rows { border-spacing: 0; padding: 0; width: 100%; }
+.table_rows th { background-color: #5e99cb; color: #ffffff; padding:10px; border-left: 1px solid #ffffff; }
+.table_rows tr th:first-child { border-left: 0; }
+.table_rows td { padding: 10px; border-bottom: 1px solid #d5d5d5; }
+
 /** outline/header/_main.html */
 header .logo_search .logo { float: left; }
 header .logo_search .search { float: right; width: 250px; }

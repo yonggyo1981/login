@@ -19,8 +19,7 @@ router.get("/", (req, res, next) => {
 
 router.get("/reservation", async (req, res, next) => {
 	const data = await travel.getReservations(req.query.page, 20, req.query, req.session.memNo);
-			
-	return res.render("mypage/reservation");
+	return res.render("mypage/reservation", data);
 });
 
 module.exports = router;
