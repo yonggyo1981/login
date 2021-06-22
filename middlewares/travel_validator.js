@@ -97,3 +97,18 @@ module.exports.reservationApplyValidator = (req, res, next) => {
 	
 	next();
 };
+
+
+/** 예약 취소시 유효성 검사 */
+module.exports.cancelValidator = async (req, res, next) => {
+	try {
+		const idx = req.params.idx || req.query.idx || req.body.idx;
+		const data = await travel.getApply(idx, req);
+		if (!data.isCancelable) {
+			throw new Error('예약 취소 권한이 없습니다.');
+		}
+	} catch (err) {
+		return alert(err.message, res);
+	}
+	next();
+};

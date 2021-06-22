@@ -690,6 +690,13 @@ const travel = {
 			return false;
 		}
 	},
+	/**
+	* 
+	*
+	*/
+	cancel : function(idx) {
+		
+	},
 };
 
 module.exports = travel;

@@ -1,5 +1,5 @@
 const { alert, go } = require("../lib/common");
-const { reservationValidator, reservationApplyValidator } = require('../middlewares/travel_validator');
+const { reservationValidator, reservationApplyValidator, cancelValidator } = require('../middlewares/travel_validator');
 const express = require('express');
 const travel = require('../models/travel');
 const router = express.Router();
@@ -45,8 +45,10 @@ router.post("/reservation/apply", reservationApplyValidator, async (req, res, ne
 	});
 
 /** 예약 신청 취소 */
-router.post("/reservation/cancel", async (req, res, next) => {
-	console.log(req.body);
+router.post("/reservation/cancel", cancelValidator, async (req, res, next) => {
+	const idx = req.body.idx;
+	const result = await travel.cancel(idx);
+	
 	return res.send("");
 });
 
