@@ -8,6 +8,10 @@
 			<input type='text' name='skey' value='{{ skey }}' placeholder='검색어 입력'>
 			<input type='submit' value='검색' class='search_btn'>
 		</form>
+		{% if isLogin %}
+		<a href='/mypage'>마이페이지</a>
+		{% endif %}
 	</div>
 <!--// search -->
+	
 </div>
