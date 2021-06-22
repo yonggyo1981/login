@@ -51,13 +51,14 @@ router.route("/reservation/:idx")
 			try {
 				const idx = req.params.idx;
 				const data = await travel.getApply(idx);
+				console.log(data);
 				if (!data) {
 					throw new Error('접수되지 않은 예약번호입니다.');
 				}
 				
 				data.addCss = ['travel'];
 				data.addScript = ['travel'];
-				return res.render("travel/view");
+				return res.render("travel/view", data);
 			} catch (err) {
 				return alert(err.message, res, -1);
 			}

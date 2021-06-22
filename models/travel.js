@@ -627,7 +627,23 @@ const travel = {
 			if (data.idx) {
 				// 여행자 정보 
 				sql = "SELECT * FROM travelreservation_persons WHERE idxReservation = ? ORDER BY regDt";
+				const rows = await sequelize.query(sql, {
+					replacements : [idx],
+					type : QueryTypes.SELECT,
+				});
+				
+				const list = {
+					adult : [],
+					child : [],
+					infant : [],
+				};
+				rows.forEach((row) => {
+					list[row.personType].push(row);
+				});
+				data.persons = list;
 			}
+			
+			return data;
 		} catch (err) {
 			logger(err.stack);
 			return false;
