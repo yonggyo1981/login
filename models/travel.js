@@ -723,14 +723,19 @@ const travel = {
 	* @param Integer page 페이지 번호
 	* @param Integer limit 1페이지당 레코드 수, 기본값은 20
 	* @param Object qs 쿼리스트링
+	* @param Integer memNo 회원번호 
 	* 
 	* @return Object
 	*/
-	getReservations : async function(page, limit, qs) {
+	getReservations : async function(page, limit, qs, memNo) {
 		try {
 			page = page || 1;
 			limit = limit || 20;
 			const offset = (page - 1) * limit;
+			
+			const replacements = {};
+			let addWhere = "";
+			const _addWhere = [];
 			
 			let prelink = "/admin/reservation";
 			if (qs) {
@@ -742,13 +747,37 @@ const travel = {
 				}
 				
 				prelink += "?" + addQuery.join("&");
+				
+				/** 추가 검색 조건 처리 */
+				
+				/** 예약 상태  */
+				if (qs.status) {
+					_addWhere.push("a.status = :status");
+					replacements.status = qs.status;
+				}
+				
+				/** 키워드 검색 */
+				if (qs.skey) {
+					const col = "(CONCAT(a.name, REPLACE(a.cellPhone, '-', ''), a.email, c.goodsNm, c.goodsCd) LIKE :skey OR b.memId LIKE :skey)";
+					_addWhere.push(col);
+					replacements.skey = "%" + qs.skey + "%";
+				}
 			}
 			
-			const replacements = {};
+			/** 회원 번호 처리 - 마이페이지 */
+			if (memNo) {
+				_addWhere.push("b.memNo = :memNo");
+				replacements.memNo = memNo;
+			}
+			
+			if (_addWhere.length > 0) {
+				addWhere = " WHERE " + _addWhere.join(" AND ");
+			}
+			
 			
 			let sql = `SELECT COUNT(*) as cnt FROM travelreservation AS a 
 								LEFT JOIN member AS b ON a.memNo = b.memNo 
-								LEFT JOIN travelgoods AS c ON a.goodsCd = c.goodsCd`;
+								LEFT JOIN travelgoods AS c ON a.goodsCd = c.goodsCd${addWhere}`;
 			const rows = await sequelize.query(sql, {
 				replacements,
 				type : QueryTypes.SELECT,
@@ -761,7 +790,7 @@ const travel = {
 			replacements.offset = offset;
 			sql = `SELECT a.*, b.memId, b.memNm, c.goodsNm FROM travelreservation AS a 
 								LEFT JOIN member AS b ON a.memNo = b.memNo 
-								LEFT JOIN travelgoods AS c ON a.goodsCd = c.goodsCd ORDER BY a.regDt DESC LIMIT :offset, :limit `;
+								LEFT JOIN travelgoods AS c ON a.goodsCd = c.goodsCd${addWhere} ORDER BY a.regDt DESC LIMIT :offset, :limit `;
 			
 			const list = await sequelize.query(sql, {
 				replacements,
@@ -782,7 +811,75 @@ const travel = {
 			logger(err.stack, 'error');
 			return false;
 		}
-	}
+	},
+	/**
+	* 예약 상태 변경 
+	*
+	* @param Integer idx 예약 등록 번호
+	* @param String status 등록 상태 
+	* 
+	* @return Boolean
+	*/
+	changeStatus : async function(idx, status) {
+		try {
+			if (!idx || !status) {
+				throw new Error('예약등록번호, 등록상태는 필수 인수');
+			}
+			
+			const sql = `UPDATE travelreservation
+									SET 
+										status = :status 
+								WHERE 
+									idx = :idx`;
+			const replacements = { idx, status };
+			await sequelize.query(sql, {
+				replacements,
+				type : QueryTypes.UPDATE,
+			});
+			
+			return true;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
+	/**
+	* 예약 삭제 
+	*
+	* @param Integer idx 예약 등록번호
+	* @return Boolean
+	*/
+	deleteReservation : async function(idx) {
+		let transaction;
+		try {
+			if (!idx) {
+				throw new Error('예약등록 번호는 필수 인수');
+			}
+			transaction = await sequelize.transaction();
+		
+			let sql = "DELETE FROM travelreservation_persons WHERE idxReservation = ?";
+			await sequelize.query(sql, {
+				replacements : [idx],
+				transaction,
+				type : QueryTypes.DELETE,
+			});
+			
+			sql = "DELETE FROM travelreservation WHERE idx = ?";
+			await sequelize.query(sql, {
+				replacements : [idx],
+				transaction,
+				type : QueryTypes.DELETE,
+			});
+			
+			await transaction.commit();
+			
+			return true;
+		} catch (err) {
+			logger(err.stack, 'error');
+			await transaction.rollback();
+			return false;
+		}
+	},
 };
 
 module.exports = travel;
