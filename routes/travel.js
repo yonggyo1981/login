@@ -70,7 +70,7 @@ router.route("/reservation/:idx")
 		.get(async(req, res, next) => {
 			try {
 				const idx = req.params.idx;
-				const data = await travel.getApply(idx, req);	
+				const data = await travel.getApply(idx, req);
 				if (!data) {
 					throw new Error('접수되지 않은 예약번호입니다.');
 				}
@@ -98,12 +98,23 @@ router.route("/reservation/:idx")
 router.route("/:goodsCd")
 		/** 상품 상세 */
 		.get(async (req, res, next) => {
-			const goodsCd = req.params.goodsCd;
-			const data = await travel.get(goodsCd);
-			
-			data.addCss = ["travel"];
-			data.addScript = ["travel"];
-			return res.render("travel/goods", data);
+			try {
+				const goodsCd = req.params.goodsCd;
+				const data = await travel.get(goodsCd);
+				if (!data.goodsCd) {
+					throw new Error("등록되지 않은 상품입니다.");
+				}
+				
+				if (!data.pack.startDate) {
+					throw new Error("등록된 일정이 없습니다.");
+				}
+				
+				data.addCss = ["travel"];
+				data.addScript = ["travel"];
+				return res.render("travel/goods", data);
+			} catch (err) {
+				return alert(err.message, res, -1);
+			}
 		});
 		
 
