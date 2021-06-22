@@ -22,6 +22,9 @@ const travel = {
 		{ type : 'bus', name1 : '버스', name2 : '' },
 	],
 	
+	/** 예약 상태 */
+	status : ['접수완료', '예약확정', '예약취소'],
+	
 	/**
 	* 처리할 데이터 설정
 	*
@@ -714,6 +717,72 @@ const travel = {
 			return false;
 		}
 	},
+	/**
+	* 예약 신청 목록 
+	*
+	* @param Integer page 페이지 번호
+	* @param Integer limit 1페이지당 레코드 수, 기본값은 20
+	* @param Object qs 쿼리스트링
+	* 
+	* @return Object
+	*/
+	getReservations : async function(page, limit, qs) {
+		try {
+			page = page || 1;
+			limit = limit || 20;
+			const offset = (page - 1) * limit;
+			
+			let prelink = "/admin/reservation";
+			if (qs) {
+				const addQuery = [];
+				for (key in qs) {
+					if (key == 'page') continue;
+					
+					addQuery.push(`${key}=${qs[key]}`);
+				}
+				
+				prelink += "?" + addQuery.join("&");
+			}
+			
+			const replacements = {};
+			
+			let sql = `SELECT COUNT(*) as cnt FROM travelreservation AS a 
+								LEFT JOIN member AS b ON a.memNo = b.memNo 
+								LEFT JOIN travelgoods AS c ON a.goodsCd = c.goodsCd`;
+			const rows = await sequelize.query(sql, {
+				replacements,
+				type : QueryTypes.SELECT,
+			});
+			
+			const totalResult = rows[0].cnt;
+			const paginator = pagination.create('search', {prelink, current: page, rowsPerPage: limit, totalResult });
+			
+			replacements.limit = limit;
+			replacements.offset = offset;
+			sql = `SELECT a.*, b.memId, b.memNm, c.goodsNm FROM travelreservation AS a 
+								LEFT JOIN member AS b ON a.memNo = b.memNo 
+								LEFT JOIN travelgoods AS c ON a.goodsCd = c.goodsCd ORDER BY a.regDt DESC LIMIT :offset, :limit `;
+			
+			const list = await sequelize.query(sql, {
+				replacements,
+				type : QueryTypes.SELECT,
+			});
+			
+			const data = {
+				pagination : paginator.render(),
+				page,
+				offset,
+				limit,
+				totalResult,
+				list,
+			};
+			
+			return data;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	}
 };
 
 module.exports = travel;

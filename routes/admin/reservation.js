@@ -1,5 +1,6 @@
 /** admin/reservation */
 const { adminOnly } = require('../../middlewares/member_only');
+const travel = require('../../models/travel');
 const express = require('express');
 const router = express.Router();
 
@@ -14,9 +15,10 @@ router.use((req, res, next) => {
 
 
 router.route("/")
-		.get((req, res, next) => {
-			
-			return res.render("admin/reservation/index");
+		.get(async (req, res, next) => {
+			const data = await travel.getReservations(req.query.page, 20, req.query);
+			data.statusList = travel.status;
+			return res.render("admin/reservation/index", data);
 		});
 
 

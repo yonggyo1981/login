@@ -68,7 +68,8 @@ router.route("/reservation/:idx")
 				}
 				
 				/** 관리자 이거나, 본인이 신청한 예약만 조회 가능 */
-				if (!req.isLogin || !req.member.isAdmin || req.session.memNo != data.memNo) {
+				console.log("isAdmin", req.member.isAdmin);
+				if (!(req.isLogin && req.member.isAdmin) || !req.isLogin || req.session.memNo != data.memNo) {
 					throw new Error('조회 권한이 없습니다.');
 				}
 				
