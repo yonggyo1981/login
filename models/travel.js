@@ -239,6 +239,8 @@ const travel = {
 			
 			for (let i = 0; i < list.length; i++) {
 				list[i].regDt = parseDate(list[i].regDt).datetime;
+				list[i].priceAdultStr = list[i].priceAdult.toLocaleString();
+				
 				/** 목록 이미지 */
 				list[i].listImages = await travel.getImages(list[i].goodsCd, 'list');
 			}
