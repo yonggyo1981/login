@@ -613,10 +613,11 @@ const travel = {
 	* @param Integer idx 신청번호 
 	* @return Object|Boolean
 	*/
-	getApply : async function(idx) {
+	getApply : async function(idx, req) {
 		try {
-			let sql = `SELECT a.*, b.memNm, b.memId FROM travelreservation AS a 
+			let sql = `SELECT a.*, b.memNm, b.memId, c.goodsNm, c.transportation, c.priceAdult, c.priceChild FROM travelreservation AS a 
 									LEFT JOIN member AS b ON a.memNo = b.memNo 
+									LEFT JOIN travelgoods AS c ON a.goodsCd = c.goodsCd 
 							WHERE a.idx = ?`;
 			const rows = await sequelize.query(sql, {
 				replacements : [idx],
@@ -624,7 +625,15 @@ const travel = {
 			});
 			
 			const data = rows[0] || {};
-			if (data.idx) {
+			if (rows.length > 0) {
+				/** 여행 기간 S */
+				const sDate = parseDate(data.startDate).date;
+				const eDate = parseDate(data.endDate).date;
+				data.period = `${sDate} ~ ${eDate}`;
+				/** 여행 기간 E */
+				
+				data.regDt = parseDate(data.regDt).datetime;
+				
 				// 여행자 정보 
 				sql = "SELECT * FROM travelreservation_persons WHERE idxReservation = ? ORDER BY regDt";
 				const rows = await sequelize.query(sql, {
@@ -641,6 +650,38 @@ const travel = {
 					list[row.personType].push(row);
 				});
 				data.persons = list;
+				
+				/** 패키지 정보 */
+				const pack = await this.getPackage(data.goodsCd, data.startDate + " 00:00:00", data.endDate + " 00:00:00");
+				data.adult = list.adult.length;
+				data.child = list.child.length;
+				data.infant = list.infant.length;
+				if (pack) {
+					data.priceAdult = Number(data.priceAdult) + Number(pack.addPrice);
+					data.priceChild = Number(data.priceChild) + Number(pack.addPrice);	
+				}
+				data.totalPrice = 0;
+				data.totalPriceAdult = data.priceAdult * data.adult;
+				data.totalPrice += data.totalPriceAdult;
+				
+				data.totalPriceAdult = data.totalPriceAdult.toLocaleString();
+				
+				data.totalPriceChild = data.priceChild * data.child;
+				data.totalPrice += data.totalPriceChild;
+				
+				data.totalPriceChild = data.totalPriceChild.toLocaleString();
+				
+				data.totalPrice = data.totalPrice.toLocaleString();
+				data.personTypes = ['adult', 'child', 'infant'];
+				
+				data.isCancelable = false; // 취소 가능 여부
+				if (req && req.isLogin && data.status == '접수완료') {
+					const startStamp = Date.parse(data.startDate + " 00:00:00");
+					// 예약 회원번호로 로그인한 회원의 회원번호가 일치하고 여행 시작일 보다 이전일때 취소 가능
+					if (data.memNo == req.session.memNo && startStamp > Date.now() ) {
+						data.isCancelable = true;
+					}
+				}
 			}
 			
 			return data;

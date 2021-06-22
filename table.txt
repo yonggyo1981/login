@@ -166,6 +166,7 @@ CREATE TABLE `travelreservation` (
 	`idx` INT(11) NOT NULL AUTO_INCREMENT,
 	`memNo` INT(11) NOT NULL DEFAULT '0' COMMENT '회원번호',
 	`goodsCd` VARCHAR(20) NULL DEFAULT NULL COMMENT '상품코드' COLLATE 'utf8_general_ci',
+	`status` ENUM('접수완료','예약확정','예약취소') NULL DEFAULT '접수완료' COMMENT '예약진행 상태' COLLATE 'utf8_general_ci',
 	`startDate` DATE NULL DEFAULT NULL COMMENT '여행 시작일',
 	`endDate` DATE NULL DEFAULT NULL COMMENT '여행 종료일',
 	`name` VARCHAR(20) NULL DEFAULT NULL COMMENT '예약자 이름' COLLATE 'utf8_general_ci',
@@ -177,11 +178,14 @@ CREATE TABLE `travelreservation` (
 	PRIMARY KEY (`idx`) USING BTREE,
 	INDEX `regDt` (`regDt`) USING BTREE,
 	INDEX `goodsCd` (`goodsCd`) USING BTREE,
-	INDEX `memNo` (`memNo`) USING BTREE
+	INDEX `memNo` (`memNo`) USING BTREE,
+	INDEX `status` (`status`) USING BTREE
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
+AUTO_INCREMENT=6
 ;
+
 
 
 

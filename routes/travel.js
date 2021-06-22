@@ -44,20 +44,24 @@ router.post("/reservation/apply", reservationApplyValidator, async (req, res, ne
 		return alert("예약신청 실패하였습니다", res);
 	});
 
+/** 예약 신청 취소 */
+router.post("/reservation/cancel", async (req, res, next) => {
+	console.log(req.body);
+	return res.send("");
+});
+
 /** 여행 예약 신청 조회 */
 router.route("/reservation/:idx")
 		/** 신청 조회 */
 		.get(async(req, res, next) => {
 			try {
 				const idx = req.params.idx;
-				const data = await travel.getApply(idx);
-				console.log(data);
+				const data = await travel.getApply(idx, req);
 				if (!data) {
 					throw new Error('접수되지 않은 예약번호입니다.');
 				}
 				
 				data.addCss = ['travel'];
-				data.addScript = ['travel'];
 				return res.render("travel/view", data);
 			} catch (err) {
 				return alert(err.message, res, -1);

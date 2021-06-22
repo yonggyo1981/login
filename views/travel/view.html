@@ -2,21 +2,25 @@
 {% block content %}
 <div class='layout_width'>
 	<div class='main_tit'>예약확인</div>
+	<form name='frmReservation' method='post' action='/travel/reservation/cancel' target='ifrmHidden' autocomplete='off'>
 	<div class='content_wrap'>
 		<div class='main_contents'>
-		<form name='frmReservation' method='post' action='/travel/reservation/apply' target='ifrmHidden' autocomplete='off'>
-			<input type='hidden' name='goodsCd' value='{{ goodsCd }}'>
+			<input type='hidden' name='idx' value='{{ idx }}'>
 			
 			<div class='sub_tit'>{{ goodsNm }}</div>
 			<table>
 				<tr>
+					<th>예약일시</th>
+					<td>{{ regDt }}</td>
+				</tr>
+				<tr>
+					<th>예약상태</th>
+					<td>{{ status }}</td>
+				</tr>
+				<tr>
 					<th>여행기간</th>
 					<td>
-						<select name='period'>
-						{% for item in packages %}
-							<option value='{{ item.period }}'>{{ item.startDate }} ~ {{ item.endDate }}</option>
-						{% endfor %}					
-						</select>
+						{{ period }}
 					</td>
 				</tr>
 				<tr>
@@ -51,37 +55,35 @@
 				<tr>
 					<th>이름</th>
 					<td width='287'>
-						<input type='text' name='name' value='{% if isLogin %}{{ member.memNm }}{% endif %}'>
+						{{ name }}
 					</td>
 					<th>생년월일</th>
 					<td>
-						<input type='number' name='birth' value='' placeholder='입력 예)19901201'>
+						{{ birth }}
 					</td>
 				</tr>
 				<tr>
 					<th>이메일</th>
 					<td>
-						<input type='email' name='email' value='{% if isLogin %}{{ member.email }}{% endif %}'>
+						{{ email }}
 					</td>
 					<th>휴대폰번호</th>
 					<td>
-						<input type='text' name='cellPhone' value='{% if isLogin %}{{ member.cellPhone }}{% endif %}'>
+						{{ cellPhone }}
 					</td>
 				</tr>
 			</table>
 			
 			<div class='sub_tit'>인원정보</div>
 			<ul class='reservation_persons'>
-				<li class='box adult' data-price='{{ priceAdult }}'>
+				<li class='box adult'>
 					<div class='t1'>
 						<span>성인</span>
 						만 13세 이상 
 					</div>
-					<div class='goods_cnt_wrap'>
-						<i class='cnt_btn down xi-minus-thin'></i>
-						<input type='text' name='goodsCnt_adult' value='{{ adult }}' class='goods_cnt' readonly>
-						<i class='cnt_btn up xi-plus-thin'></i>
-					</div>
+					
+					<div class='no_of_persons'>{{ adult }}명</div>
+					
 					<div class='tot_price'><span class='no'>{{ totalPriceAdult }}</span>원</div>
 					
 					<!--// goods_cnt_wrap -->
@@ -92,11 +94,9 @@
 						<span>아동</span>
 						만 13세 미만
 					</div>
-					<div class='goods_cnt_wrap'>
-						<i class='cnt_btn down xi-minus-thin'></i>
-						<input type='text' name='goodsCnt_child' value='{{ child }}' class='goods_cnt' readonly>
-						<i class='cnt_btn up xi-plus-thin'></i>
-					</div>
+					
+					<div class='no_of_persons'>{{ child }}명</div>
+					
 					<div class='tot_price'><span class='no'>{{ totalPriceChild }}</span>원</div>
 					
 					<!--// goods_cnt_wrap -->
@@ -107,11 +107,9 @@
 						<span>유아</span>
 						만 2세 미만
 					</div>
-					<div class='goods_cnt_wrap'>
-						<i class='cnt_btn down xi-minus-thin'></i>
-						<input type='text' name='goodsCnt_infant' value='{{ infant }}' class='goods_cnt' readonly>
-						<i class='cnt_btn up xi-plus-thin'></i>
-					</div>
+					
+					<div class='no_of_persons'>{{ infant }}명</div>
+					
 					<div class='tot_price'>-</div>
 					
 					<!--// goods_cnt_wrap -->
@@ -119,13 +117,55 @@
 				
 			</ul>
 			
-			<ul class='guide_txt'>
-				<li>※ [+], [-] 버튼으로 인원을 선택하세요.<li>
-				<li>※ 싱글 차지 금액은 예약 이후 추가 될 수 있사오니, 예약 내역 확인 시 상품 결제 정보를 꼭! 확인 하시기 바랍니다.</li>
-			</ul>
-			
 			<div class='sub_tit'>여행자 정보</div>
-			<div id='person_info_html'></div>
+			{% for type in personTypes %}
+			{% for item in persons[type] %}
+			<div class='person_info'>
+				<div class='sub_tit2'>
+				{% if type == 'adult' %}
+				성인
+				{% elseif type == 'child' %}
+				아동
+				{% else %}
+				유아
+				{% endif %}
+				{{ loop.index }}
+				</div>
+				<table>
+					<tr>
+						<th>성명(한글)</th>
+						<td colspan='3'>
+							{{ item.travelerNm }}
+						</td>
+					</tr>
+					<tr>
+						<th>생년월일</th>
+						<td>
+							{{ item.travelerBirth }}
+						</td>
+						<th>성별</th>
+						<td>
+							{{ item.travelerGender }}
+						</td>
+					</tr>
+					{% if type == 'adult' %}
+					<tr>
+						<th>휴대폰 번호</th>
+						<td>
+							{{ item.travelerCellPhone }}
+						</td>
+						<th>이메일</th>
+						<td>
+							{{ item.travelerEmail }}
+						</td>
+					</tr>
+					{% endif %}
+				</table>
+			</div>
+			{% endfor %}
+			{% endfor %}
+			
+			
 			
 			<div class='reservation_guide'>
 				<div class='tit'><i class='xi-info-o'></i> 예약 시 유의사항</div>
@@ -146,7 +186,6 @@
 					<li>현지합류 상품은 해당 결제금액에 따라 마일리지 적립이 별도로 지급됩니다. (특별적립 제외)</li>
 				</ul>
 			</div>
-		</form>
 		</div>
 		<div class='summary'>
 			<div class='inner'>
@@ -164,12 +203,15 @@
 					<div class='txt'>유류할증료&amp;제세공과금 포함</div>
 				</div>
 				<!--// summary_info -->
-				<div class='apply_reservation'>예약 신청하기</div>
+				{% if isCancelable %}
+				<input type='submit' class='apply_cancel' value='예약 취소하기' onclick="return confirm('정말 취소하시겠습니까?');">
+				{% endif %}
 			</div>
 			<!--// inner -->
 		</div>
 		<!--// summary -->
 	</div>
 	<!--// content_wrap -->
+	</form>
 </div>
 {% endblock %}
