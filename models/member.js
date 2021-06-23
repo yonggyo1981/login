@@ -65,6 +65,49 @@ const member = {
 		}
 	},
 	/**
+	* 회원정보 수정 
+	*
+	* @return Boolean
+	*/
+	update : async function() {
+		try {
+			
+			const replacements = {
+					memNm : this.params.memNm,
+					email : this.params.email,
+					cellPhone : this.params.cellPhone,
+					memNo : this.params.memNo,
+			};
+			
+			let addSet = "";
+			if (this.params.memPw) {
+				replacements.hash = await bcrypt.hash(this.params.memPw, 10);
+				addSet = "memPw = :hash,";
+				
+			}
+			
+			const sql = `UPDATE member 
+									SET 
+										${addSet}
+										memNm = :memNm,
+										email = :email,
+										cellPhone = :cellPhone
+								WHERE 
+										memNo = :memNo`;
+			
+			
+			await sequelize.query(sql, {
+				replacements, 
+				type : QueryTypes.UPDATE,
+			});
+			
+			return true;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
+	/**
 	* 로그인 처리 
 	*
 	*/
