@@ -169,7 +169,7 @@ const member = {
 			
 			cellPhone = cellPhone.replace(/[^\d]/g, '').replace(/([\d]{3})([\d]{4})([\d]{4})/, '$1-$2-$3');
 			
-			const sql = "SELECT memId FROM member WHERE memNm = :memNm AND cellPhone = :cellPhone";
+			const sql = "SELECT memId FROM member WHERE memNm = :memNm AND cellPhone = :cellPhone AND snsType='none'";
 			const rows = await sequelize.query(sql, {
 					replacements : { memNm, cellPhone },
 					type : QueryTypes.SELECT,
