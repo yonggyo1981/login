@@ -31,6 +31,10 @@ module.exports.findPwValidator = (req, res, next) => {
 */
 module.exports.changePwValidator = (req, res, next) => {
 	try {
+		if (!req.session.findPwMemNo) {
+			throw new Error("잘못된 접근입니다.");
+		}
+		
 		const memPw = req.body.memPw;
 		if (memPw && memPw !== req.body.memPwRe) {
 			throw new Error('비밀번호 확인이 일치하지 않습니다.');
@@ -42,5 +46,6 @@ module.exports.changePwValidator = (req, res, next) => {
 	} catch (err) {
 		return alert(err.message, res, -1);
 	}
+	
 	next();
 };

@@ -222,6 +222,38 @@ const member = {
 			return false;
 		}
 	},
+	/**
+	* 비밀번호 변경 
+	*
+	* @param Integer memNo 회원번호
+	* @param String memPw 변경할 비밀번호
+	* 
+	* @return Boolean
+	*/
+	changePw : async function (memNo, memPw) {
+		try {
+			if (!memNo || !memPw) {
+				throw new Error('회원번호, 변경할 비밀번호는 필수 인수');
+			}
+			
+			const hash = await bcrypt.hash(memPw, 10);
+			const sql = `UPDATE member 
+									SET 
+										memPw = :hash
+								WHERE 
+									memNo = :memNo`;
+									
+			await sequelize.query(sql, {
+				replacements : { hash, memNo },
+				type : QueryTypes.UPDATE,
+			});
+							
+			return true;
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
 };
 
 module.exports = member;
