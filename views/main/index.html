@@ -1,1 +1,6 @@
 {% extends '../layout.html' %}
+{% block content %}
+{% if isLogin %}
+<a href='/mypage/myinfo'>회원정보 수정</a>
+{% endif %}
+{% endblock %}
