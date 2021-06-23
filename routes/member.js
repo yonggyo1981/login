@@ -109,5 +109,12 @@ router.route("/find_id")
 	});
 
 /** 비밀번호 찾기 */
+router.route("/find_pw")
+	.get((req, res, next) => {
+		return res.render("member/find_pw");
+	})
+	.post((req, res, next) => {
+		
+	});
 
 module.exports = router;
