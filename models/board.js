@@ -850,7 +850,7 @@ const board = {
 				
 				const pattern = /<img[^>]*src=['"]?([^>'"]+)['"]?[^>]*>/igm;
 				const match = pattern.exec(v.contents);
-				if (match.length > 0) {
+				if (match && match.length > 0) {
 					_list[i].listImage = match[1];
 				} else {
 					_list[i].listImage = "/img/no_image.png";
