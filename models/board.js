@@ -442,6 +442,13 @@ const board = {
 			
 			/** 조회수 처리 */
 			_list[i].viewCountStr = v.viewCount.toLocaleString();
+			
+			/** 본문에 포함된 이미지 추출 */
+			//const pattern = /<img*src=['"]?([^>'"]+)['"]?[^>]*>/ig
+			const pattern = /<img*src/g
+			const match = pattern.exec(v.contents);
+			//console.log(match);
+			
 		});
 
 		const result = {
