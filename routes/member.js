@@ -99,12 +99,12 @@ router.get("/login_callback", async (req, res, next) => {
 /** 아이디 찾기 */
 router.route("/find_id")
 	/** 찾기 양식 */
-	.get((req, res, next) => {
+	.get(guestOnly, (req, res, next) => {
 		
 		return res.render("member/find_id");
 	})
 	/** 찾기 처리 */
-	.post(async (req, res, next) => {
+	.post(guestOnly, async (req, res, next) => {
 		try {
 			const memId = await member.findId(req.body.memNm, req.body.cellPhone);
 			if (!memId) {
@@ -119,10 +119,10 @@ router.route("/find_id")
 
 /** 비밀번호 찾기 */
 router.route("/find_pw")
-	.get((req, res, next) => {
+	.get(guestOnly, (req, res, next) => {
 		return res.render("member/find_pw");
 	})
-	.post((req, res, next) => {
+	.post(guestOnly, (req, res, next) => {
 		
 	});
 
