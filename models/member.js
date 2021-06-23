@@ -40,12 +40,13 @@ const member = {
 				hash = await bcrypt.hash(data.memPw, 10);
 			}
 			
-			const sql = `INSERT INTO member (memId, memPw, memNm, email, cellPhone, snsType, snsId)
-									VALUES (:memId, :memPw, :memNm, :email, :cellPhone, :snsType, :snsId)`;
+			const sql = `INSERT INTO member (memId, memPw, pwHint, memNm, email, cellPhone, snsType, snsId)
+									VALUES (:memId, :memPw, :pwHint, :memNm, :email, :cellPhone, :snsType, :snsId)`;
 			
 			const replacements = {
 					memId : data.memId, 
 					memPw : hash,
+					pwHint : data.pwHint,
 					memNm : data.memNm,
 					email : data.email,
 					cellPhone : data.cellPhone,
@@ -73,6 +74,7 @@ const member = {
 		try {
 			
 			const replacements = {
+					pwHint : this.params.pwHint || "",
 					memNm : this.params.memNm,
 					email : this.params.email,
 					cellPhone : this.params.cellPhone,
@@ -89,6 +91,7 @@ const member = {
 			const sql = `UPDATE member 
 									SET 
 										${addSet}
+										pwHint = :pwHint,
 										memNm = :memNm,
 										email = :email,
 										cellPhone = :cellPhone

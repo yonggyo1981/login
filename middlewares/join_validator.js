@@ -61,6 +61,10 @@ module.exports.joinValidator = async (req, res, next) => {
 			if (memPw.length < 8 || memPw.length > 20 || !/[a-z]/.test(memPw) || !/[A-Z]/.test(memPw) || !/[0-9]/.test(memPw) || !/[~!@#$%^&*]/.test(memPw)) {
 				throw new Error('비밀번호는 8~20자 알파벳(대소문자 포함), 숫자, 특수문자로 구성해 주세요.');
 			}
+			
+			if (!req.body.pwHint) {
+				throw new Error('비밀번호 찾기 힌트를 입력하세요.');
+			}
 		}
 		
 		/** 휴대폰 번호 유효성 검사 S */
