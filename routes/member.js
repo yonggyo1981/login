@@ -104,8 +104,17 @@ router.route("/find_id")
 		return res.render("member/find_id");
 	})
 	/** 찾기 처리 */
-	.post((req, res, next) => {
-		
+	.post(async (req, res, next) => {
+		try {
+			const memId = await member.findId(req.body.memNm, req.body.cellPhone);
+			if (!memId) {
+				throw new Error('일치하는 아이디가 없습니다.');
+			}
+			
+			return res.render("member/find_id", { memId });
+		} catch (err) {
+			return alert(err.message, res, -1);
+		}
 	});
 
 /** 비밀번호 찾기 */

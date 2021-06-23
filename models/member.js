@@ -152,7 +152,39 @@ const member = {
 			logger(err.stack, 'error');
 			return {};
 		}
-	}
+	},
+	/** 
+	* 아이디 찾기 
+	*
+	* @param String memNm 회원명
+	* @param String cellPhone 휴대폰번호
+	* 
+	* @return String|Boolean 회원아이디, 없는 경우는 false
+	*/
+	findId : async function(memNm, cellPhone) {
+		try {
+			if (!memNm || !cellPhone) {
+				throw new Error('회원명 또는 휴대폰번호는 필수 인수 입니다.');
+			}
+			
+			cellPhone = cellPhone.replace(/[^\d]/g, '').replace(/([\d]{3})([\d]{4})([\d]{4})/, '$1-$2-$3');
+			
+			const sql = "SELECT memId FROM member WHERE memNm = :memNm AND cellPhone = :cellPhone";
+			const rows = await sequelize.query(sql, {
+					replacements : { memNm, cellPhone },
+					type : QueryTypes.SELECT,
+			});
+			
+			if (rows.length == 0) {
+				throw new Error('일치하는 아이디 없음');
+			}
+			
+			return rows[0].memId;
+		} catch(err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
 };
 
 module.exports = member;
