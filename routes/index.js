@@ -3,9 +3,12 @@ const express = require('express');
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
-	const list = await board.getLatest('photo', '분류1', 10, true);
-	console.log(list);
-	res.render("main/index");
+	const photoList = await board.getLatest('photo', '분류1', 10, true);
+	const data = {
+		photoList,
+	};
+	
+	res.render("main/index", data);
 });
 
 module.exports = router;
