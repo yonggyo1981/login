@@ -188,6 +188,19 @@ const member = {
 			return false;
 		}
 	},
+	/**
+	* 비밀번호 찾기
+	*
+	* @return Integer|Boolean memNo, 일치하는 회원이 없는 경우는 false 반환
+	*/
+	findPw : async function() {
+		try {
+			
+		} catch (err) {
+			logger(err.stack, 'error');
+			return false;
+		}
+	},
 };
 
 module.exports = member;

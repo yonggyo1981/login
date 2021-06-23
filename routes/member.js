@@ -1,5 +1,6 @@
 const { joinValidator } = require('../middlewares/join_validator');
 const { loginValidator } = require('../middlewares/login_validator');
+const { findPwValidator } = require("../middlewares/findpw_validator");
 const { memberOnly, guestOnly } = require('../middlewares/member_only');
 const member = require("../models/member"); // Member Model
 const naverLogin = require('../models/naver_login'); // 네이버 로그인
@@ -122,8 +123,9 @@ router.route("/find_pw")
 	.get(guestOnly, (req, res, next) => {
 		return res.render("member/find_pw");
 	})
-	.post(guestOnly, (req, res, next) => {
-		
+	.post(guestOnly, findPwValidator, async (req, res, next) => {
+		const memNo = await member.data(req.body).findPw();
+		return res.send("");
 	});
 
 module.exports = router;
