@@ -11,8 +11,10 @@ const router = express.Router();
 router.route("/join")
 		/** 회원 가입 양식 */
 		.get(guestOnly, (req, res, next) => {			
+			const isPasswordNotChange = req.session.naverProfile?true:false;
 			const data = {
 				naverProfile : req.session.naverProfile || {},
+				isPasswordNotChange,
 			};
 			
 			if (data.naverProfile) {
@@ -93,5 +95,19 @@ router.get("/login_callback", async (req, res, next) => {
 		return res.redirect('/member/join');
 	}
 });
+
+/** 아이디 찾기 */
+router.route("/find_id")
+	/** 찾기 양식 */
+	.get((req, res, next) => {
+		
+		return res.render("member/find_id");
+	})
+	/** 찾기 처리 */
+	.post((req, res, next) => {
+		
+	});
+
+/** 비밀번호 찾기 */
 
 module.exports = router;

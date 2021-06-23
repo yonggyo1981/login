@@ -15,7 +15,6 @@ const member = require("../models/member");
 router.use(memberOnly);
 
 router.get("/", (req, res, next) => {
-	
 	return res.render("mypage/index");
 });
 
@@ -30,7 +29,11 @@ router.get("/reservation", async (req, res, next) => {
 router.route("/myinfo")
 	/** 수정 양식 */
 	.get((req, res, next) => {
-		return res.render("member/form");
+		let isPasswordNotChange = false;
+		if (req.member.snsType != 'none') isPasswordNotChange = true;
+		const data = {isPasswordNotChange};
+		
+		return res.render("member/form", data);
 	})
 	/** 수정 처리 */
 	.post(joinValidator, async (req, res, next) => {
