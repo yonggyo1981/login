@@ -195,7 +195,28 @@ const member = {
 	*/
 	findPw : async function() {
 		try {
+			const cellPhone = this.params.cellPhone.replace(/[^\d]/g, '').replace(/([\d]{3})([\d]{4})([\d]{4})/, "$1-$2-$3");
 			
+			const sql = `SELECT memNo FROM member 
+									WHERE memId = :memId AND memNm = :memNm AND cellPhone = :cellPhone AND pwHint = :pwHint`; 
+			
+			const replacements = {
+					memId : this.params.memId,
+					memNm : this.params.memNm,
+					cellPhone,
+					pwHint : this.params.pwHint,
+			};
+			
+			const rows = await sequelize.query(sql, {
+					replacements,
+					type : QueryTypes.SELECT,
+			});
+			
+			if (rows.length == 0) {
+				throw new Error("일치하는 회원 없음");
+			}
+			
+			return rows[0].memNo;
 		} catch (err) {
 			logger(err.stack, 'error');
 			return false;

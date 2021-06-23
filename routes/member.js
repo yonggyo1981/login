@@ -1,6 +1,6 @@
 const { joinValidator } = require('../middlewares/join_validator');
 const { loginValidator } = require('../middlewares/login_validator');
-const { findPwValidator } = require("../middlewares/findpw_validator");
+const { findPwValidator, changePwValidator } = require("../middlewares/findpw_validator");
 const { memberOnly, guestOnly } = require('../middlewares/member_only');
 const member = require("../models/member"); // Member Model
 const naverLogin = require('../models/naver_login'); // 네이버 로그인
@@ -124,7 +124,19 @@ router.route("/find_pw")
 		return res.render("member/find_pw");
 	})
 	.post(guestOnly, findPwValidator, async (req, res, next) => {
-		const memNo = await member.data(req.body).findPw();
+		try {
+			const memNo = await member.data(req.body).findPw();
+			if (!memNo) {
+				throw new Error('일치하는 회원이 없습니다.');
+			}
+			req.session.findPwMemNo = memNo;
+			return res.render("member/change_password");
+		} catch (err) {
+			return alert(err.message, res, -1);
+		}
+	})
+	/** 비밀번호 변경 처리 */
+	.patch(guestOnly, changePwValidator, async (req, res, next) => {
 		return res.send("");
 	});
 
