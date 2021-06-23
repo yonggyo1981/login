@@ -437,8 +437,9 @@ const board = {
 			if (registerStamp > stamp) { // 현재 등록된 게시글이 하루 동안 작성된 경우 -> 새글 
 				_list[i].isNew = true;
 			}
-			
-			_list[i].regDt = parseDate(v.regDt).datetime;
+			const date = parseDate(v.regDt);
+			_list[i].regDt = date.datetime;
+			_list[i].regDtS = date.date;
 			
 			/** 조회수 처리 */
 			_list[i].viewCountStr = v.viewCount.toLocaleString();

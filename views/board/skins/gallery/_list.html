@@ -1,5 +1,5 @@
 <!-- Default 게시글 목록 -->
-<div class='board_gallery list'>
+<div class='board_default board_gallery list'>
 	{% if config.categories.length > 0 %}
 	<div class='category_tab'>
 		<a href='/board/list/{{ config.id }}' class="tab{{ ' on' if not category }}">전체</a>
@@ -18,17 +18,13 @@
 			<li>
 				<a href='/board/view/{{ item.idx }}'>
 					<div class='images' style="background:url('{{ item.listImage }}') no-repeat center center; background-size: cover;"></div>
-					{% if item.category %}[{{ item.category }}]{% endif %}{{ item.subject }}
-					{% if item.commentCount %}({{ item.commentCount }}){% endif %}
-					{% if item.isNew %}<img src='/img/new.gif'>{% endif %}
+					<div class='title'>{{ item.subject }}</div>
+					<div class='post_info'>
+						<span class='poster'>{{ item.poster }}{% if item.memNo > 0 %}({{ item.memId }}){% endif %}</span>
+						<span class='date'>{{ item.regDtS }}</span>
+					</div>					
 				</a>
-				<div class='post_info'>
-					<span class='poster'>{{ item.poster }}{% if item.memNo > 0 %}({{ item.memId }}){% endif %}</span>
-					<span class='date'>{{ item.regDt }}</span>
-					{% if item.viewCount > 0 %}
-					<span class='hit'>조회수 : {{ item.viewCountStr }}</span>
-					{% endif %}
-				</div>
+				
 			</li>
 		{% endfor %}
 	{% else %}
