@@ -444,13 +444,13 @@ const board = {
 			_list[i].viewCountStr = v.viewCount.toLocaleString();
 			
 			/** 본문에 포함된 이미지 추출 */
-			//const pattern = /<img*src=['"]?([^>'"]+)['"]?[^>]*>/ig
-			const pattern = /<img*src/g
+			const pattern = /<img[^>]*src=['"]?([^>'"]+)['"]?[^>]*>/igm
 			const match = pattern.exec(v.contents);
-			//console.log(match);
-			
+			if (match && match.length > 0) {
+				_list[i].listImage = match[1];
+			}
 		});
-
+		
 		const result = {
 			pagination : paginator.render(),
 			list,
