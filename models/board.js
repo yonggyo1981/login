@@ -207,14 +207,21 @@ const board = {
 	*/
 	write : async function() {
 		try {
-			const sql = `INSERT INTO boarddata (gid, boardId, category, memNo, poster, subject, contents, password) 
-										VALUES (:gid, :boardId, :category, :memNo, :poster, :subject, :contents, :password)`;
+			const sql = `INSERT INTO boarddata (gid, boardId, category, memNo, poster, subject, contents, password, isImagePost) 
+										VALUES (:gid, :boardId, :category, :memNo, :poster, :subject, :contents, :password, :isImagePost)`;
 			
 			
 			const memNo = this.session.memNo || 0;
 			let hash = "";
 			if (!memNo && this.params.password) { // 비회원인 경우는 비밀번호 해시 처리 
 				hash = await bcrypt.hash(this.params.password, 10);
+			}
+			
+			// 이미지 포함 게시글인지 체크 
+			let isImagePost = 0;
+			const pattern = /<img[^>]*src/igm;
+			if (pattern.test(this.params.contents)) {
+				isImagePost = 1;
 			}
 			
 			const replacements = {
@@ -226,13 +233,14 @@ const board = {
 				subject : this.params.subject,
 				contents : this.params.contents,
 				password : hash,
+				isImagePost,
 			};		
 
 			const result = await sequelize.query(sql, {
 				replacements,
 				type : QueryTypes.INSERT,
 			});
-			
+						
 			return result[0]; // 게시글 등록 번호(idx)
 		} catch (err) {
 			logger(err.stack, 'error');
@@ -252,7 +260,13 @@ const board = {
 				hash = await bcrypt.hash(this.params.password, 10);
 			}
 		
-			
+			// 이미지 포함 게시글인지 체크 
+			let isImagePost = 0;
+			const pattern = /<img[^>]*src/igm;
+			if (pattern.test(this.params.contents)) {
+				isImagePost = 1;
+			}
+		
 			const sql = `UPDATE boarddata 
 									SET 
 										category = :category,
@@ -260,6 +274,7 @@ const board = {
 										subject = :subject,
 										contents = :contents,
 										password = :password,
+										isImagePost = :isImagePost,
 										modDt = :modDt
 									WHERE 
 										idx = :idx`;
@@ -269,6 +284,7 @@ const board = {
 					subject : this.params.subject,
 					contents : this.params.contents,
 					password : hash,
+					isImagePost,
 					modDt : new Date(),
 					idx : this.params.idx,
 			};
