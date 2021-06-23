@@ -449,6 +449,8 @@ const board = {
 			if (match && match.length > 0) {
 				_list[i].listImage = match[1];
 			}
+			
+			_list[i].listImage = _list[i].listImage || "/img/no_image.png";
 		});
 		
 		const result = {

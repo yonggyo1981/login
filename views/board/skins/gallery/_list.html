@@ -1,5 +1,5 @@
 <!-- Default 게시글 목록 -->
-<div class='board_default list'>
+<div class='board_gallery list'>
 	{% if config.categories.length > 0 %}
 	<div class='category_tab'>
 		<a href='/board/list/{{ config.id }}' class="tab{{ ' on' if not category }}">전체</a>
@@ -12,11 +12,12 @@
 	{% if not isSearchPage %}
 	<a href='/board/{{ config.id }}' class='btn1 write_btn'>글쓰기</a>
 	{% endif %}
-	<ul class='post_list'>
+	<ul class='post_gallery_list'>
 	{% if list.length > 0 %} 
 		{% for item in list %}
 			<li>
-				<a href='/board/view/{{ item.idx }}' class='title'>
+				<a href='/board/view/{{ item.idx }}'>
+					<div class='images' style="background:url('{{ item.listImage }}') no-repeat center center; background-size: cover;"></div>
 					{% if item.category %}[{{ item.category }}]{% endif %}{{ item.subject }}
 					{% if item.commentCount %}({{ item.commentCount }}){% endif %}
 					{% if item.isNew %}<img src='/img/new.gif'>{% endif %}
