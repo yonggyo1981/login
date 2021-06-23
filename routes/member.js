@@ -138,7 +138,12 @@ router.route("/find_pw")
 	/** 비밀번호 변경 처리 */
 	.patch(guestOnly, changePwValidator, async (req, res, next) => {
 		const result = await member.changePw(req.session.findPwMemNo, req.body.memPw);
-		return res.send("");
+		if (result) { // 비밀번호 변경 성공 -> 로그인 
+			delete req.session.findPwMemNo;
+			return go("/member/login", res, "parent");
+		}
+		
+		return alert("비밀번호 변경 실패하였습니다.", res);
 	});
 
 module.exports = router;

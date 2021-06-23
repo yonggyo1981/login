@@ -44,7 +44,7 @@ module.exports.changePwValidator = (req, res, next) => {
 			throw new Error('비밀번호는 8~20자 알파벳(대소문자 포함), 숫자, 특수문자로 구성해 주세요.');
 		}
 	} catch (err) {
-		return alert(err.message, res, -1);
+		return alert(err.message, res);
 	}
 	
 	next();
