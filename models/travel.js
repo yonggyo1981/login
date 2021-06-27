@@ -530,7 +530,7 @@ const travel = {
 			}
 			
 			sql += " LIMIT 1";
-			
+	
 			const rows = await sequelize.query(sql, {
 				replacements,
 				type : QueryTypes.SELECT,
@@ -674,6 +674,7 @@ const travel = {
 				
 				/** 패키지 정보 */
 				const pack = await this.getPackage(data.goodsCd, data.startDate + " 00:00:00", data.endDate + " 00:00:00");
+				
 				data.adult = list.adult.length;
 				data.child = list.child.length;
 				data.infant = list.infant.length;
